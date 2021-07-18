@@ -14,10 +14,6 @@
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
 
-(add-hook 'clojure-mode-hook 'lsp)
-(add-hook 'clojurescript-mode-hook 'lsp)
-(add-hook 'clojurec-mode-hook 'lsp)
-
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
       treemacs-space-between-root-nodes nil
@@ -72,6 +68,7 @@
   :commands (dired-sidebar-toggle-sidebar))
 
 (use-package parinfer-rust-mode
+  :ensure t
   :hook emacs-lisp-mode
   :init
   (progn
@@ -88,3 +85,26 @@
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'show-paren-mode)
+
+(use-package projectile
+  :ensure t
+  :init
+  (progn
+    (projectile-mode +1)
+    (setq projectile-project-search-path '("~/work/")))
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map)))
+
+(use-package lsp-mode
+  :ensure t
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (clojure-mode . lsp)
+	 (clojurescript-mode . lsp)
+	 (clojurec-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
