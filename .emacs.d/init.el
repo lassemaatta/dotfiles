@@ -8,7 +8,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
-(setq package-selected-packages '(use-package clojure-mode lsp-mode cider lsp-treemacs flycheck company parinfer-rust-mode))
+(setq package-selected-packages '(use-package clojure-mode lsp-mode lsp-treemacs flycheck company parinfer-rust-mode))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
@@ -57,7 +57,7 @@
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (setq doom-themes-treemacs-theme "all-the-icons") ; use "doom-colors" for less minimal icon theme
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -79,6 +79,12 @@
     (add-hook 'scheme-mode-hook #'parinfer-rust-mode)
     (add-hook 'lisp-mode-hook #'parinfer-rust-mode)))
 
+(use-package ivy
+  :ensure t
+  :diminish
+  :config
+  (ivy-mode 1))
+
 (use-package diff-hl
   :ensure t
   :init (add-hook 'prog-mode-hook #'diff-hl-mode)
@@ -87,14 +93,37 @@
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook 'show-paren-mode)
 
+(use-package treemacs
+  :ensure t
+  :defer t)
+
+(use-package treemacs-all-the-icons
+  :after (treemacs)
+  :ensure t)
+
+(use-package treemacs-icons-dired
+  :after (treemacs dired)
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+
 (use-package projectile
   :ensure t
+  :custom ((projectile-completion-system 'ivy))
   :init
   (progn
     (projectile-mode +1)
-    (setq projectile-project-search-path '("~/work/")))
+    (setq projectile-project-search-path '("~/work/"))
+    (setq projectile-switch-project-action #'projectile-dired))
   :bind (:map projectile-mode-map
               ("C-c p" . projectile-command-map)))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-all-the-icons
+  :ensure t
+  :after (treemacs))
 
 (use-package lsp-mode
   :ensure t
@@ -108,3 +137,23 @@
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
+
+(use-package cider
+  :ensure t
+  :defer t
+  :config
+  (setq nrepl-log-messages t
+        cider-repl-display-in-current-window t
+        cider-repl-use-clojure-font-lock t
+        cider-prompt-save-file-on-load 'always-save
+        cider-font-lock-dynamically '(macro core function var)
+        nrepl-hide-special-buffers t
+        cider-overlays-use-font-lock t)
+  (cider-repl-toggle-pretty-printing))
+
+(use-package lsp-java
+  :ensure t
+  :defer t
+  :hook (
+	 (java-mode . lsp)
+	 ))
