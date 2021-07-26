@@ -57,7 +57,7 @@
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "all-the-icons") ; use "doom-colors" for less minimal icon theme
+  (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -121,10 +121,6 @@
   :after (treemacs projectile)
   :ensure t)
 
-(use-package treemacs-all-the-icons
-  :ensure t
-  :after (treemacs))
-
 (use-package lsp-mode
   :ensure t
   :init
@@ -136,6 +132,8 @@
 	 (clojurec-mode . lsp)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
+  :bind (("<C-return>" . lsp-find-definition)
+	 ("<C-M-return>" . lsp-describe-thing-at-point))
   :commands lsp)
 
 (use-package cider
@@ -147,6 +145,7 @@
         cider-repl-use-clojure-font-lock t
         cider-prompt-save-file-on-load 'always-save
         cider-font-lock-dynamically '(macro core function var)
+	cider-eldoc-display-for-symbol-at-point nil
         nrepl-hide-special-buffers t
         cider-overlays-use-font-lock t)
   (cider-repl-toggle-pretty-printing))
