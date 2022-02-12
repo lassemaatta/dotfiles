@@ -4,6 +4,37 @@
 
 ;;; Code:
 
+;;; Install use-package
+
+(require 'package) ;; Emacs builtin
+
+;; set package.el repositories
+(setq package-archives
+'(
+   ("org" . "https://orgmode.org/elpa/")
+   ("gnu" . "https://elpa.gnu.org/packages/")
+   ("melpa" . "https://melpa.org/packages/")
+))
+
+;; initialize built-in package management
+(package-initialize)
+
+;; update packages list if we are on a new install
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; a list of pkgs to programmatically install
+;; ensure installed via package.el
+(setq my-package-list '(use-package))
+
+;; programmatically install/ensure installed
+;; pkgs in your personal list
+(dolist (package my-package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+;;;
+
 (add-to-list 'load-path "~/.emacs.d/init/")
 (require 'init-local)
 
@@ -11,10 +42,6 @@
 (load custom-file)
 
 (when window-system (set-frame-size (selected-frame) 160 40))
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(package-initialize)
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
