@@ -1,0 +1,495 @@
+#+TITLE: Emacs Configuration
+* Table of Contents
+#+OPTIONS: toc
+* Load initial configuration
+** Bootstrap =use-package=
+
+#+BEGIN_SRC emacs-lisp
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+  (setq my-package-list '(use-package))
+
+  (dolist (package my-package-list)
+    (unless (package-installed-p package)
+      (package-install package)))
+#+END_SRC
+
+Always install all packages.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
+#+END_SRC
+
+** Load optional local settings
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/init/")
+  (require 'init-local nil t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.emacs.d/emacs-custom.el")
+  (load custom-file)
+#+END_SRC
+
+* General configuration for =emacs=
+** Quality-of-Life
+
+#+BEGIN_SRC emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+** Backups
+
+#+BEGIN_SRC emacs-lisp
+  (setq backup-by-copying t      ; don't clobber symlinks
+        backup-directory-alist
+        '(("." . "~/.saves/"))    ; don't litter my fs tree
+        auto-save-file-name-transforms
+        `((".*" "~/.saves/" t))
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)       ; use versioned backups
+#+END_SRC
+
+** Performance
+
+#+BEGIN_SRC emacs-lisp
+  (setq gc-cons-threshold (* 10 1024 1024)
+        read-process-output-max (* 1024 1024))
+#+END_SRC
+
+** Scrolling
+
+#+BEGIN_SRC emacs-lisp
+  (setq auto-window-vscroll nil
+        fast-but-imprecise-scrolling t
+        scroll-conservatively 101
+        scroll-margin 0
+        scroll-preserve-screen-position t)
+#+END_SRC
+
+** Whitespace
+
+Highlight trailing whitespace and don't use tabs for indenting.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default show-trailing-whitespace t)
+  (setq-default indicate-empty-lines t)
+  (setq-default indent-tabs-mode nil)
+#+END_SRC
+
+Highlight any tabs as if they were trailing whitespace.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'font-lock-mode-hook
+            (lambda ()
+              (font-lock-add-keywords
+               nil
+               '(("\t" 0 'trailing-whitespace prepend)))))
+#+END_SRC
+
+Cleanup trailing whitespace when saving a buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
+
+** UI
+
+#+BEGIN_SRC emacs-lisp
+  (when window-system (set-frame-size (selected-frame) 160 40))
+
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+#+END_SRC
+
+* General programming
+
+Show line numbers.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+#+END_SRC
+
+Highlight matching parenthesis.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'show-paren-mode)
+#+END_SRC
+
+** Spelling
+
+Use =flyspell= to check spelling.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+#+END_SRC
+
+Disable the default =C-.= shortcut from =flyspell=.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "flyspell"
+    '(define-key flyspell-mode-map (kbd "C-.") nil))
+#+END_SRC
+
+* Packages
+** Theming (=doom-themes=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons)
+
+  (use-package doom-modeline
+    :init
+    (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-vcs-max-length 17))
+
+  (use-package doom-themes
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-one t)
+
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Enable custom neotree theme (all-the-icons must be installed!)
+    (doom-themes-neotree-config)
+    ;; or for treemacs users
+    (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+#+END_SRC
+
+** Utilities
+*** Keybindings
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :config (which-key-setup-side-window-right-bottom)
+    (setq which-key-sort-order 'which-key-key-order-alpha
+          which-key-separator ":"
+          which-key-max-description-length 120
+          which-key-side-window-max-width 50
+          which-key-idle-delay 1.00))
+#+END_SRC
+
+*** Minibuffer completion (=ivy=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :diminish
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers 1
+            ivy-count-format "(%d/%d) ")))
+#+END_SRC
+
+*** Search
+
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper
+    :after (ivy))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rg)
+#+END_SRC
+
+*** Notekeeping (=org-roam=)
+
+#+BEGIN_SRC emacs-lisp
+  (require 'org-clock)
+  (setq org-clock-persist t)
+  (org-clock-persistence-insinuate)
+
+  (use-package org-roam
+    :init
+    (setq org-roam-v2-ack t)
+    :custom
+    (org-roam-directory "~/org-roam")
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n i" . org-roam-node-insert))
+    :config
+    (org-roam-setup))
+
+#+END_SRC
+
+*** Better undo (=undo-tree=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :config
+    (progn
+      (global-undo-tree-mode)))
+#+END_SRC
+
+** Project and File Management
+*** Startup Dashboard (=dashboard=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :after (projectile)
+    :init
+    (setq dashboard-center-content t
+          dashboard-set-heading-icons t
+          dashboard-projects-backend 'projectile
+          dashboard-items '((projects . 5)
+                            (recents . 10)))
+    :config
+    (dashboard-setup-startup-hook))
+#+END_SRC
+
+*** File Explorer (=treemacs=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs
+    :defer t
+    :config
+    (progn
+      (setq treemacs-space-between-root-nodes nil)
+      (treemacs-follow-mode -1)
+      (defun treemacs-ignore (filename absolute-path)
+        (or (string-equal filename "foo-bar-baz")
+            (cl-search "/.shadow-cljs" absolute-path)
+            (cl-search "/.idea" absolute-path)
+            (cl-search "/node_modules" absolute-path)))
+      (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore)))
+
+  (use-package treemacs-all-the-icons
+    :after (treemacs))
+            #+END_SRC
+
+*** Project Management (=projectile=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :custom ((projectile-completion-system 'ivy))
+    :init
+    (progn
+      (projectile-mode +1)
+      (setq projectile-project-search-path '("~/work/"))
+      (setq projectile-switch-project-action #'projectile-dired))
+    :bind (:map projectile-mode-map
+                ("C-c p" . projectile-command-map)))
+#+END_SRC
+
+Integration with [[https://github.com/Alexander-Miller/treemacs][=treemacs=]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs-projectile
+    :after (treemacs projectile))
+#+END_SRC
+
+Integration with [[https://github.com/abo-abo/swiper#counsel][=counsel=]] through [[https://github.com/ericdanan/counsel-projectile][=counsel-projectile=]].
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :after (projectile ivy)
+    :config
+    (counsel-projectile-mode))
+#+END_SRC
+
+*** Git
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diff-hl
+    :init
+    (add-hook 'prog-mode-hook #'diff-hl-margin-mode)
+    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+    :config
+    (global-diff-hl-mode t))
+
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+#+END_SRC
+
+** Programming
+*** Completion (=company=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :init
+    (setq company-minimum-prefix-length 3
+          tab-always-indent 'complete)
+    :config
+    (global-company-mode +1))
+#+END_SRC
+
+*** Error Reporting (=flycheck=)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :init (global-flycheck-mode))
+#+END_SRC
+
+*** Language Server Protocol
+**** General Setup
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :init
+    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+    (progn
+      (setq lsp-keymap-prefix "C-c l"
+            lsp-idle-delay 1.0
+                                          ;lsp-signature-auto-activate nil
+            lsp-lens-enable t
+            lsp-completion-enable nil ; Prefer cider completion
+            lsp-enable-indentation nil) ; Prefer clojure-mode indentation
+      ;; For logging IO between client and server
+      (setq lsp-log-io nil))
+    :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+           (clojure-mode . lsp)
+           (clojurescript-mode . lsp)
+           (clojurec-mode . lsp)
+           ;; if you want which-key integration
+           (lsp-mode . lsp-enable-which-key-integration))
+    :bind (("<C-return>" . lsp-find-definition)
+           ("<C-.>" . lsp-find-definition)
+           ("<C-M-return>" . lsp-describe-thing-at-point)
+           ("<f1>" . lsp-treemacs-symbols)
+           ("<f2>" . lsp-treemacs-call-hierarchy))
+    :commands lsp)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-ui
+    :init
+    (setq lsp-ui-sideline-show-code-actions nil
+          lsp-ui-doc-show-with-cursor t)
+    :bind (("M-." . lsp-ui-peek-find-references)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-treemacs
+    :init
+    (setq lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name)))
+#+END_SRC
+
+**** Java
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-java
+    :defer t
+    :hook ((java-mode . lsp)))
+#+END_SRC
+
+*** Language Modes
+**** Docker and =docker-compose=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package docker-compose-mode)
+#+END_SRC
+
+**** Graphviz and =dot=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package graphviz-dot-mode
+    :config
+    (setq graphviz-dot-indent-width 2))
+#+END_SRC
+
+**** Groovy
+
+#+BEGIN_SRC emacs-lisp
+  (use-package groovy-mode
+    :defer t)
+#+END_SRC
+
+*** Clojure
+**** =clojure-mode=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode
+    :config
+    (setq clojure-indent-style 'align-arguments
+          clojure-align-forms-automatically t))
+#+END_SRC
+
+**** =cider=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package cider
+    :defer t
+    :config
+    (progn
+      (setq nrepl-log-messages t
+            cider-repl-buffer-size-limit 1000
+            cider-repl-display-in-current-window t
+            cider-repl-use-clojure-font-lock t
+            cider-prompt-save-file-on-load 'always-save
+            cider-font-lock-dynamically '(macro core function var)
+            cider-eldoc-display-for-symbol-at-point nil
+            cider-offer-to-open-cljs-app-in-browser nil
+            nrepl-hide-special-buffers t
+            cider-overlays-use-font-lock t
+            cider-enrich-classpath nil)
+
+      (cider-repl-toggle-pretty-printing)
+
+      (put-clojure-indent 'testit/fact 1)
+      (put-clojure-indent 'testit.core/fact 1)
+      (put-clojure-indent 'page/html5 1)
+      (put-clojure-indent 'fact 1)
+      (put-clojure-indent 'rf/reg-event-fx 1)
+      (put-clojure-indent 'chain/reg-chain 1)
+      (put-clojure-indent 'rf/reg-sub 1)
+      (put-clojure-indent 'rf/reg-event-db 1)
+      (put-clojure-indent 'futil/for-all 1)
+      (put-clojure-indent 'futil/for-frag 1)
+      (put-clojure-indent 'for-frag 1)
+      (put-clojure-indent 'for-all 1)
+      (put-clojure-indent 'u/for-all 1)
+      (put-clojure-indent 'not-join 1)
+      (put-clojure-indent 'r/with-let 1)
+      (put-clojure-indent 'p/if-all-let 1)
+      (put-clojure-indent 'test-seq/seq-tx 1)))
+#+END_SRC
+
+**** =parinfer-rust-mode=
+
+#+BEGIN_SRC emacs-lisp
+  (use-package parinfer-rust-mode
+    :hook emacs-lisp-mode
+    :init
+    (progn
+      (setq parinfer-rust-auto-download t)
+      (add-hook 'clojure-mode-hook #'parinfer-rust-mode)
+      (add-hook 'emacs-lisp-mode-hook #'parinfer-rust-mode)
+      (add-hook 'common-lisp-mode-hook #'parinfer-rust-mode)
+      (add-hook 'scheme-mode-hook #'parinfer-rust-mode)
+      (add-hook 'lisp-mode-hook #'parinfer-rust-mode)))
+#+END_SRC
+
+**** Utilities
+
+#+BEGIN_SRC emacs-lisp
+  (defun jet-pretty ()
+    "Run transit->edn conversion on the active buffer."
+    (interactive)
+    (shell-command-on-region
+     (region-beginning)
+     (region-end)
+     "/home/lassemaatta/bin/jet --pretty --from transit --edn-reader-opts '{:default tagged-literal}'"
+     (current-buffer)
+     t
+     "*jet error buffer*"
+     t))
+#+END_SRC
