@@ -54,7 +54,7 @@ Always install all packages.
 
 ** Generate TOC
 
-Use [[https://github.com/snosov1/toc-org][=toc-org=]] to generate a Table of Contents for this document for github.
+Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Contents for this document for github.
 
 #+BEGIN_SRC emacs-lisp
   (use-package toc-org
@@ -166,7 +166,7 @@ Disable the default =C-.= shortcut from =flyspell=.
 * Packages
 ** Theming (=doom-themes=)
 
-Use [[https://github.com/doomemacs/themes][=doom-themes=]] for theming =emacs=.
+Use [[https://github.com/doomemacs/themes][doom-themes]] for theming =emacs=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons)
@@ -198,7 +198,7 @@ Use [[https://github.com/doomemacs/themes][=doom-themes=]] for theming =emacs=.
 ** Utilities
 *** Keybindings
 
-Use [[https://github.com/justbur/emacs-which-key][=which-key=]] to show suggestions when using keybindings.
+Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestions when using keybindings.
 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
@@ -213,7 +213,7 @@ Use [[https://github.com/justbur/emacs-which-key][=which-key=]] to show suggesti
 
 *** Minibuffer completion (=ivy=)
 
-[[https://github.com/abo-abo/swiper#ivy][=ivy=]] provides completion for minibuffer commands.
+[[https://github.com/abo-abo/swiper#ivy][ivy]] provides completion for minibuffer commands.
 
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
@@ -227,14 +227,14 @@ Use [[https://github.com/justbur/emacs-which-key][=which-key=]] to show suggesti
 
 *** Search
 
-[[https://github.com/abo-abo/swiper#swiper][=swiper=]] offers a nice preview of lines when searching within a buffer (=C-s=).
+[[https://github.com/abo-abo/swiper#swiper][swiper]] offers a nice preview of lines when searching within a buffer (=C-s=).
 
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
     :after (ivy))
 #+END_SRC
 
-[[https://github.com/dajva/rg.el][=rg=]] provides [[https://github.com/BurntSushi/ripgrep][=ripgrep=]] searching within =emacs=.
+[[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package rg)
@@ -264,7 +264,7 @@ Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
 
 *** Better undo (=undo-tree=)
 
-[[https://gitlab.com/tsc25/undo-tree][=undo-tree=]] provides a nice tree-view of the undo history.
+[[https://gitlab.com/tsc25/undo-tree][undo-tree]] provides a nice tree-view of the undo history.
 
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
@@ -275,7 +275,7 @@ Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
 ** Project and File Management
 *** Startup Dashboard (=dashboard=)
 
-[[https://github.com/emacs-dashboard/emacs-dashboard][=dashboard=]] shows a list of recent projects and files when opening =emacs=.
+[[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] shows a list of recent projects and files when opening =emacs=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
@@ -292,7 +292,7 @@ Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
 
 *** File Explorer (=treemacs=)
 
-[[https://github.com/Alexander-Miller/treemacs][=treemacs=]] offers a Eclipse-like project explorer.
+[[https://github.com/Alexander-Miller/treemacs][treemacs]] offers a Eclipse-like project explorer.
 
 Note that we exclude some build directories so that changes in files don't propagate to =treemacs=.
 
@@ -315,7 +315,7 @@ Note that we exclude some build directories so that changes in files don't propa
 
 *** Project Management (=projectile=)
 
-[[https://github.com/bbatsov/projectile][=projectile=]] is used for managing projects.
+[[https://github.com/bbatsov/projectile][projectile]] is used for managing projects.
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
@@ -330,14 +330,14 @@ Note that we exclude some build directories so that changes in files don't propa
                 ("C-c p" . projectile-command-map)))
 #+END_SRC
 
-Integration with [[https://github.com/Alexander-Miller/treemacs][=treemacs=]].
+Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs-projectile
     :after (treemacs projectile))
 #+END_SRC
 
-Integration with [[https://github.com/abo-abo/swiper#counsel][=counsel=]] through [[https://github.com/ericdanan/counsel-projectile][=counsel-projectile=]].
+Integration with [[https://github.com/abo-abo/swiper#counsel][counsel]] through [[https://github.com/ericdanan/counsel-projectile][counsel-projectile]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
@@ -389,16 +389,17 @@ Integration with [[https://github.com/abo-abo/swiper#counsel][=counsel=]] throug
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :init
-    ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-    (progn
-      (setq lsp-keymap-prefix "C-c l"
-            lsp-idle-delay 1.0
-                                          ;lsp-signature-auto-activate nil
-            lsp-lens-enable t
-            lsp-completion-enable nil ; Prefer cider completion
-            lsp-enable-indentation nil) ; Prefer clojure-mode indentation
-      ;; For logging IO between client and server
-      (setq lsp-log-io nil))
+    (setq
+     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+     lsp-keymap-prefix "C-c l"
+     lsp-idle-delay 1.0
+     lsp-lens-enable t
+     ;; Prefer cider completion
+     lsp-completion-enable nil
+     ;; Prefer clojure-mode indentation
+     lsp-enable-indentation nil
+     ;; For logging IO between client and server
+     lsp-log-io nil)
     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
            (clojure-mode . lsp)
            (clojurescript-mode . lsp)
