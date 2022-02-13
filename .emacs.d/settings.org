@@ -1,6 +1,24 @@
 #+TITLE: Emacs Configuration
-* Table of Contents
-#+OPTIONS: toc
+* Table of Contents                                                     :TOC:
+- [[#load-initial-configuration][Load initial configuration]]
+  - [[#bootstrap-use-package][Bootstrap =use-package=]]
+  - [[#load-optional-local-settings][Load optional local settings]]
+  - [[#generate-toc][Generate TOC]]
+- [[#general-configuration-for-emacs][General configuration for =emacs=]]
+  - [[#quality-of-life][Quality-of-Life]]
+  - [[#backups][Backups]]
+  - [[#performance][Performance]]
+  - [[#scrolling][Scrolling]]
+  - [[#whitespace][Whitespace]]
+  - [[#ui][UI]]
+- [[#general-programming][General programming]]
+  - [[#spelling][Spelling]]
+- [[#packages][Packages]]
+  - [[#theming-doom-themes][Theming (=doom-themes=)]]
+  - [[#utilities][Utilities]]
+  - [[#project-and-file-management][Project and File Management]]
+  - [[#programming][Programming]]
+
 * Load initial configuration
 ** Bootstrap =use-package=
 
@@ -32,6 +50,15 @@ Always install all packages.
 #+BEGIN_SRC emacs-lisp
   (setq custom-file "~/.emacs.d/emacs-custom.el")
   (load custom-file)
+#+END_SRC
+
+** Generate TOC
+
+Use [[https://github.com/snosov1/toc-org][=toc-org=]] to generate a Table of Contents for this document for github.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package toc-org
+    :hook ((org-mode) . toc-org-mode))
 #+END_SRC
 
 * General configuration for =emacs=
@@ -266,7 +293,7 @@ Disable the default =C-.= shortcut from =flyspell=.
 
   (use-package treemacs-all-the-icons
     :after (treemacs))
-            #+END_SRC
+#+END_SRC
 
 *** Project Management (=projectile=)
 
