@@ -166,6 +166,8 @@ Disable the default =C-.= shortcut from =flyspell=.
 * Packages
 ** Theming (=doom-themes=)
 
+Use [[https://github.com/doomemacs/themes][=doom-themes=]] for theming =emacs=.
+
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons)
 
@@ -196,6 +198,8 @@ Disable the default =C-.= shortcut from =flyspell=.
 ** Utilities
 *** Keybindings
 
+Use [[https://github.com/justbur/emacs-which-key][=which-key=]] to show suggestions when using keybindings.
+
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :init (which-key-mode)
@@ -209,6 +213,8 @@ Disable the default =C-.= shortcut from =flyspell=.
 
 *** Minibuffer completion (=ivy=)
 
+[[https://github.com/abo-abo/swiper#ivy][=ivy=]] provides completion for minibuffer commands.
+
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
     :diminish
@@ -221,16 +227,22 @@ Disable the default =C-.= shortcut from =flyspell=.
 
 *** Search
 
+[[https://github.com/abo-abo/swiper#swiper][=swiper=]] offers a nice preview of lines when searching within a buffer (=C-s=).
+
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
     :after (ivy))
 #+END_SRC
+
+[[https://github.com/dajva/rg.el][=rg=]] provides [[https://github.com/BurntSushi/ripgrep][=ripgrep=]] searching within =emacs=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package rg)
 #+END_SRC
 
 *** Notekeeping (=org-roam=)
+
+Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
 
 #+BEGIN_SRC emacs-lisp
   (require 'org-clock)
@@ -252,15 +264,18 @@ Disable the default =C-.= shortcut from =flyspell=.
 
 *** Better undo (=undo-tree=)
 
+[[https://gitlab.com/tsc25/undo-tree][=undo-tree=]] provides a nice tree-view of the undo history.
+
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :config
-    (progn
-      (global-undo-tree-mode)))
+    (global-undo-tree-mode))
 #+END_SRC
 
 ** Project and File Management
 *** Startup Dashboard (=dashboard=)
+
+[[https://github.com/emacs-dashboard/emacs-dashboard][=dashboard=]] shows a list of recent projects and files when opening =emacs=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
@@ -277,6 +292,10 @@ Disable the default =C-.= shortcut from =flyspell=.
 
 *** File Explorer (=treemacs=)
 
+[[https://github.com/Alexander-Miller/treemacs][=treemacs=]] offers a Eclipse-like project explorer.
+
+Note that we exclude some build directories so that changes in files don't propagate to =treemacs=.
+
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs
     :defer t
@@ -285,8 +304,7 @@ Disable the default =C-.= shortcut from =flyspell=.
       (setq treemacs-space-between-root-nodes nil)
       (treemacs-follow-mode -1)
       (defun treemacs-ignore (filename absolute-path)
-        (or (string-equal filename "foo-bar-baz")
-            (cl-search "/.shadow-cljs" absolute-path)
+        (or (cl-search "/.shadow-cljs" absolute-path)
             (cl-search "/.idea" absolute-path)
             (cl-search "/node_modules" absolute-path)))
       (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore)))
@@ -297,8 +315,11 @@ Disable the default =C-.= shortcut from =flyspell=.
 
 *** Project Management (=projectile=)
 
+[[https://github.com/bbatsov/projectile][=projectile=]] is used for managing projects.
+
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
+    :after (ivy)
     :custom ((projectile-completion-system 'ivy))
     :init
     (progn
