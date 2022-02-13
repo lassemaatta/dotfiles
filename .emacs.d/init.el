@@ -10,11 +10,11 @@
 
 ;; set package.el repositories
 (setq package-archives
-'(
-   ("org" . "https://orgmode.org/elpa/")
-   ("gnu" . "https://elpa.gnu.org/packages/")
-   ("melpa" . "https://melpa.org/packages/")
-))
+ '(
+    ("org" . "https://orgmode.org/elpa/")
+    ("gnu" . "https://elpa.gnu.org/packages/")
+    ("melpa" . "https://melpa.org/packages/")))
+
 
 ;; initialize built-in package management
 (package-initialize)
@@ -175,6 +175,9 @@
     (setq ivy-use-virtual-buffers 1
           ivy-count-format "(%d/%d) ")))
 
+(use-package swiper
+  :ensure t)
+
 (use-package diff-hl
   :ensure t
   :init (add-hook 'prog-mode-hook #'diff-hl-margin-mode)
@@ -229,6 +232,12 @@
 (use-package treemacs-projectile
   :after (treemacs projectile)
   :ensure t)
+
+(use-package counsel-projectile
+  :after (projectile)
+  :ensure t
+  :config
+  (counsel-projectile-mode))
 
 (use-package flycheck
   :ensure t
@@ -348,6 +357,17 @@
   (setq graphviz-dot-indent-width 2))
 
 (use-package company-graphviz-dot)
+
+(use-package dashboard
+  :ensure t
+  :init
+  (setq dashboard-center-content t
+        dashboard-set-heading-icons t
+        dashboard-projects-backend 'projectile
+        dashboard-items '((projects . 5)
+                          (recents . 10)))
+  :config
+  (dashboard-setup-startup-hook))
 
 (provide 'init)
 
