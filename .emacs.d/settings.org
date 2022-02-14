@@ -233,7 +233,8 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
 
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
-    :after (ivy))
+    :after (ivy)
+    :bind (("C-s" . swiper)))
 #+END_SRC
 
 [[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
@@ -353,6 +354,14 @@ Integration with [[https://github.com/abo-abo/swiper#counsel][counsel]] through 
 #+BEGIN_SRC emacs-lisp
   (use-package magit)
 #+END_SRC
+
+Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git= repository state.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs-magit
+    :after (magit treemacs))
+#+END_SRC
+
 
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
