@@ -409,6 +409,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
      lsp-completion-enable nil
      ;; Prefer clojure-mode indentation
      lsp-enable-indentation nil
+     lsp-modeline-code-actions-enable nil
      ;; For logging IO between client and server
      lsp-log-io nil)
     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
