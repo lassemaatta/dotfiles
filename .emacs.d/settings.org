@@ -1,6 +1,7 @@
 #+TITLE: Emacs Configuration
 * Table of Contents                                                     :TOC:
 - [[#load-initial-configuration][Load initial configuration]]
+  - [[#disable-gc-while-loading][Disable GC while loading]]
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
   - [[#load-optional-local-settings][Load optional local settings]]
   - [[#generate-toc][Generate TOC]]
@@ -20,6 +21,19 @@
   - [[#programming][Programming]]
 
 * Load initial configuration
+
+** Disable GC while loading
+
+Startup times can be improved if we temporarily disable garbage collection.
+
+#+BEGIN_SRC emacs-lisp
+  (setq gc-cons-threshold most-positive-fixnum)
+
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq gc-cons-threshold (* 10 1024 1024))))
+#+END_SRC
+
 ** Bootstrap =use-package=
 
 #+BEGIN_SRC emacs-lisp
@@ -85,8 +99,7 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 ** Performance
 
 #+BEGIN_SRC emacs-lisp
-  (setq gc-cons-threshold (* 10 1024 1024)
-        read-process-output-max (* 1024 1024))
+  (setq read-process-output-max (* 1024 1024))
 #+END_SRC
 
 ** Scrolling
