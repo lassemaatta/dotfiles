@@ -254,7 +254,8 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
 [[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package rg)
+  (use-package rg
+    :defer t)
 #+END_SRC
 
 *** Notekeeping (=org-roam=)
@@ -358,15 +359,15 @@ Integration with [[https://github.com/abo-abo/swiper#counsel][counsel]] through 
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
-    :after (projectile ivy)
-    :config
-    (counsel-projectile-mode))
+    :hook (prog-mode . counsel-projectile-mode)
+    :after (projectile ivy))
 #+END_SRC
 
 *** Git
 
 #+BEGIN_SRC emacs-lisp
-  (use-package magit)
+  (use-package magit
+    :commands (magit-status))
 #+END_SRC
 
 Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git= repository state.
@@ -379,14 +380,10 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
-    :init
-    (add-hook 'prog-mode-hook #'diff-hl-margin-mode)
-    (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
-    :config
-    (global-diff-hl-mode t))
-
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+    :hook ((prog-mode . global-diff-hl-mode)
+           (dired-mode . diff-hl-dired-mode)
+           (magit-pre-refresh . diff-hl-magit-pre-refresh)
+           (magit-post-refresh . diff-hl-magit-post-refresh)))
 #+END_SRC
 
 ** Programming
@@ -394,18 +391,10 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
+    :hook (after-init . global-company-mode)
     :init
     (setq company-minimum-prefix-length 3
-          tab-always-indent 'complete)
-    :config
-    (global-company-mode +1))
-#+END_SRC
-
-*** Error Reporting (=flycheck=)
-
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :init (global-flycheck-mode))
+          tab-always-indent 'complete))
 #+END_SRC
 
 *** Language Server Protocol
@@ -413,12 +402,15 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
+    :defer 0
     :init
     (setq
      ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
      lsp-keymap-prefix "C-c l"
      lsp-idle-delay 1.0
      lsp-lens-enable t
+     ;; We don't use yasnippet
+     lsp-enable-snippet nil
      ;; Prefer cider completion
      lsp-completion-enable nil
      ;; Prefer clojure-mode indentation
@@ -437,7 +429,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
            ("<C-M-return>" . lsp-describe-thing-at-point)
            ("<f1>" . lsp-treemacs-symbols)
            ("<f2>" . lsp-treemacs-call-hierarchy))
-    :commands lsp)
+    :commands (lsp lsp-deferred))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -450,6 +442,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-treemacs
+    :after (lsp treemacs)
     :init
     (setq lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name)))
 #+END_SRC
@@ -466,17 +459,20 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 **** Docker and =docker-compose=
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode)
+  (use-package dockerfile-mode
+    :defer t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package docker-compose-mode)
+  (use-package docker-compose-mode
+    :defer t)
 #+END_SRC
 
 **** Graphviz and =dot=
 
 #+BEGIN_SRC emacs-lisp
   (use-package graphviz-dot-mode
+    :defer t
     :config
     (setq graphviz-dot-indent-width 2))
 #+END_SRC
@@ -493,6 +489,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package clojure-mode
+    :defer t
     :config
     (setq clojure-indent-style 'align-arguments
           clojure-align-forms-automatically t))
@@ -542,16 +539,15 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package parinfer-rust-mode
-    :hook emacs-lisp-mode
+    :hook (emacs-lisp-mode
+           clojure-mode
+           emacs-lisp-mode
+           common-lisp-mode
+           scheme-mode
+           lisp-mode)
     :init
-    (progn
-      (setq parinfer-rust-auto-download t
-            parinfer-rust-check-before-enable nil)
-      (add-hook 'clojure-mode-hook #'parinfer-rust-mode)
-      (add-hook 'emacs-lisp-mode-hook #'parinfer-rust-mode)
-      (add-hook 'common-lisp-mode-hook #'parinfer-rust-mode)
-      (add-hook 'scheme-mode-hook #'parinfer-rust-mode)
-      (add-hook 'lisp-mode-hook #'parinfer-rust-mode)))
+    (setq parinfer-rust-auto-download t
+          parinfer-rust-check-before-enable nil))
 #+END_SRC
 
 **** Utilities
