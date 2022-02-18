@@ -456,6 +456,16 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 #+END_SRC
 
 *** Language Modes
+**** HTML
+
+Set =.html= indentation from 2 to 4.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'html-mode-hook
+            (lambda ()
+              (set (make-local-variable 'sgml-basic-offset) 4)))
+#+END_SRC
+
 **** Docker and =docker-compose=
 
 #+BEGIN_SRC emacs-lisp
