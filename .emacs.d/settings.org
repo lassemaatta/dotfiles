@@ -241,6 +241,16 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
             ivy-count-format "(%d/%d) ")))
 #+END_SRC
 
+*** Misc (=counsel=)
+
+The =counsel= package provides a nice alternative to =switch-buffer=, which shows a preview of the selected buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :defer t
+    :bind (("C-x b" . counsel-switch-buffer)))
+#+END_SRC
+
 *** Search
 
 [[https://github.com/abo-abo/swiper#swiper][swiper]] offers a nice preview of lines when searching within a buffer (=C-s=).
@@ -360,7 +370,7 @@ Integration with [[https://github.com/abo-abo/swiper#counsel][counsel]] through 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
     :hook (prog-mode . counsel-projectile-mode)
-    :after (projectile ivy))
+    :after (projectile ivy counsel))
 #+END_SRC
 
 *** Git
