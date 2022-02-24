@@ -436,9 +436,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
            (lsp-mode . lsp-enable-which-key-integration))
     :bind (("<C-return>" . lsp-find-definition)
            ("<C-.>" . lsp-find-definition)
-           ("<C-M-return>" . lsp-describe-thing-at-point)
-           ("<f1>" . lsp-treemacs-symbols)
-           ("<f2>" . lsp-treemacs-call-hierarchy))
+           ("<C-M-return>" . lsp-describe-thing-at-point))
     :commands (lsp lsp-deferred))
 #+END_SRC
 
@@ -452,7 +450,8 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-treemacs
-    :after (lsp treemacs)
+    :bind (("<f1>" . lsp-treemacs-symbols)
+           ("<f2>" . lsp-treemacs-call-hierarchy))
     :init
     (setq lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name)))
 #+END_SRC
