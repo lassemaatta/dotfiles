@@ -580,13 +580,25 @@ Set =.html= indentation from 2 to 4.
 **** Utilities
 
 #+BEGIN_SRC emacs-lisp
-  (defun jet-pretty ()
+  (defun jet-transit-to-edn ()
     "Run transit->edn conversion on the active buffer."
     (interactive)
     (shell-command-on-region
      (region-beginning)
      (region-end)
      "/home/lassemaatta/bin/jet --pretty --from transit --edn-reader-opts '{:default tagged-literal}'"
+     (current-buffer)
+     t
+     "*jet error buffer*"
+     t))
+
+  (defun jet-edn-to-edn ()
+    "Format EDN in the active buffer region."
+    (interactive)
+    (shell-command-on-region
+     (region-beginning)
+     (region-end)
+     "/home/lassemaatta/bin/jet --pretty --from edn --edn-reader-opts '{:default tagged-literal}'"
      (current-buffer)
      t
      "*jet error buffer*"
