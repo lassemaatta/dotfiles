@@ -370,7 +370,8 @@ Integration with [[https://github.com/abo-abo/swiper#counsel][counsel]] through 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel-projectile
     :hook (prog-mode . counsel-projectile-mode)
-    :after (projectile ivy counsel))
+    :after (projectile ivy counsel)
+    :bind (("C-c p s r" . counsel-projectile-rg)))
 #+END_SRC
 
 *** Git
