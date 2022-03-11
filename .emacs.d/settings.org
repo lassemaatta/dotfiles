@@ -503,6 +503,13 @@ Set =.html= indentation from 2 to 4.
     :defer t)
 #+END_SRC
 
+**** SSH config files
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ssh-config-mode
+    :defer t)
+#+END_SRC
+
 *** Clojure
 **** =clojure-mode=
 
