@@ -103,6 +103,12 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
   (setq read-process-output-max (* 1024 1024))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f9>") 'profiler-start)
+  (global-set-key (kbd "<f10>") 'profiler-stop)
+  (global-set-key (kbd "<f11>") 'profiler-report)
+#+END_SRC
+
 ** Scrolling
 
 #+BEGIN_SRC emacs-lisp
