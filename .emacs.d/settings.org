@@ -110,7 +110,8 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
         fast-but-imprecise-scrolling t
         scroll-conservatively 101
         scroll-margin 0
-        scroll-preserve-screen-position t)
+        scroll-preserve-screen-position t
+        suggest-key-bindings nil)
 #+END_SRC
 
 ** Whitespace
