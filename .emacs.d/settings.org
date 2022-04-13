@@ -377,6 +377,7 @@ Note that we exclude some build directories so that changes in files don't propa
       (defun treemacs-ignore (filename absolute-path)
         (or (cl-search "/.shadow-cljs" absolute-path)
             (cl-search "/.idea" absolute-path)
+            (cl-search "/target" absolute-path)
             (cl-search "/node_modules" absolute-path)))
       (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore)))
 
