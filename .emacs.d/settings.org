@@ -104,6 +104,14 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
   (setq read-process-output-max (* 1024 1024))
 #+END_SRC
 
+The =suggest-key-bindings= feature adds several seconds of delays to various commands when using =M-x=.
+
+#+BEGIN_SRC emacs-lisp
+  (setq suggest-key-bindings nil)
+#+END_SRC
+
+Enable shortcuts for the internal profiler
+
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f9>") 'profiler-start)
   (global-set-key (kbd "<f10>") 'profiler-stop)
@@ -117,8 +125,7 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
         fast-but-imprecise-scrolling t
         scroll-conservatively 101
         scroll-margin 0
-        scroll-preserve-screen-position t
-        suggest-key-bindings nil)
+        scroll-preserve-screen-position t)
 #+END_SRC
 
 ** Whitespace
