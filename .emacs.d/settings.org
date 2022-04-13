@@ -320,6 +320,9 @@ Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
+    :init
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))
+          undo-tree-auto-save-history nil)
     :config
     (global-undo-tree-mode))
 #+END_SRC
