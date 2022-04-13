@@ -541,6 +541,7 @@ Set =.html= indentation from 2 to 4.
 #+BEGIN_SRC emacs-lisp
   (use-package graphviz-dot-mode
     :defer t
+    :hook ((dot . graphviz-dot-mode))
     :config
     (setq graphviz-dot-indent-width 2))
 #+END_SRC
