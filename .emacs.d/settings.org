@@ -11,6 +11,7 @@
   - [[#performance][Performance]]
   - [[#scrolling][Scrolling]]
   - [[#whitespace][Whitespace]]
+  - [[#file-system-dired][File system (=dired=)]]
   - [[#ui][UI]]
 - [[#general-programming][General programming]]
   - [[#spelling][Spelling]]
@@ -153,6 +154,14 @@ Cleanup trailing whitespace when saving a buffer.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
+
+** File system (=dired=)
+
+Re-use the same buffer when navigating to subdirectories in =dired=.
+
+#+begin_src emacs-lisp
+  (put 'dired-find-alternate-file 'disabled nil)
+#+end_src
 
 ** UI
 
