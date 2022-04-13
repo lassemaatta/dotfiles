@@ -1,5 +1,5 @@
 #+TITLE: Emacs Configuration
-* Table of Contents                                                     :TOC:
+* Table of Contents                                            :TOC:noexport:
 - [[#load-initial-configuration][Load initial configuration]]
   - [[#disable-gc-while-loading][Disable GC while loading]]
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
