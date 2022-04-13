@@ -298,15 +298,25 @@ The =counsel= package provides a nice alternative to =switch-buffer=, which show
     :defer t)
 #+END_SRC
 
-*** Notekeeping (=org-roam=)
+*** Org mode
 
-Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((dot . t)))
+#+end_src
 
 #+BEGIN_SRC emacs-lisp
   (require 'org-clock)
   (setq org-clock-persist t)
   (org-clock-persistence-insinuate)
+#+END_SRC
 
+*** Notekeeping (=org-roam=)
+
+Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
+
+#+BEGIN_SRC emacs-lisp
   (use-package org-roam
     :init
     (setq org-roam-v2-ack t)
