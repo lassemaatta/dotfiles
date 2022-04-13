@@ -479,6 +479,8 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
            (clojure-mode . lsp)
            (clojurescript-mode . lsp)
            (clojurec-mode . lsp)
+           (js-mode . lsp)
+           (typescript-mode . lsp)
            ;; if you want which-key integration
            (lsp-mode . lsp-enable-which-key-integration))
     :bind (("<C-return>" . lsp-find-definition)
@@ -548,6 +550,32 @@ Set =.html= indentation from 2 to 4.
 #+BEGIN_SRC emacs-lisp
   (use-package groovy-mode
     :defer t)
+#+END_SRC
+
+**** Typescript
+
+#+BEGIN_SRC emacs-lisp
+  (use-package typescript-mode
+    :defer t)
+#+END_SRC
+
+**** Javascript
+
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :defer t
+    :config (setq js-indent-level 2))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :defer t
+    :init
+    (add-hook
+     'js-mode-hook
+     (lambda ()
+       (unless (eq major-mode 'json-mode)
+               (js2-minor-mode)))))
 #+END_SRC
 
 **** SSH config files
