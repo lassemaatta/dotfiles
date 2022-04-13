@@ -370,6 +370,8 @@ Note that we exclude some build directories so that changes in files don't propa
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs
     :defer t
+    :bind (("<f1>" . treemacs)
+           ("<f5>" . treemacs-find-file))
     :config
     (progn
       (setq treemacs-space-between-root-nodes nil)
@@ -495,8 +497,8 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-treemacs
-    :bind (("<f1>" . lsp-treemacs-symbols)
-           ("<f2>" . lsp-treemacs-call-hierarchy))
+    :bind (("<f2>" . lsp-treemacs-symbols)
+           ("<f3>" . lsp-treemacs-call-hierarchy))
     :init
     (setq lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name)))
 #+END_SRC
