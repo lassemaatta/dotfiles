@@ -306,6 +306,18 @@ The =counsel= package provides a nice alternative to =switch-buffer=, which show
    '((dot . t)))
 #+end_src
 
+Enable syntax highlighting when exporting as PDFs. Requires the =minted= package for LaTeX.
+
+#+begin_src emacs-lisp
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+#+end_src
+
 #+BEGIN_SRC emacs-lisp
   (require 'org-clock)
   (setq org-clock-persist t)
