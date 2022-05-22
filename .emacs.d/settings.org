@@ -14,7 +14,6 @@
   - [[#file-system-dired][File system (=dired=)]]
   - [[#ui][UI]]
 - [[#general-programming][General programming]]
-  - [[#spelling][Spelling]]
 - [[#packages][Packages]]
   - [[#theming-doom-themes][Theming (=doom-themes=)]]
   - [[#utilities][Utilities]]
@@ -206,21 +205,6 @@ Indent current function
 
   (global-set-key (kbd "C-<tab>") #'er-indent-defun)
 #+end_src
-
-** Spelling
-
-Use =flyspell= to check spelling.
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-#+END_SRC
-
-Disable the default =C-.= shortcut from =flyspell=.
-
-#+BEGIN_SRC emacs-lisp
-  (eval-after-load "flyspell"
-    '(define-key flyspell-mode-map (kbd "C-.") nil))
-#+END_SRC
 
 * Packages
 ** Theming (=doom-themes=)
