@@ -288,7 +288,11 @@ The =counsel= package provides a nice alternative to =switch-buffer=, which show
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
     :after (ivy)
-    :bind (("C-s" . swiper)))
+    :bind (("C-s" . swiper))
+    :config
+    (progn
+      ;; Use a single <esc> press to close minibuffer while searching
+      (define-key swiper-map [escape] 'minibuffer-keyboard-quit)))
 #+END_SRC
 
 [[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
