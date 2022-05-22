@@ -194,6 +194,19 @@ Highlight matching parenthesis.
   (add-hook 'prog-mode-hook 'show-paren-mode)
 #+END_SRC
 
+Indent current function
+
+#+begin_src emacs-lisp
+  (defun er-indent-defun ()
+    "Indent the current defun."
+    (interactive)
+    (save-excursion
+      (mark-defun)
+      (indent-region (region-beginning) (region-end))))
+
+  (global-set-key (kbd "C-<tab>") #'er-indent-defun)
+#+end_src
+
 ** Spelling
 
 Use =flyspell= to check spelling.
