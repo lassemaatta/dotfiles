@@ -664,7 +664,7 @@ Set =.html= indentation from 2 to 4.
            ("M-C-<left>" . sp-backward-sexp)
            ("M-C-<right>" . sp-forward-sexp)
            ("M-7" . sp-backward-slurp-sexp)
-           ("M-8" . sp-bac)
+           ("M-8" . sp-backward-barf-sexp)
            ("M-9" . sp-forward-barf-sexp)
            ("M-0" . sp-forward-slurp-sexp))
     :config
