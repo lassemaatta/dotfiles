@@ -6,6 +6,9 @@
 
 (defconst emacs-start-time (current-time))
 
+(setq gc-cons-threshold most-positive-fixnum
+      garbage-collection-messages t)
+
 (require 'package)
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
