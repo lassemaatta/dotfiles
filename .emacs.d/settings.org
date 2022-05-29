@@ -655,13 +655,12 @@ Set =.html= indentation from 2 to 4.
 
 **** =smartparens=
 
+Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens= loads on startup.
+
 #+begin_src emacs-lisp
   (use-package smartparens
     :hook ((emacs-lisp-mode
-            clojure-mode
-            common-lisp-mode
-            scheme-mode
-            lisp-mode) . turn-on-smartparens-strict-mode)
+            clojure-mode) . turn-on-smartparens-strict-mode)
     :bind (("C-<left>" . sp-backward-symbol)
            ("C-<right>" . sp-forward-symbol)
            ("M-C-<left>" . sp-backward-sexp)
@@ -671,7 +670,7 @@ Set =.html= indentation from 2 to 4.
            ("M-9" . sp-forward-barf-sexp)
            ("M-0" . sp-forward-slurp-sexp))
     :config
-    (progn (show-smartparens-global-mode t)))
+    (show-smartparens-global-mode -1))
 #+end_src
 
 **** Utilities
