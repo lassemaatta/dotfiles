@@ -15,8 +15,9 @@
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 
-(package-initialize)
 (setq package-enable-at-startup nil)
+(unless package--initialized
+  (package-initialize))
 
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))
