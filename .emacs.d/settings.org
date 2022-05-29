@@ -82,6 +82,12 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
+Automatically refresh buffers if the file has changed on disk.
+
+#+begin_src emacs-lisp
+  (global-auto-revert-mode t)
+#+end_src
+
 ** Backups
 
 #+BEGIN_SRC emacs-lisp
