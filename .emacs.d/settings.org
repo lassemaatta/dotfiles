@@ -52,8 +52,9 @@ Always install all packages.
 
 #+BEGIN_SRC emacs-lisp
   (require 'use-package-ensure)
-  (setq use-package-always-ensure t)
-  (setq use-package-verbose t)
+  (setq use-package-always-ensure t
+        use-package-verbose t
+        use-package-compute-statistics t)
 #+END_SRC
 
 ** Load optional local settings
