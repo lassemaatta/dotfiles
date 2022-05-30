@@ -236,7 +236,8 @@ Use [[https://github.com/doomemacs/themes][doom-themes]] for theming =emacs=.
 
   (use-package doom-modeline
     :init
-    (setq doom-modeline-vcs-max-length 17)
+    (setq doom-modeline-vcs-max-length 17
+          doom-modeline-buffer-encoding nil)
     :hook (after-init . doom-modeline-mode))
 
   (use-package doom-themes
