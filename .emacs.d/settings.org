@@ -481,10 +481,23 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :hook (after-init . global-company-mode)
     :init
     (setq company-minimum-prefix-length 3
-          tab-always-indent 'complete))
+          tab-always-indent 'complete)
+    (global-company-mode)
+    :config
+
+    ;; Fix issue where <enter> after typing would choose the first completion suggestion
+    ;; See https://emacs.stackexchange.com/a/24800
+    (dolist (key '("<return>" "RET"))
+      (define-key company-active-map (kbd key)
+        `(menu-item nil company-complete
+                    :filter ,(lambda (cmd)
+                               (when (company-explicit-action-p)
+                                 cmd)))))
+    (define-key company-active-map (kbd "TAB") #'company-complete-selection)
+    (define-key company-active-map (kbd "SPC") nil)
+    (setq company-auto-complete-chars nil))
 #+END_SRC
 
 *** Language Server Protocol
