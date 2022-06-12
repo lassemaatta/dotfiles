@@ -687,6 +687,8 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
 
 #+begin_src emacs-lisp
   (use-package smartparens
+    :init
+    (require 'smartparens-config)
     :hook ((emacs-lisp-mode
             clojure-mode) . turn-on-smartparens-strict-mode)
     :bind (("C-<left>" . sp-backward-symbol)
