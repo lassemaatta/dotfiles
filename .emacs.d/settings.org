@@ -604,9 +604,12 @@ Set =.html= indentation from 2 to 4.
 **** Javascript
 
 #+BEGIN_SRC emacs-lisp
+  (setq js-indent-level 2)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
   (use-package json-mode
-    :defer t
-    :config (setq js-indent-level 2))
+    :defer t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
