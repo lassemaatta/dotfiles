@@ -274,43 +274,47 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
           which-key-idle-delay 1.00))
 #+END_SRC
 
-*** Minibuffer completion (=ivy=)
+*** Minibuffer completion (=vertico=)
 
-[[https://github.com/abo-abo/swiper#ivy][ivy]] provides completion for minibuffer commands.
+[[https://github.com/minad/vertico][vertico]] provides completion for minibuffer commands.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :diminish
-    :config
-    (progn
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers 1
-            ivy-count-format "(%d/%d) ")))
+  (use-package vertico
+    :init
+    (vertico-mode))
 #+END_SRC
 
-*** Misc (=counsel=)
-
-The =counsel= package provides a nice alternative to =switch-buffer=, which shows a preview of the selected buffer.
+[[https://github.com/oantolin/orderless][orderless]] provides /completion style/ (ie. fuzzy searching) for command completion.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package counsel
-    :defer t
-    :bind (("C-x b" . counsel-switch-buffer)))
+  (use-package orderless
+    :after vertico
+    :custom
+    (completion-styles '(orderless basic)))
+#+END_SRC
+
+The [[https://github.com/minad/marginalia][marginalia]] package provides description of entries (e.g. files, commands) in completion menus.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package marginalia
+    :after vertico
+    :init
+    (marginalia-mode))
+#+END_SRC
+
+The [[https://github.com/minad/consult][consult]] package provides a bunch of utility functions related to completions (e.g. switch buffer, search within buffer..).
+
+#+BEGIN_SRC emacs-lisp
+  (use-package consult
+    :after (vertico projectile)
+    :bind (("C-s" . consult-line)
+           ("C-x b" . consult-buffer))
+    :config
+    (setq consult-project-function (lambda (_)
+                                     (projectile-project-root))))
 #+END_SRC
 
 *** Search
-
-[[https://github.com/abo-abo/swiper#swiper][swiper]] offers a nice preview of lines when searching within a buffer (=C-s=).
-
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper
-    :after (ivy)
-    :bind (("C-s" . swiper))
-    :config
-    (progn
-      ;; Use a single <esc> press to close minibuffer while searching
-      (define-key swiper-map [escape] 'minibuffer-keyboard-quit)))
-#+END_SRC
 
 [[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
 
@@ -426,8 +430,8 @@ Note that we exclude some build directories so that changes in files don't propa
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :after (ivy)
-    :custom ((projectile-completion-system 'ivy))
+    :after (vertico)
+    :custom ((projectile-completion-system 'default))
     :init
     (setq projectile-project-search-path '("~/work/")
           projectile-switch-project-action #'projectile-dired
@@ -442,15 +446,6 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs-projectile
     :after (treemacs projectile))
-#+END_SRC
-
-Integration with [[https://github.com/abo-abo/swiper#counsel][counsel]] through [[https://github.com/ericdanan/counsel-projectile][counsel-projectile]].
-
-#+BEGIN_SRC emacs-lisp
-  (use-package counsel-projectile
-    :hook (prog-mode . counsel-projectile-mode)
-    :after (projectile ivy counsel)
-    :bind (("C-c p s r" . counsel-projectile-rg)))
 #+END_SRC
 
 *** Git
