@@ -522,6 +522,8 @@ When looking at completion candidates with =corfu=, we can use =corfu-doc= to sh
 *** Language Server Protocol
 **** General Setup
 
+See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-with-orderless][Corfu wiki]] on how =corfu= and =orderless= completion can be configured for =lsp-mode=.
+
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :defer 0
