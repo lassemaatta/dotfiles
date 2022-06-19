@@ -282,6 +282,12 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
 
 *** Minibuffer completion (=vertico=)
 
+Hide commands in =M-x= which do not apply to the current mode.
+
+#+BEGIN_SRC emacs-lisp
+  (setq read-extended-command-predicate #'command-completion-default-include-p)
+#+END_SRC
+
 [[https://github.com/minad/vertico][vertico]] provides completion for minibuffer commands.
 
 #+BEGIN_SRC emacs-lisp
