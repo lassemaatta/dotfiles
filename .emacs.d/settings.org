@@ -548,7 +548,8 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
   (use-package lsp-ui
     :init
     (setq lsp-ui-sideline-show-code-actions nil
-          lsp-ui-doc-show-with-cursor t)
+          lsp-ui-doc-show-with-cursor t
+          lsp-ui-doc-show-with-mouse nil)
     :bind (("M-." . lsp-ui-peek-find-references)))
 #+END_SRC
 
