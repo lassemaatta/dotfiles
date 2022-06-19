@@ -428,7 +428,6 @@ Note that we exclude some build directories so that changes in files don't propa
 
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs
-    :defer t
     :bind (("<f1>" . treemacs)
            ("<f5>" . treemacs-find-file))
     :config
