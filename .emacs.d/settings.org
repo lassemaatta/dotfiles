@@ -301,8 +301,10 @@ Hide commands in =M-x= which do not apply to the current mode.
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
     :after vertico
-    :custom
-    (completion-styles '(orderless basic)))
+    :init
+    (setq completion-styles '(orderless partial-completion basic)
+          completion-category-defaults nil
+          completion-category-overrides nil))
 #+END_SRC
 
 The [[https://github.com/minad/marginalia][marginalia]] package provides description of entries (e.g. files, commands) in completion menus.
@@ -492,28 +494,31 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 #+END_SRC
 
 ** Programming
-*** Completion (=company=)
+*** Completion (=corfu=)
 
-#+BEGIN_SRC emacs-lisp
-  (use-package company
+Regardless of completion provider, always try to complete =<tab>=.
+
+#+begin_src emacs-lisp
+  (setq tab-always-indent 'complete)
+#+end_src
+
+Use [[https://github.com/minad/corfu][corfu]] for completion at point functionality, similar to =company=.
+
+While completing, use =S-SPC= to add a separator, which does not abort the completion but instead allows you to add more search words.
+
+#+begin_src emacs-lisp
+  (use-package corfu
     :init
-    (setq company-minimum-prefix-length 3
-          tab-always-indent 'complete)
-    (global-company-mode)
-    :config
+    (global-corfu-mode)
+    :bind (("S-SPC" . corfu-insert-separator)))
+#+end_src
 
-    ;; Fix issue where <enter> after typing would choose the first completion suggestion
-    ;; See https://emacs.stackexchange.com/a/24800
-    (dolist (key '("<return>" "RET"))
-      (define-key company-active-map (kbd key)
-        `(menu-item nil company-complete
-                    :filter ,(lambda (cmd)
-                               (when (company-explicit-action-p)
-                                 cmd)))))
-    (define-key company-active-map (kbd "TAB") #'company-complete-selection)
-    (define-key company-active-map (kbd "SPC") nil)
-    (setq company-auto-complete-chars nil))
-#+END_SRC
+When looking at completion candidates with =corfu=, we can use =corfu-doc= to show a documentation popup with docstrings et al.
+
+#+begin_src emacs-lisp
+  (use-package corfu-doc
+    :hook ((corfu-mode . corfu-doc-mode)))
+#+end_src
 
 *** Language Server Protocol
 **** General Setup
@@ -521,7 +526,12 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :defer 0
+    :custom
+    (lsp-completion-provider :none)
     :init
+    (defun my/lsp-mode-setup-completion ()
+      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+            '(orderless)))
     (setq
      ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
      lsp-keymap-prefix "C-c l"
@@ -543,7 +553,8 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
            (js-mode . lsp)
            (typescript-mode . lsp)
            ;; if you want which-key integration
-           (lsp-mode . lsp-enable-which-key-integration))
+           (lsp-mode . lsp-enable-which-key-integration)
+           (lsp-completion-mode . my/lsp-mode-setup-completion))
     :bind (("<C-return>" . lsp-find-definition)
            ("<C-.>" . lsp-find-definition)
            ("<C-M-return>" . lsp-describe-thing-at-point))
