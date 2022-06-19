@@ -187,6 +187,12 @@ Don't resize the window when we alter the theme/fonts during startup.
   (setq frame-inhibit-implied-resize t)
 #+END_SRC
 
+Don't try to round the frame size based on the font size.
+
+#+BEGIN_SRC emacs-lisp
+  (setq frame-resize-pixelwise t)
+#+END_SRC
+
 Make the initial emacs frame go fullscreen at startup.
 
 #+begin_src emacs-lisp
