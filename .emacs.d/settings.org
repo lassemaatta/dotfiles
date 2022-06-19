@@ -539,8 +539,6 @@ When looking at completion candidates with =corfu=, we can use =corfu-doc= to sh
      lsp-lens-enable t
      ;; We don't use yasnippet
      lsp-enable-snippet nil
-     ;; Prefer cider completion
-     lsp-completion-enable nil
      ;; Prefer clojure-mode indentation
      lsp-enable-indentation nil
      lsp-modeline-code-actions-enable nil
