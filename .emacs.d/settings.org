@@ -337,6 +337,11 @@ The [[https://github.com/oantolin/embark][embark]] package provides a way to run
     :bind (("C-ä" . embark-act)))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (use-package embark-consult
+    :after (embark consult))
+#+END_SRC
+
 *** Search
 
 [[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
