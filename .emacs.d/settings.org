@@ -1,5 +1,6 @@
 #+TITLE: Emacs Configuration
 * Table of Contents                                            :TOC:noexport:
+- [[#preamble][Preamble]]
 - [[#load-initial-configuration][Load initial configuration]]
   - [[#disable-gc-while-loading][Disable GC while loading]]
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
@@ -19,6 +20,15 @@
   - [[#utilities][Utilities]]
   - [[#project-and-file-management][Project and File Management]]
   - [[#programming][Programming]]
+- [[#postamble][Postamble]]
+
+* Preamble
+
+#+BEGIN_SRC emacs-lisp
+  ;;; settings.el --- My custom config
+  ;;; Commentary:
+  ;;; Code:
+#+END_SRC
 
 * Load initial configuration
 
@@ -787,4 +797,10 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
      t
      "*jet error buffer*"
      t))
+#+END_SRC
+
+* Postamble
+
+#+BEGIN_SRC emacs-lisp
+  ;;; settings.el ends here
 #+END_SRC
