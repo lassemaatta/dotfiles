@@ -342,6 +342,14 @@ The [[https://github.com/oantolin/embark][embark]] package provides a way to run
     :after (embark consult))
 #+END_SRC
 
+Use =savehist= to save minibuffer command history between sessions.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package savehist
+    :init
+    (savehist-mode))
+#+END_SRC
+
 *** Search
 
 [[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
