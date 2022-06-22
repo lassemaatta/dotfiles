@@ -529,6 +529,14 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
     :hook ((prog-mode . flycheck-mode)))
 #+end_src
 
+[[https://github.com/minad/consult-flycheck][consult-flycheck]] provides a nice `consult-flycheck` command for navigating =flycheck= errors.
+
+#+begin_src emacs-lisp
+  (use-package consult-flycheck
+    :after (consult flycheck)
+    :bind (("C-d" . consult-flycheck)))
+#+end_src
+
 *** Completion (=corfu=)
 
 Regardless of completion provider, always try to complete =<tab>=.
