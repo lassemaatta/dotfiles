@@ -273,6 +273,15 @@ Use [[https://github.com/doomemacs/themes][doom-themes]] for theming =emacs=.
     (doom-themes-org-config))
 #+END_SRC
 
+Slightly decrease the modeline font size so that the =flycheck= error counters don't get cut off.
+
+#+BEGIN_SRC emacs-lisp
+  (custom-set-faces
+     '(mode-line ((t (:family "Dejavu Sans Mono" :height 0.95))))
+     '(mode-line-active ((t (:family "Dejavu Sans Mono" :height 0.95))))
+     '(mode-line-inactive ((t (:family "Dejavu Sans Mono" :height 0.95)))))
+#+END_SRC
+
 ** Utilities
 *** Keybindings
 
