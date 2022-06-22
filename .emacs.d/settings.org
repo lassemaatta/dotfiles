@@ -507,6 +507,15 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 #+END_SRC
 
 ** Programming
+
+*** Error checking (=flycheck=)
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode))
+#+end_src
+
 *** Completion (=corfu=)
 
 Regardless of completion provider, always try to complete =<tab>=.
