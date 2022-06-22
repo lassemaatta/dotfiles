@@ -391,6 +391,7 @@ Use =savehist= to save minibuffer command history between sessions.
        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
     (org-clock-persist t)
+    :mode ("\\.org\\'" . org-mode)
     :config
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (org-babel-do-load-languages
@@ -525,8 +526,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+begin_src emacs-lisp
   (use-package flycheck
-    :ensure t
-    :init (global-flycheck-mode))
+    :hook ((prog-mode . flycheck-mode)))
 #+end_src
 
 *** Completion (=corfu=)
@@ -675,6 +675,7 @@ Set =.html= indentation from 2 to 4.
 
 #+BEGIN_SRC emacs-lisp
   (use-package js
+    :mode ("\\.js\\'" . js-mode)
     :custom
     (js-indent-level 2))
 #+END_SRC
