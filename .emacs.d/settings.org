@@ -48,7 +48,7 @@ Startup times can be improved if we temporarily disable garbage collection.
   (unless package-archive-contents
     (package-refresh-contents))
 
-  (setq my-package-list '(use-package))
+  (defvar my-package-list '(use-package))
 
   (dolist (package my-package-list)
     (unless (package-installed-p package)
