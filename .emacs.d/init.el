@@ -12,13 +12,13 @@
 ;; Define some utility functions
 
 (defun get-string-from-file (filePath)
-  "Read the contents of a file into a string"
+  "Read the contents of a FILEPATH into a string."
   (with-temp-buffer
     (insert-file-contents filePath)
     (buffer-string)))
 
 (defun get-file-hash (filePath)
-  "Calculate the MD5 hash of a file"
+  "Calculate the MD5 hash of a FILEPATH."
   (md5 (get-string-from-file filePath)))
 
 (require 'package)
@@ -45,6 +45,9 @@
                           (get-string-from-file org-hash)
                         "<no hash>"))
 (defconst current-hash (get-file-hash org-src))
+
+;; Forward declare function
+(declare-function org-babel-tangle-file "ob-tangle" (file &optional target-file lang-re))
 
 (if (not (string= stored-hash current-hash))
     (progn
