@@ -335,7 +335,7 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
            ("C-x b" . consult-buffer))
     :init
     (setq consult-narrow-key "<"
-          consult-project-functxion (lambda (_)
+          consult-project-function (lambda (_)
                                      (projectile-project-root))))
 #+END_SRC
 
