@@ -789,6 +789,21 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
     (show-smartparens-global-mode -1))
 #+end_src
 
+**** =highlight-parentheses=
+
+Let's use =highlight-parentheses= to always highlight the nearest parentheses. This makes it easier to see where =barf= and =slurp= will apply.
+
+Note that this only highlights =()[]{}= pairs, but not =""''= etc.
+
+#+begin_src emacs-lisp
+  (use-package highlight-parentheses
+    :after smartparens
+    :custom
+    (highlight-parentheses-colors '("spring green"))
+    :hook
+    ((emacs-lisp-mode clojure-mode) . highlight-parentheses-mode))
+#+end_src
+
 **** Utilities
 
 #+BEGIN_SRC emacs-lisp
