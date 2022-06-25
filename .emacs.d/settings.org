@@ -343,7 +343,7 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     :after (vertico projectile)
     :bind (("C-s" . consult-line)
            ("C-x b" . consult-buffer)
-           ("M-w" . consult-yank-from-kill-ring))
+           ("C-y" . consult-yank-from-kill-ring))
     :custom
     (consult-narrow-key "<")
     (consult-project-function (lambda (_)
