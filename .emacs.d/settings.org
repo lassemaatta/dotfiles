@@ -278,9 +278,9 @@ Slightly decrease the modeline font size so that the =flycheck= error counters d
 
 #+BEGIN_SRC emacs-lisp
   (custom-set-faces
-     '(mode-line ((t (:family "Dejavu Sans Mono" :height 0.95))))
-     '(mode-line-active ((t (:family "Dejavu Sans Mono" :height 0.95))))
-     '(mode-line-inactive ((t (:family "Dejavu Sans Mono" :height 0.95)))))
+     '(mode-line ((t (:family "Dejavu Sans Mono" :height 0.9))))
+     '(mode-line-active ((t (:family "Dejavu Sans Mono" :height 0.9))))
+     '(mode-line-inactive ((t (:family "Dejavu Sans Mono" :height 0.9)))))
 #+END_SRC
 
 ** Utilities
