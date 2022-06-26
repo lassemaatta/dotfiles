@@ -326,7 +326,7 @@ Hide commands in =M-x= which do not apply to the current mode.
     :custom
     (completion-styles '(orderless partial-completion basic))
     (completion-category-defaults nil)
-    (completion-category-overrides nil))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
 #+END_SRC
 
 The [[https://github.com/minad/marginalia][marginalia]] package provides description of entries (e.g. files, commands) in completion menus.
