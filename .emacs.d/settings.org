@@ -53,6 +53,8 @@ Startup times can be improved if we temporarily disable garbage collection.
   (dolist (package my-package-list)
     (unless (package-installed-p package)
       (package-install package)))
+
+  (require 'use-package)
 #+END_SRC
 
 Always install all packages.
