@@ -40,6 +40,7 @@
 (defconst org-src (expand-file-name "settings.org" user-emacs-directory))
 (defconst org-dst (expand-file-name "settings.el" user-emacs-directory))
 (defconst org-hash (expand-file-name "settings.org.hash" user-emacs-directory))
+(defconst load-src (expand-file-name "settings" user-emacs-directory))
 
 (defconst stored-hash (if (file-exists-p org-hash)
                           (get-string-from-file org-hash)
@@ -66,7 +67,7 @@
 
 ;; Load the tangled settings
 (let ((load-start (float-time (current-time))))
-  (load org-dst)
+  (load load-src)
   (let ((org-end (float-time (current-time))))
     (message "Load.. done (%.3fs)" (float-time (time-subtract (current-time)
                                                               load-start)))))
