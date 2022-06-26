@@ -627,6 +627,15 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name)))
 #+END_SRC
 
+=consult-lsp= provides nice utility functions such as =consult-lsp-diagnostics= or =consult-lsp-symbols=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package consult-lsp
+    :after (consult lsp)
+    :bind (("C-S-d" . consult-lsp-diagnostics)
+           ("C-S-s" . consult-lsp-symbols)))
+#+END_SRC
+
 **** Java
 
 #+BEGIN_SRC emacs-lisp
