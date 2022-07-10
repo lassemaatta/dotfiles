@@ -236,7 +236,7 @@ Detect the screen DPI and update the font accordingly [[[https://emacs.stackexch
 
 #+begin_src emacs-lisp
   (defvar font-family "Source Code Pro")
-  (defvar font-size 10.0)
+  (defvar font-size 12.0)
 
   (defun update-font-dpi (dpi)
     "Update the font DPI."
