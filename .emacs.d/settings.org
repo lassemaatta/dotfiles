@@ -412,13 +412,17 @@ Use =savehist= to save minibuffer command history between sessions.
      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+    (org-babel-clojure-backend 'cider)
+    (org-babel-clojure-sync-nrepl-timeout nil)
     (org-clock-persist t)
     :mode ("\\.org\\'" . org-mode)
     :config
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (org-babel-do-load-languages
      'org-babel-load-languages
-     '((dot . t)))
+     '((clojure . t)
+       (emacs-lisp . t)
+       (dot . t)))
     (org-clock-persistence-insinuate))
 #+end_src
 
