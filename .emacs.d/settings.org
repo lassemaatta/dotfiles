@@ -213,8 +213,44 @@ Make the initial emacs frame go fullscreen at startup.
 
 *** Fonts
 
+Detect the screen DPI and update the font accordingly [[[https://emacs.stackexchange.com/a/36074][source]]].
+
 #+begin_src emacs-lisp
-  (set-frame-font "Source Code Pro-12:weight=semilight")
+  (defun current-dpi ()
+    (let* ((attrs (car (display-monitor-attributes-list)))
+           (size (assoc 'mm-size attrs))
+           (sizex (cadr size))
+           (res (cdr (assoc 'geometry attrs)))
+           (resx (- (caddr res) (car res)))
+           dpi)
+      (catch 'exit
+        ;; in terminal
+        (unless sizex
+          (throw 'exit 10))
+        ;; on big screen
+        (when (> sizex 1000)
+          (throw 'exit 10))
+        ;; DPI
+        (* (/ (float resx) sizex) 25.4))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defvar font-family "Source Code Pro")
+  (defvar font-size 10.0)
+
+  (defun update-font-dpi (dpi)
+    "Update the font DPI."
+    (internal-set-lisp-face-attribute
+     'default :font (font-spec :family font-family
+                               :size font-size
+                               :dpi dpi) 0))
+
+  (defun refresh-dpi ()
+    (let ((dpi (current-dpi)))
+      (message (format "Detected DPI: %s" dpi))
+      (update-font-dpi dpi)))
+
+  (refresh-dpi)
 #+end_src
 
 * General programming
