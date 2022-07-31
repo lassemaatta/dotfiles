@@ -134,6 +134,18 @@ Enable shortcuts for the internal profiler
   (global-set-key (kbd "<f11>") 'profiler-report)
 #+END_SRC
 
+Use left-to-right text direction instead of detecting per line, for a minor perfomance boost.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default bidi-paragraph-direction 'left-to-right)
+#+END_SRC
+
+Disable the bidirectional parenthesis algorithm, for a minor performance boost.
+
+#+BEGIN_SRC emacs-lisp
+  (setq bidi-inhibit-bpa t)
+#+END_SRC
+
 ** Scrolling
 
 #+BEGIN_SRC emacs-lisp
