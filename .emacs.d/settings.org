@@ -211,6 +211,14 @@ Make the initial emacs frame go fullscreen at startup.
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 #+end_src
 
+Dim other windows to make it easier to see the active window.
+
+#+begin_src emacs-lisp
+  (use-package auto-dim-other-buffers
+    :init
+    (auto-dim-other-buffers-mode t))
+#+end_src
+
 *** Fonts
 
 Detect the screen DPI and update the font accordingly [[[https://emacs.stackexchange.com/a/36074][source]]].
