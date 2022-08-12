@@ -4,10 +4,7 @@
 
 ;;; Code:
 
-(defconst emacs-start-time (current-time))
-
-(setq gc-cons-threshold most-positive-fixnum
-      garbage-collection-messages t)
+(defvar emacs-start-time (current-time))
 
 ;; Define some utility functions
 

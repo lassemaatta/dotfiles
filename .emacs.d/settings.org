@@ -198,36 +198,11 @@ Re-use the same buffer when navigating to subdirectories in =dired=.
 
 ** UI
 
-Hide the menu bar and toolbar.
-
-#+BEGIN_SRC emacs-lisp
-  (menu-bar-mode -1)
-  (tool-bar-mode -1)
-#+END_SRC
-
 Hide the default splash screen.
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-splash-screen t)
 #+END_SRC
-
-Don't resize the window when we alter the theme/fonts during startup.
-
-#+BEGIN_SRC emacs-lisp
-  (setq frame-inhibit-implied-resize t)
-#+END_SRC
-
-Don't try to round the frame size based on the font size.
-
-#+BEGIN_SRC emacs-lisp
-  (setq frame-resize-pixelwise t)
-#+END_SRC
-
-Make the initial emacs frame go fullscreen at startup.
-
-#+begin_src emacs-lisp
-  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
-#+end_src
 
 Dim other windows to make it easier to see the active window.
 
