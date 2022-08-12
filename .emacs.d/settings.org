@@ -190,6 +190,12 @@ Re-use the same buffer when navigating to subdirectories in =dired=.
   (put 'dired-find-alternate-file 'disabled nil)
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package dirvish
+    :init
+    (dirvish-override-dired-mode))
+#+end_src
+
 ** UI
 
 Hide the menu bar and toolbar.
