@@ -432,6 +432,9 @@ Use =savehist= to save minibuffer command history between sessions.
 *** Org mode
 
 #+begin_src emacs-lisp
+
+  (use-package ob-http)
+
   (use-package org
     :custom
     ;; Enable syntax highlighting when exporting as PDFs. Requires the =minted= package for LaTeX.
@@ -450,6 +453,7 @@ Use =savehist= to save minibuffer command history between sessions.
      'org-babel-load-languages
      '((clojure . t)
        (emacs-lisp . t)
+       (http . t)
        (dot . t)))
     (org-clock-persistence-insinuate))
 #+end_src
