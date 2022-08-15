@@ -16,7 +16,7 @@
   - [[#ui][UI]]
 - [[#general-programming][General programming]]
 - [[#packages][Packages]]
-  - [[#theming-doom-themes][Theming (=doom-themes=)]]
+  - [[#theming][Theming]]
   - [[#utilities][Utilities]]
   - [[#project-and-file-management][Project and File Management]]
   - [[#programming][Programming]]
@@ -282,33 +282,39 @@ Indent current function
 #+end_src
 
 * Packages
-** Theming (=doom-themes=)
+** Theming
 
-Use [[https://github.com/doomemacs/themes][doom-themes]] for theming =emacs=.
+Provide icons for stuff like =treemacs=.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons)
-
-  (use-package doom-modeline
-    :custom
-    (doom-modeline-vcs-max-length 17)
-    (doom-modeline-buffer-encoding nil)
-    ;; if nil, bold is universally disabled
-    (doom-themes-enable-bold t)
-    ; if nil, italics is universally disabled
-    (doom-themes-enable-italic t)
-    :hook (after-init . doom-modeline-mode))
-
-  (load-theme 'modus-vivendi t)
+    (use-package all-the-icons)
 #+END_SRC
 
-Slightly decrease the modeline font size so that the =flycheck= error counters don't get cut off.
+Use =telephone-line= as the modeline.
 
 #+BEGIN_SRC emacs-lisp
-  (custom-set-faces
-     '(mode-line ((t (:family "Dejavu Sans Mono" :height 0.9))))
-     '(mode-line-active ((t (:family "Dejavu Sans Mono" :height 0.9))))
-     '(mode-line-inactive ((t (:family "Dejavu Sans Mono" :height 0.9)))))
+    (use-package telephone-line
+      :custom
+      (telephone-line-height 48)
+      (telephone-line-primary-left-separator 'telephone-line-cubed-left)
+      (telephone-line-primary-right-separator 'telephone-line-cubed-right)
+      (telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left)
+      (telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
+      (telephone-line-lhs '((accent . (telephone-line-vc-segment))
+                            (nil    . (telephone-line-projectile-buffer-segment
+                                       telephone-line-position-segment))))
+      (telephone-line-rhs '((nil    . (telephone-line-process-segment
+                                       telephone-line-flycheck-segment
+                                       telephone-line-misc-info-segment))
+                            (accent . (telephone-line-major-mode-segment))))
+      :init
+      (telephone-line-mode 1))
+#+END_SRC
+
+Use =modus-vivendi= as the main theme.
+
+#+BEGIN_SRC emacs-lisp
+    (load-theme 'modus-vivendi t)
 #+END_SRC
 
 ** Utilities
