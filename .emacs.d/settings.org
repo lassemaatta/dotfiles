@@ -679,6 +679,21 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     :bind (("M-." . lsp-ui-peek-find-references)))
 #+END_SRC
 
+Shortcut for =imenu=, using either =lsp-ui-imenu= or =consult-imenu=
+depending on whether the current buffer is using =LSP=.
+
+#+BEGIN_SRC emacs-lisp
+  (defun show-or-hide-imenu ()
+    (interactive)
+    (cond
+     ((derived-mode-p 'lsp-ui-imenu-mode) (lsp-ui-imenu--kill))
+     ((bound-and-true-p lsp-mode) (lsp-ui-imenu))
+     ((active-minibuffer-window) (exit-minibuffer))
+     (t (consult-imenu))))
+
+  (global-set-key (kbd "C-u") 'show-or-hide-imenu)
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-treemacs
     :bind (("<f2>" . lsp-treemacs-symbols)
