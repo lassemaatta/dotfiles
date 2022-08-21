@@ -293,22 +293,21 @@ Provide icons for stuff like =treemacs=.
 Use =telephone-line= as the modeline.
 
 #+BEGIN_SRC emacs-lisp
-    (use-package telephone-line
-      :custom
-      (telephone-line-height 48)
-      (telephone-line-primary-left-separator 'telephone-line-cubed-left)
-      (telephone-line-primary-right-separator 'telephone-line-cubed-right)
-      (telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left)
-      (telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
-      (telephone-line-lhs '((accent . (telephone-line-vc-segment))
-                            (nil    . (telephone-line-projectile-buffer-segment
-                                       telephone-line-position-segment))))
-      (telephone-line-rhs '((nil    . (telephone-line-process-segment
-                                       telephone-line-flycheck-segment
-                                       telephone-line-misc-info-segment))
-                            (accent . (telephone-line-major-mode-segment))))
-      :init
-      (telephone-line-mode 1))
+  (setq-default projectile-mode-line-prefix "")
+
+  (setq-default mode-line-format
+                '("%e"
+                  mode-line-front-space
+                  mode-line-frame-identification
+                  projectile--mode-line
+                  " "
+                  mode-line-buffer-identification
+                  " "
+                  (vc-mode vc-mode)
+                  " "
+                  mode-line-misc-info
+                  " "
+                  mode-line-end-spaces))
 #+END_SRC
 
 Use =modus-vivendi= as the main theme.
