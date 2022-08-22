@@ -438,7 +438,8 @@ Use =savehist= to save minibuffer command history between sessions.
 
 #+begin_src emacs-lisp
 
-  (use-package ob-http)
+  (use-package ob-http
+    :after (org))
 
   (use-package org
     :custom
