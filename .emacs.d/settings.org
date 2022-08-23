@@ -305,7 +305,11 @@ Use =telephone-line= as the modeline.
                   " "
                   (vc-mode vc-mode)
                   " "
+                  mode-name
+                  " "
                   mode-line-misc-info
+                  " "
+                  mode-line-process
                   " "
                   mode-line-end-spaces))
 #+END_SRC
