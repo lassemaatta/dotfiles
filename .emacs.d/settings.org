@@ -569,6 +569,8 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
+    :custom
+    (magit-diff-refine-hunk 'all)
     :commands (magit-status))
 #+END_SRC
 
