@@ -327,7 +327,9 @@ Use =telephone-line= as the modeline.
 Use =modus-vivendi= as the main theme.
 
 #+BEGIN_SRC emacs-lisp
-    (load-theme 'modus-vivendi t)
+  (load-theme 'modus-vivendi t)
+
+  (set-face-attribute 'mode-line nil :font "Hack-14")
 #+END_SRC
 
 ** Utilities
