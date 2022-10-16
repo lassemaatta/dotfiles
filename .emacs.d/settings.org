@@ -315,6 +315,8 @@ Use =telephone-line= as the modeline.
                   " "
                   mode-name
                   " "
+                  flycheck-mode-line
+                  " "
                   mode-line-misc-info
                   " "
                   mode-line-process
