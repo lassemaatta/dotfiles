@@ -826,7 +826,8 @@ Set =.html= indentation from 2 to 4.
     :defer t
     :custom
     (clojure-indent-style 'align-arguments)
-    (clojure-align-forms-automatically t))
+    (clojure-align-forms-automatically t)
+    (clojure-align-separator 'entire))
 #+END_SRC
 
 **** =cider=
