@@ -218,11 +218,11 @@ Detect the screen DPI and update the font accordingly [[[https://emacs.stackexch
 
 #+begin_src emacs-lisp
   (defun current-dpi ()
-    (let* ((attrs (car (display-monitor-attributes-list)))
+    (let* ((attrs (frame-monitor-attributes))
            (size (assoc 'mm-size attrs))
            (sizex (cadr size))
            (res (cdr (assoc 'geometry attrs)))
-           (resx (- (caddr res) (car res)))
+           (resx (caddr res))
            dpi)
       (catch 'exit
         ;; in terminal
@@ -236,7 +236,7 @@ Detect the screen DPI and update the font accordingly [[[https://emacs.stackexch
 #+end_src
 
 #+begin_src emacs-lisp
-  (defvar font-family "Source Code Pro")
+  (defvar font-family "Hack")
 
   (defun update-font-size (font-size)
     "Update the font DPI."
@@ -246,8 +246,14 @@ Detect the screen DPI and update the font accordingly [[[https://emacs.stackexch
 
   (defun dpi-to-font (dpi)
     (cond
-     ((< 170 dpi) 18)
-     (t 16)))
+     ; less than 150
+     ((< dpi 150) 16)
+     ; 150 - 160
+     ((< dpi 160) 17)
+     ; 160 - 170
+     ((< dpi 170) 19)
+     ; more than 170
+     (t 17)))
 
   (defun refresh-dpi ()
     (interactive)
@@ -334,7 +340,7 @@ Use =modus-vivendi= as the main theme.
 #+BEGIN_SRC emacs-lisp
   (load-theme 'modus-vivendi t)
 
-  (set-face-attribute 'mode-line nil :font "Hack-14")
+  (set-face-attribute 'mode-line nil :font "Hack-12")
 #+END_SRC
 
 ** Utilities
