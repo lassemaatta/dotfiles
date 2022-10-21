@@ -654,6 +654,29 @@ When looking at completion candidates with =corfu=, we can use =corfu-doc= to sh
     :hook ((corfu-mode . corfu-doc-mode)))
 #+end_src
 
+*** Snippets
+
+[[https://github.com/joaotavora/yasnippet][yasnippet]] provides snippet functionality.
+
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :hook ((prog-mode . yas-minor-mode)))
+#+end_src
+
+Load some =clojure= specific snippets.
+
+#+begin_src emacs-lisp
+  (use-package clojure-snippets
+    :after (yasnippet))
+#+end_src
+
+[[https://github.com/mohkale/consult-yasnippet][consult-yasnippet]] provides a nice list with previews when choosing a snippet.
+
+#+begin_src emacs-lisp
+  (use-package consult-yasnippet
+    :after (yasnippet))
+#+end_src
+
 *** Language Server Protocol
 **** General Setup
 
@@ -670,7 +693,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (lsp-lens-enable t)
     ;; Close LSP server when last buffer closed
     (lsp-keep-workspace-alive t)
-    ;; We don't use yasnippet
+    ;; We use yasnippet, but not through LSP
     (lsp-enable-snippet nil)
     ;; Prefer clojure-mode indentation
     (lsp-enable-indentation nil)
