@@ -644,7 +644,7 @@ While completing, use =S-SPC= to add a separator, which does not abort the compl
     (add-to-list 'savehist-additional-variables 'corfu-history)
     :bind (("S-SPC" . corfu-insert-separator))
     :custom
-    (corfu-auto t))
+    (corfu-auto nil))
 #+end_src
 
 When looking at completion candidates with =corfu=, we can use =corfu-doc= to show a documentation popup with docstrings et al.
