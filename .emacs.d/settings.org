@@ -681,7 +681,8 @@ Load some =clojure= specific snippets.
 
 #+begin_src emacs-lisp
   (use-package consult-yasnippet
-    :after (yasnippet))
+    :after (yasnippet)
+    :bind  (("C-ö" . consult-yasnippet)))
 #+end_src
 
 *** Language Server Protocol
