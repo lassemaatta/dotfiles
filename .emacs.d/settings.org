@@ -437,7 +437,8 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
 
 #+BEGIN_SRC emacs-lisp
   (use-package consult
-    :after (vertico projectile)
+    :demand t
+    :after (projectile)
     :bind (("C-s" . consult-line)
            ("C-x b" . consult-buffer)
            ("C-M-y" . consult-yank-from-kill-ring))
@@ -448,6 +449,16 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     :config
     (substitute-key-definition 'projectile-ripgrep 'consult-ripgrep projectile-command-map))
 #+END_SRC
+
+#+begin_src emacs-lisp
+  (use-package consult-projectile
+    :demand t
+    :after consult
+    :config
+    (substitute-key-definition 'projectile-find-file
+                               'consult-projectile
+                               projectile-command-map))
+#+end_src
 
 The [[https://github.com/oantolin/embark][embark]] package provides a way to run commands against the currently active minibuffer target (e.g. =C-x C-f= to browse files, then =C-ä= to choose an action on a file).
 
