@@ -532,7 +532,8 @@ Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
     (dashboard-center-content t)
     (dashboard-set-heading-icons t)
     (dashboard-projects-backend 'projectile)
-    (dashboard-items '((projects . 5)
+    (dashboard-items '((bookmarks . 5)
+                       (projects . 5)
                        (recents . 10)))
     :config
     (dashboard-setup-startup-hook))
