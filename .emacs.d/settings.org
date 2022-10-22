@@ -319,6 +319,11 @@ Provide icons for stuff like =treemacs=.
     (use-package all-the-icons)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-completion
+    :after all-the-icons)
+#+END_SRC
+
 Use =telephone-line= as the modeline.
 
 #+BEGIN_SRC emacs-lisp
@@ -422,8 +427,9 @@ The [[https://github.com/minad/marginalia][marginalia]] package provides descrip
 
 #+BEGIN_SRC emacs-lisp
   (use-package marginalia
-    :after vertico
+    :after (vertico all-the-icons-completion)
     :init
+    (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
     (marginalia-mode))
 #+END_SRC
 
