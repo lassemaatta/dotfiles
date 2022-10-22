@@ -212,6 +212,16 @@ Dim other windows to make it easier to see the active window.
     (auto-dim-other-buffers-mode t))
 #+end_src
 
+Use =ace-window= to quickly move between windows.
+
+#+begin_src emacs-lisp
+  (use-package ace-window
+    :bind (("C-p" . ace-window))
+    :custom
+    (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+    (aw-dispatch-always t))
+#+end_src
+
 *** Fonts
 
 Detect the screen DPI and update the font accordingly [[[https://emacs.stackexchange.com/a/36074][source]]].
