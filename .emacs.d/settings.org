@@ -955,12 +955,26 @@ Let's use =highlight-parentheses= to always highlight the nearest parentheses. T
 Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 
 #+begin_src emacs-lisp
+  ;; Register a custom post-handler so that the highlighted parentheses are updated
+  (defun refresh-highlight (id action context)
+    (when (member action '(barf-forward
+                           barf-backward
+                           slurp-forward
+                           slurp-backward))
+      ;; clear the last point location so that highlight-parentheses will
+      ;; re-run the highlight analysis even when the point doesn't move
+      (setq highlight-parentheses--last-point 0)))
+
   (use-package highlight-parentheses
     :after smartparens
     :custom
     (highlight-parentheses-colors '("spring green"))
     :hook
-    ((emacs-lisp-mode clojure-mode) . highlight-parentheses-mode))
+    ((emacs-lisp-mode clojure-mode) . highlight-parentheses-mode)
+    :config
+    (sp-local-pair 'emacs-lisp-mode "(" nil :post-handlers '(:add refresh-highlight))
+    (sp-local-pair 'clojure-mode "(" nil :post-handlers '(:add refresh-highlight))
+    (sp-local-pair 'clojure-mode "[" nil :post-handlers '(:add refresh-highlight)))
 #+end_src
 
 **** Utilities
