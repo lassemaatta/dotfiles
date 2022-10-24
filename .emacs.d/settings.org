@@ -542,6 +542,15 @@ Use =savehist= to save minibuffer command history between sessions.
     (org-clock-persistence-insinuate))
 #+end_src
 
+=polymode= offers /multiple major modes/ inside a single buffer.
+
+#+begin_src emacs-lisp
+  (use-package polymode)
+
+  (use-package poly-org
+    :after polymode)
+#+end_src
+
 *** Notekeeping (=org-roam=)
 
 Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
