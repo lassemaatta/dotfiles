@@ -469,7 +469,11 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     (consult-project-function (lambda (_)
                                 (projectile-project-root)))
     :config
-    (substitute-key-definition 'projectile-ripgrep 'consult-ripgrep projectile-command-map))
+    (defun my-consult-ripgrep-with-default ()
+      "Run `consult-ripgrep' using the sexp-at-point as the initial search argument"
+      (interactive)
+      (consult-ripgrep nil (thing-at-point 'sexp)))
+    (substitute-key-definition 'projectile-ripgrep 'my-consult-ripgrep-with-default projectile-command-map))
 #+END_SRC
 
 #+begin_src emacs-lisp
