@@ -762,6 +762,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
     (lsp-keymap-prefix "C-c l")
     (lsp-idle-delay 0.5)
+    (lsp-eldoc-enable-hover nil)
     (lsp-lens-enable t)
     ;; Close LSP server when last buffer closed
     (lsp-keep-workspace-alive t)
@@ -799,7 +800,6 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (lsp-ui-sideline-show-code-actions nil)
     (lsp-ui-doc-show-with-cursor t)
     (lsp-ui-doc-show-with-mouse nil)
-    (lsp-eldoc-enable-hover nil)
     :bind (("M-." . lsp-ui-peek-find-references)))
 #+END_SRC
 
