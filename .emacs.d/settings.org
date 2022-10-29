@@ -548,11 +548,15 @@ Use =savehist= to save minibuffer command history between sessions.
 
 =polymode= offers /multiple major modes/ inside a single buffer.
 
+Disable LSP within a nested block as it causes the point to jump around (see [[https://github.com/polymode/polymode/issues/316][bug]]).
+
 #+begin_src emacs-lisp
   (use-package polymode)
 
   (use-package poly-org
-    :after polymode)
+    :after polymode
+    :config
+    (setq-default polymode-lsp-integration nil))
 #+end_src
 
 *** Notekeeping (=org-roam=)
