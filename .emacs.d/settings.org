@@ -953,7 +953,7 @@ Set =.html= indentation from 2 to 4.
     (cider-repl-buffer-size-limit 10000)
     (cider-repl-pop-to-buffer-on-connect nil)
     (cider-repl-use-clojure-font-lock t)
-    (cider-prompt-save-file-on-load 'always-save)
+    (cider-save-file-on-load t)
     (cider-font-lock-dynamically '(macro core function var))
     (cider-eldoc-display-for-symbol-at-point nil)
     (cider-offer-to-open-cljs-app-in-browser nil)
