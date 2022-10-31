@@ -961,6 +961,7 @@ Set =.html= indentation from 2 to 4.
     (cider-overlays-use-font-lock t)
     (cider-default-cljs-repl 'shadow)
     (cider-enrich-classpath nil)
+    (cider-repl-history-file (concat user-emacs-directory "/cider-history"))
     :hook
     ((cider-mode . merge-lsp-cider-completions))
     :config
