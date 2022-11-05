@@ -219,7 +219,8 @@ Use =ace-window= to quickly move between windows.
     :bind (("C-p" . ace-window))
     :custom
     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-    (aw-dispatch-always t))
+    (aw-dispatch-always t)
+    (aw-ignore-on nil))
 #+end_src
 
 *** Fonts
