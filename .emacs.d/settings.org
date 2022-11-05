@@ -692,7 +692,9 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+begin_src emacs-lisp
   (use-package flycheck
-    :hook ((prog-mode . flycheck-mode)))
+    :hook ((prog-mode . flycheck-mode))
+    :custom
+    (flycheck-display-errors-delay 0.1))
 #+end_src
 
 [[https://github.com/minad/consult-flycheck][consult-flycheck]] provides a nice `consult-flycheck` command for navigating =flycheck= errors.
@@ -701,6 +703,12 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
   (use-package consult-flycheck
     :after (consult flycheck)
     :bind (("C-d" . consult-flycheck)))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package flycheck-posframe
+    :after (flycheck)
+    :hook ((flycheck-mode . flycheck-posframe-mode)))
 #+end_src
 
 *** Completion (=corfu=)
@@ -806,6 +814,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
   (use-package lsp-ui
     :custom
     (lsp-ui-sideline-show-code-actions nil)
+    (lsp-ui-sideline-enable nil)
     (lsp-ui-doc-show-with-cursor t)
     (lsp-ui-doc-show-with-mouse nil)
     (lsp-ui-peek-list-width 75) ; Default is 50
