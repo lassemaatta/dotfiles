@@ -754,7 +754,9 @@ Load some =clojure= specific snippets.
 
 #+begin_src emacs-lisp
   (use-package clojure-snippets
-    :after (yasnippet))
+    :after (yasnippet)
+    :config
+    (yas-reload-all))
 #+end_src
 
 [[https://github.com/mohkale/consult-yasnippet][consult-yasnippet]] provides a nice list with previews when choosing a snippet.

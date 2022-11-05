@@ -1,0 +1,31 @@
+# contributor: lassemaatta
+# name: datomic-schema
+# --
+{:db/ident       $1
+ :db/doc         "${2:Docstring}"
+ :db/valueType   ${3:$$(yas-completing-read
+                        "Value type: "
+                        '(":db.type/bigdec"
+                          ":db.type/bigint"
+                          ":db.type/boolean"
+                          ":db.type/double"
+                          ":db.type/float"
+                          ":db.type/instant"
+                          ":db.type/keyword"
+                          ":db.type/long"
+                          ":db.type/ref"
+                          ":db.type/string"
+                          ":db.type/symbol"
+                          ":db.type/tuple"
+                          ":db.type/uuid"
+                          ":db.type/uri"
+                          ":db.type/bytes") nil t)}${4:
+ :db/unique      ${5:$$(yas-completing-read
+                             "Uniqueness: "
+                             '(":db.unique/value"
+                               ":db.unique/identity") nil t)}}${6:
+ :db/noHistory   true}
+ :db/cardinality ${7:$$(yas-completing-read
+                        "Cardinality: "
+                        '(":db.cardinality/one"
+                          ":db.cardinality/many") nil t)}}$0
