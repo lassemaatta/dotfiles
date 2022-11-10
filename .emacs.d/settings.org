@@ -161,8 +161,15 @@ Disable the bidirectional parenthesis algorithm, for a minor performance boost.
 Highlight trailing whitespace and don't use tabs for indenting.
 
 #+BEGIN_SRC emacs-lisp
-  (setq-default show-trailing-whitespace t)
-  (setq-default indicate-empty-lines t)
+  (defun show-trailing-if-writeable ()
+    (let ((enabled (if buffer-read-only nil t)))
+      (setq-local show-trailing-whitespace enabled)
+      (setq-local indicate-empty-lines enabled)))
+
+  (add-hook 'text-mode-hook 'show-trailing-if-writeable)
+  (add-hook 'prog-mode-hook 'show-trailing-if-writeable)
+  (add-hook 'read-only-mode-hook 'show-trailing-if-writeable)
+
   (setq-default indent-tabs-mode nil)
 #+END_SRC
 
