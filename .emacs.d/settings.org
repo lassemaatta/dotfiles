@@ -178,9 +178,10 @@ Highlight any tabs as if they were trailing whitespace.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'font-lock-mode-hook
             (lambda ()
-              (font-lock-add-keywords
-               nil
-               '(("\t" 0 'trailing-whitespace prepend)))))
+              (when (not buffer-read-only)
+                (font-lock-add-keywords
+                 nil
+                 '(("\t" 0 'trailing-whitespace prepend))))))
 #+END_SRC
 
 Cleanup trailing whitespace when saving a buffer.
