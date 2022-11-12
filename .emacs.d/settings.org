@@ -869,8 +869,25 @@ depending on whether the current buffer is using =LSP=.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-java
     :defer t
-    :hook ((java-mode . lsp)))
+    :hook ((java-mode . lsp))
+    :custom
+    (lsp-java-maven-download-sources t)
+    :config
+    (local-set-key (kbd "<tab>") 'completion-at-point))
 #+END_SRC
+
+=lsp-java= has [[https://github.com/emacs-lsp/dap-mode/issues/533][issues]] with displaying ANSI colors when running e.g. =dap-java-run-test-class=.
+
+#+begin_src emacs-lisp
+  (defun ansi-colorize-buffer ()
+    (let ((buffer-read-only nil))
+      (ansi-color-apply-on-region (point-min) (point-max))))
+
+  (use-package ansi-color
+    :after (lsp-java)
+    :config
+    (add-hook 'compilation-filter-hook 'ansi-colorize-buffer))
+#+end_src
 
 *** Language Modes
 **** HTML
