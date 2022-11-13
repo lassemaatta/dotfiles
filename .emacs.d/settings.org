@@ -757,7 +757,10 @@ When looking at completion candidates with =corfu=, we can use =corfu-doc= to sh
 
 #+begin_src emacs-lisp
   (use-package yasnippet
-    :hook ((prog-mode . yas-minor-mode)))
+    :hook ((prog-mode . yas-minor-mode))
+    :bind (:map yas-minor-mode-map
+           ("TAB" . nil)
+           ("<tab>" . nil)))
 #+end_src
 
 Load some =clojure= specific snippets.
