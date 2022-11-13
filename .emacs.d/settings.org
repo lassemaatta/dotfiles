@@ -874,11 +874,15 @@ depending on whether the current buffer is using =LSP=.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-java
     :defer t
-    :hook ((java-mode . lsp))
+    :init
+    (defun setup-java ()
+      (setq-local lsp-enable-snippet t))
+    :hook ((java-mode . lsp)
+           (java-mode . setup-java))
+    :bind (:map java-mode-map
+              ("<tab>" . indent-for-tab-command))
     :custom
-    (lsp-java-maven-download-sources t)
-    :config
-    (local-set-key (kbd "<tab>") 'completion-at-point))
+    (lsp-java-maven-download-sources t))
 #+END_SRC
 
 =lsp-java= has [[https://github.com/emacs-lsp/dap-mode/issues/533][issues]] with displaying ANSI colors when running e.g. =dap-java-run-test-class=.
