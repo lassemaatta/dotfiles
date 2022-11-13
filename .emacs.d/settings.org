@@ -563,13 +563,17 @@ Disable LSP within a nested block as it causes the point to jump around (see [[h
 #+begin_src emacs-lisp
   (use-package polymode
     :defer t
-    :mode ("\\.org" . poly-org-mode)
     :config
     (setq-default polymode-lsp-integration nil))
 
   (use-package poly-org
     :defer t
     :after polymode)
+
+  (defun load-polymode()
+    (interactive)
+    (require 'polymode)
+    (poly-org-mode +1))
 #+end_src
 
 *** Notekeeping (=org-roam=)
