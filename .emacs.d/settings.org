@@ -34,7 +34,7 @@
 
 ** Disable GC while loading
 
-Startup times can be improved if we temporarily disable garbage collection.
+The =early-init.el= disables garbage collection at startup. Here we re-enable it once startup is complete.
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-startup-hook
@@ -158,7 +158,7 @@ Disable the bidirectional parenthesis algorithm, for a minor performance boost.
 
 ** Whitespace
 
-Highlight trailing whitespace and don't use tabs for indenting.
+Highlight trailing whitespace (when not in read-only buffers) and don't use tabs for indenting.
 
 #+BEGIN_SRC emacs-lisp
   (defun show-trailing-if-writeable ()
@@ -173,7 +173,7 @@ Highlight trailing whitespace and don't use tabs for indenting.
   (setq-default indent-tabs-mode nil)
 #+END_SRC
 
-Highlight any tabs as if they were trailing whitespace.
+Highlight any tabs as if they were trailing whitespace. Again, only in writable buffers.
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'font-lock-mode-hook
@@ -320,9 +320,7 @@ Indent current function
   (global-set-key (kbd "C-<tab>") #'er-indent-defun)
 #+end_src
 
-Emacs uses coarse regexp based parsers for syntax highlighting. =tree-sitter= provides
-language-specific parsers, which are both faster and provide more accurate results.
-However, not all languages are yet supported.
+Emacs uses coarse regexp based parsers for syntax highlighting. =tree-sitter= provides language-specific parsers, which are both faster and provide more accurate results. However, not all languages are yet supported.
 
 #+begin_src emacs-lisp
   (use-package tree-sitter
@@ -356,7 +354,7 @@ Provide icons for stuff like =treemacs=.
     :after all-the-icons)
 #+END_SRC
 
-Use =telephone-line= as the modeline.
+Construct a simple modeline.
 
 #+BEGIN_SRC emacs-lisp
   (setq-default projectile-mode-line-prefix "")
@@ -705,6 +703,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
     :after (magit treemacs))
 #+END_SRC
 
+[[https://github.com/dgutov/diff-hl][diff-hl]] highlights modified lines in the gutter.
 
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
