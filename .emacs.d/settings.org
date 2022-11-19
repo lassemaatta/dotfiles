@@ -152,7 +152,7 @@ Disable the bidirectional parenthesis algorithm, for a minor performance boost.
   (setq auto-window-vscroll nil
         fast-but-imprecise-scrolling t
         scroll-conservatively 101
-        scroll-margin 0
+        scroll-margin 10
         scroll-preserve-screen-position t)
 #+END_SRC
 
