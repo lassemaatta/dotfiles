@@ -529,7 +529,6 @@ Use =savehist= to save minibuffer command history between sessions.
 *** Org mode
 
 #+begin_src emacs-lisp
-
   (use-package ob-http
     :after (org))
 
@@ -551,7 +550,8 @@ Use =savehist= to save minibuffer command history between sessions.
     :config
     (defun org-mode-init ()
       (org-indent-mode)
-      (variable-pitch-mode 1))
+      (variable-pitch-mode 1)
+      (visual-line-mode))
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (org-babel-do-load-languages
      'org-babel-load-languages
