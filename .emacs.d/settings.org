@@ -574,6 +574,17 @@ Use =savehist= to save minibuffer command history between sessions.
     (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch)))
 #+end_src
 
+As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to undo that when the point enters a styled word. The =org-appear-autolinks= does the same to links.
+
+#+begin_src emacs-lisp
+  (use-package org-appear
+    :after org
+    :hook ((org-mode . org-appear-mode))
+    :custom
+    (org-hide-emphasis-markers t)
+    (org-appear-autolinks t))
+#+end_src
+
 =polymode= offers /multiple major modes/ inside a single buffer.
 
 Disable LSP within a nested block as it causes the point to jump around (see [[https://github.com/polymode/polymode/issues/316][bug]]).
