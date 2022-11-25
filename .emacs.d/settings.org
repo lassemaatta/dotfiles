@@ -993,6 +993,13 @@ Set =.html= indentation from 2 to 4.
     :defer t)
 #+END_SRC
 
+[[https://github.com/DamienCassou/json-navigator][json-navigator]] provides a nice tree view of large =JSON= structures.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package json-navigator
+    :defer t)
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
     :defer t
