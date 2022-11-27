@@ -96,6 +96,8 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 * General configuration for =emacs=
 ** Quality-of-Life
 
+Don't  require the user to type =yes= or =no= as a simple =y= or =n= is sufficient.
+
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
@@ -109,18 +111,22 @@ Automatically refresh buffers if the file has changed on disk.
 ** Backups
 
 #+BEGIN_SRC emacs-lisp
-  (setq backup-by-copying t      ; don't clobber symlinks
-        backup-directory-alist
-        '(("." . "~/.saves/"))    ; don't litter my fs tree
-        auto-save-file-name-transforms
-        `((".*" "~/.saves/" t))
-        delete-old-versions t
-        kept-new-versions 6
-        kept-old-versions 2
-        version-control t)       ; use versioned backups
+  (setq
+   ;; don't clobber symlinks
+   backup-by-copying t
+   ;; don't litter my fs tree
+   backup-directory-alist '(("." . "~/.saves/"))
+   auto-save-file-name-transforms `((".*" "~/.saves/" t))
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2
+   ;; use versioned backups
+   version-control t)
 #+END_SRC
 
 ** Performance
+
+Increase the default number of bytes to read from subprocesses, as the default is just 4 kB.
 
 #+BEGIN_SRC emacs-lisp
   (setq read-process-output-max (* 1024 1024))
@@ -358,6 +364,8 @@ Provide icons for stuff like =treemacs=.
 #+BEGIN_SRC emacs-lisp
     (use-package all-the-icons)
 #+END_SRC
+
+Provide icons for completion menus (e.g. when selecting which file to open etc.).
 
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-completion
@@ -608,7 +616,7 @@ Disable LSP within a nested block as it causes the point to jump around (see [[h
 
 *** Notekeeping (=org-roam=)
 
-Use [[https://www.orgroam.com/][=org-roam=]] for notekeeping and timetracking.
+Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
@@ -705,6 +713,8 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 #+END_SRC
 
 *** Git
+
+[[https://magit.vc/][magit]] provides a really nice =git= UI.
 
 #+BEGIN_SRC emacs-lisp
   (use-package magit
