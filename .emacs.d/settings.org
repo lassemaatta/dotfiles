@@ -744,10 +744,11 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
     :bind (("C-d" . consult-flycheck)))
 #+end_src
 
+Use [[https://github.com/flycheck/flycheck-inline][flycheck-inline]] to display errors under the point.
+
 #+begin_src emacs-lisp
-  (use-package flycheck-posframe
-    :after (flycheck)
-    :hook ((flycheck-mode . flycheck-posframe-mode)))
+  (use-package flycheck-inline
+    :hook ((flycheck-mode . flycheck-inline-mode)))
 #+end_src
 
 *** Completion (=corfu=)
