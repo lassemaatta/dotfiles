@@ -767,22 +767,19 @@ Use [[https://github.com/minad/corfu][corfu]] for completion at point functional
 
 While completing, use =S-SPC= to add a separator, which does not abort the completion but instead allows you to add more search words.
 
+When looking at completion candidates with =corfu=, we can use =corfu-popupinfo= to show a documentation popup with docstrings et al.
+
 #+begin_src emacs-lisp
   (use-package corfu
     :init
     (global-corfu-mode)
+    (corfu-popupinfo-mode)
     (corfu-history-mode 1)
     (add-to-list 'savehist-additional-variables 'corfu-history)
     :bind (("S-SPC" . corfu-insert-separator))
     :custom
-    (corfu-auto nil))
-#+end_src
-
-When looking at completion candidates with =corfu=, we can use =corfu-doc= to show a documentation popup with docstrings et al.
-
-#+begin_src emacs-lisp
-  (use-package corfu-doc
-    :hook ((corfu-mode . corfu-doc-mode)))
+    (corfu-auto nil)
+    (corfu-popupinfo-delay t))
 #+end_src
 
 *** Snippets
