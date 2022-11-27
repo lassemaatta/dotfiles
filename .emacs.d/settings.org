@@ -265,13 +265,13 @@ Detect the screen DPI and update the font accordingly [[[https://emacs.stackexch
 
   (defun dpi-to-font (dpi)
     (cond
-     ; less than 150
+     ;; less than 150
      ((< dpi 150) 16)
-     ; 150 - 160
+     ;; 150 - 160
      ((< dpi 160) 17)
-     ; 160 - 170
+     ;; 160 - 170
      ((< dpi 170) 19)
-     ; more than 170
+     ;; more than 170
      (t 17)))
 
   (defun refresh-dpi ()
@@ -388,8 +388,9 @@ Use =modus-vivendi= as the main theme.
     (modus-themes-org-blocks 'tinted-background)
     (modus-themes-mixed-fonts t)
     :init
-    (set-face-attribute 'mode-line nil :font "Hack-12")
-    (load-theme 'modus-vivendi t))
+    (modus-themes-load-themes)
+    :config
+    (modus-themes-load-vivendi))
 #+END_SRC
 
 ** Utilities
@@ -551,9 +552,9 @@ Use =savehist= to save minibuffer command history between sessions.
     (require 'org-indent)
     :config
     (defun org-mode-init ()
-      (org-indent-mode)
+      (org-indent-mode 1)
       (variable-pitch-mode 1)
-      (visual-line-mode))
+      (visual-line-mode 1))
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (org-babel-do-load-languages
      'org-babel-load-languages
