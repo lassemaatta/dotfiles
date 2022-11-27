@@ -1,4 +1,5 @@
 #+TITLE: Emacs Configuration
+#+STARTUP: showall
 * Table of Contents                                            :TOC:noexport:
 - [[#preamble][Preamble]]
 - [[#load-initial-configuration][Load initial configuration]]
@@ -23,14 +24,19 @@
 - [[#postamble][Postamble]]
 
 * Preamble
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+BEGIN_SRC emacs-lisp
   ;;; settings.el --- My custom config
   ;;; Commentary:
   ;;; Code:
 #+END_SRC
-
 * Load initial configuration
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 ** Disable GC while loading
 
@@ -1151,6 +1157,9 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 #+END_SRC
 
 * Postamble
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+BEGIN_SRC emacs-lisp
   ;;; settings.el ends here
