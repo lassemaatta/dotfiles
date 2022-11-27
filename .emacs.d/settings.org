@@ -383,11 +383,13 @@ Construct a simple modeline.
 Use =modus-vivendi= as the main theme.
 
 #+BEGIN_SRC emacs-lisp
-  (setq modus-themes-org-blocks 'tinted-background)
-
-  (load-theme 'modus-vivendi t)
-
-  (set-face-attribute 'mode-line nil :font "Hack-12")
+  (use-package modus-themes
+    :custom
+    (modus-themes-org-blocks 'tinted-background)
+    (modus-themes-mixed-fonts t)
+    :init
+    (set-face-attribute 'mode-line nil :font "Hack-12")
+    (load-theme 'modus-vivendi t))
 #+END_SRC
 
 ** Utilities
@@ -559,19 +561,7 @@ Use =savehist= to save minibuffer command history between sessions.
        (emacs-lisp . t)
        (http . t)
        (dot . t)))
-    (org-clock-persistence-insinuate)
-    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-drawer nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-date nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-code nil :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-block nil :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-block-begin-line nil :inherit 'org-meta-line)
-    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch)))
+    (org-clock-persistence-insinuate))
 #+end_src
 
 As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to undo that when the point enters a styled word. The =org-appear-autolinks= does the same to links.
