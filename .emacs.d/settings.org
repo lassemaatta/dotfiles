@@ -13,6 +13,7 @@
   - [[#performance][Performance]]
   - [[#scrolling][Scrolling]]
   - [[#whitespace][Whitespace]]
+  - [[#help-helpful][Help (=helpful=)]]
   - [[#file-system-dired][File system (=dired=)]]
   - [[#ui][UI]]
 - [[#general-programming][General programming]]
@@ -201,6 +202,21 @@ Cleanup trailing whitespace when saving a buffer.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
+
+** Help (=helpful=)
+
+[[https://github.com/Wilfred/helpful][helpful]] provides some additional information in help buffers, such as keymaps or call locations.
+
+#+begin_src emacs-lisp
+  (use-package helpful
+    :bind
+    (([remap describe-key]      . helpful-key)
+     ([remap describe-command]  . helpful-command)
+     ([remap describe-variable] . helpful-variable)
+     ([remap describe-function] . helpful-callable)
+     :map emacs-lisp-mode-map
+     ("C-c C-d" . helpful-at-point)))
+#+end_src
 
 ** File system (=dired=)
 
