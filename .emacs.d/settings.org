@@ -297,6 +297,7 @@ Detect the screen DPI and update the font accordingly [[[https://emacs.stackexch
 
   (defun dpi-to-font (dpi)
     (cond
+     ((< dpi 140) 14)
      ;; less than 150
      ((< dpi 150) 16)
      ;; 150 - 160
