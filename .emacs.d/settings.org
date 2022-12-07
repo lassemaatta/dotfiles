@@ -766,8 +766,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
   (use-package flycheck
     :hook ((prog-mode . flycheck-mode))
     :custom
-    (flycheck-display-errors-delay 0.1)
-    (flycheck-check-syntax-automatically '(save mode-enable new-line idle-buffer-switch)))
+    (flycheck-display-errors-delay 0.1))
 #+end_src
 
 [[https://github.com/minad/consult-flycheck][consult-flycheck]] provides a nice `consult-flycheck` command for navigating =flycheck= errors.
