@@ -161,11 +161,13 @@ Disable the bidirectional parenthesis algorithm, for a minor performance boost.
 
 ** Scrolling
 
+Set =scroll-margin= to =0= , otherwise the scrolling will jump around when clicking on entries in =treemacs=.
+
 #+BEGIN_SRC emacs-lisp
   (setq auto-window-vscroll nil
         fast-but-imprecise-scrolling t
         scroll-conservatively 101
-        scroll-margin 10
+        scroll-margin 0
         scroll-preserve-screen-position t)
 #+END_SRC
 
