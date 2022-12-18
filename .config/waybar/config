@@ -87,10 +87,12 @@
     },
     "cpu": {
         "format": "{usage}% ",
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "plasma-systemmonitor --page-name Processes"
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}% ",
+        "on-click": "plasma-systemmonitor --page-name History"
     },
     "temperature": {
         // "thermal-zone": 2,
