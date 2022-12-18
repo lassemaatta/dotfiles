@@ -91,6 +91,7 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 
 #+BEGIN_SRC emacs-lisp
   (use-package toc-org
+    :after org
     :hook ((org-mode) . toc-org-mode))
 #+END_SRC
 
@@ -161,11 +162,13 @@ Disable the bidirectional parenthesis algorithm, for a minor performance boost.
 
 ** Scrolling
 
+Set =scroll-margin= to =0= , otherwise the scrolling will jump around when clicking on entries in =treemacs=.
+
 #+BEGIN_SRC emacs-lisp
   (setq auto-window-vscroll nil
         fast-but-imprecise-scrolling t
         scroll-conservatively 101
-        scroll-margin 10
+        scroll-margin 0
         scroll-preserve-screen-position t)
 #+END_SRC
 
@@ -567,10 +570,8 @@ Use =savehist= to save minibuffer command history between sessions.
 *** Org mode
 
 #+begin_src emacs-lisp
-  (use-package ob-http
-    :after (org))
-
   (use-package org
+    :defer t
     :custom
     ;; Enable syntax highlighting when exporting as PDFs. Requires the =minted= package for LaTeX.
     (org-latex-listings 'minted)
@@ -583,9 +584,8 @@ Use =savehist= to save minibuffer command history between sessions.
     (org-clock-persist t)
     :mode ("\\.org\\'" . org-mode)
     :hook (org-mode . org-mode-init)
-    :init
-    (require 'org-indent)
     :config
+    (require 'org-indent)
     (defun org-mode-init ()
       (org-indent-mode 1)
       (variable-pitch-mode 1)
@@ -598,6 +598,12 @@ Use =savehist= to save minibuffer command history between sessions.
        (http . t)
        (dot . t)))
     (org-clock-persistence-insinuate))
+
+  (use-package ob-http
+    ;:defer t
+    :after org
+    :config
+    (message "Loaded ob-http"))
 #+end_src
 
 As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to undo that when the point enters a styled word. The =org-appear-autolinks= does the same to links.
@@ -608,7 +614,9 @@ As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to und
     :hook ((org-mode . org-appear-mode))
     :custom
     (org-hide-emphasis-markers t)
-    (org-appear-autolinks t))
+    (org-appear-autolinks t)
+    :config
+    (message "Loaded org-appear"))
 #+end_src
 
 =polymode= offers /multiple major modes/ inside a single buffer.
@@ -892,6 +900,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (lsp-ui-sideline-enable nil)
     (lsp-ui-doc-show-with-cursor t)
     (lsp-ui-doc-show-with-mouse nil)
+    (lsp-ui-doc-use-childframe nil)
     (lsp-ui-peek-list-width 75) ; Default is 50
     (lsp-ui-peek-peek-height 40) ; Default is 20 rows
     :bind (("M-." . lsp-ui-peek-find-references)))
