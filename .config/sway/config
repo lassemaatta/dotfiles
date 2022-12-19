@@ -55,7 +55,7 @@ exec swayidle -w \
          resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
 
-bindsym $mod+p exec swaylock
+bindsym $mod+p exec swaylock -c 101010
 
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
