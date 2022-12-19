@@ -287,16 +287,23 @@ Detect the screen DPI and update the font accordingly [[[https://emacs.stackexch
 
 #+begin_src emacs-lisp
   (defvar font-family "Hack")
+  (defvar font-family-variable "Source Sans Pro")
   (set-face-attribute 'default nil :family font-family :height 100)
   (set-face-attribute 'fixed-pitch nil :family font-family :height 100)
-  (set-face-attribute 'variable-pitch nil :family "Source Sans Pro" :height 120)
-  (set-face-attribute 'mode-line nil :font "Hack-12")
+  (set-face-attribute 'variable-pitch nil :family font-family-variable :height 120)
+  (set-face-attribute 'mode-line nil :font font-family)
 
   (defun update-font-size (font-size)
     "Update the font DPI."
     (internal-set-lisp-face-attribute
      'default :font (font-spec :family font-family
-                               :size font-size) 0))
+                               :size font-size) 0)
+    (internal-set-lisp-face-attribute
+     'fixed-pitch :font (font-spec :family font-family
+                                   :size font-size) 0)
+    (internal-set-lisp-face-attribute
+     'variable-pitch :font (font-spec :family font-family-variable
+                                      :size (+ 4 font-size)) 0))
 
   (defun dpi-to-font (dpi)
     (cond
