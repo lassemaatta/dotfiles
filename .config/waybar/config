@@ -88,6 +88,7 @@
     "cpu": {
         "format": "{usage}% ",
         "tooltip": false,
+        "interval": 1,
         "on-click": "plasma-systemmonitor --page-name Processes"
     },
     "memory": {
