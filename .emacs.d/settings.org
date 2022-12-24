@@ -823,7 +823,7 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     :bind (("S-SPC" . corfu-insert-separator))
     :custom
     (corfu-auto nil)
-    (corfu-popupinfo-delay t))
+    (corfu-popupinfo-delay '(0.5 . 1.0)))
 #+end_src
 
 *** Snippets
