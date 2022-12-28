@@ -488,19 +488,7 @@ Hide commands in =M-x= which do not apply to the current mode.
 
 #+BEGIN_SRC emacs-lisp
   (use-package cape
-    :after vertico
-    :init
-    (add-to-list 'completion-at-point-functions #'cape-file))
-#+END_SRC
-
-Let's use =cape-super-capf= to merge both =cider= and =lsp= completions into a single completion function.
-
-#+BEGIN_SRC emacs-lisp
-  (defun merge-lsp-cider-completions ()
-    (let ((result))
-      (dolist (element (list
-                        (cape-super-capf #'cider-complete-at-point #'lsp-completion-at-point)) result)
-        (add-to-list 'completion-at-point-functions element))))
+    :after vertico)
 #+END_SRC
 
 The [[https://github.com/minad/marginalia][marginalia]] package provides description of entries (e.g. files, commands) in completion menus.
@@ -823,15 +811,26 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     (defun corfu-java ()
       (message "Enable corfu-auto for java buffers")
       (setq-local corfu-auto t
-                  corfu-auto-prefix 1
-                  corfu-cycle t)
+                  corfu-auto-prefix 1)
       (corfu-mode -1)
       (corfu-mode))
-    :bind (("S-SPC" . corfu-insert-separator))
+    :bind (("S-SPC" . corfu-insert-separator)
+           (:map corfu-map
+                 ("TAB" . corfu-next)
+                 ([tab] . corfu-next)
+                 ("S-TAB" . corfu-previous)
+                 ([backtab] . corfu-previous)))
     :hook ((java-mode . corfu-java))
     :custom
     (corfu-auto nil)
-    (corfu-popupinfo-delay '(0.5 . 1.0)))
+    (corfu-preselect 'prompt)
+    (corfu-popupinfo-delay '(0.5 . 1.0))
+    (corfu-cycle t)
+    (corfu-on-exact-match nil)
+    (corfu-quit-no-match nil))
+#+end_src
+
+Add icons to completion menu with =kind-icon=.
 
 #+begin_src emacs-lisp
   (use-package kind-icon
@@ -841,6 +840,28 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     (kind-icon-default-face 'corfu-default)
     :config
     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+#+end_src
+
+Use =my-refresh-completions= to setup the =completion-at-point-functions= as various minor modes often alter it in ways we don't like. We use =company= just for =company-yasnippet= support.
+
+#+begin_src emacs-lisp
+  (use-package company
+    :defer t)
+
+  (defun my-refresh-completions ()
+    (interactive)
+    (message (format "Refreshing completion providers: %s" (buffer-name)))
+    (setq-local completion-at-point-functions
+                (list #'cape-file
+                      (apply 'cape-super-capf
+                             (-concat
+                              (list (cape-company-to-capf #'company-yasnippet))
+                              (when (and (boundp 'lsp-mode) lsp-mode)
+                                (message "LSP active")
+                                (list #'lsp-completion-at-point))
+                              (when (and (boundp 'cider-mode) cider-mode)
+                                (message "CIDER active")
+                                (list #'cider-complete-at-point)))))))
 #+end_src
 
 *** Snippets
@@ -910,7 +931,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            (typescript-mode . lsp)
            ;; if you want which-key integration
            (lsp-mode . lsp-enable-which-key-integration)
-           (lsp-completion-mode . my/lsp-mode-setup-completion))
+           (lsp-completion-mode . my/lsp-mode-setup-completion)
+           (lsp-completion-mode . my-refresh-completions))
     :bind (("<C-return>" . lsp-find-definition)
            ("<C-.>" . lsp-find-definition)
            ("<C-M-return>" . lsp-describe-thing-at-point))
@@ -1109,7 +1131,7 @@ Set =.html= indentation from 2 to 4.
     (cider-enrich-classpath nil)
     (cider-repl-history-file (concat user-emacs-directory "/cider-history"))
     :hook
-    ((cider-mode . merge-lsp-cider-completions))
+    ((cider-mode . my-refresh-completions))
     :config
     (cider-repl-toggle-pretty-printing)
 
@@ -1130,9 +1152,6 @@ Set =.html= indentation from 2 to 4.
     (put-clojure-indent 'r/with-let 1)
     (put-clojure-indent 'p/if-all-let 1)
     (put-clojure-indent 'test-seq/seq-tx 1))
-
-  ;; To disable cider completion and rely solely on LSP completion
-  ;; (add-hook 'cider-mode-hook (lambda () (remove-hook 'completion-at-point-functions #'cider-complete-at-point)))))
 #+END_SRC
 
 **** =smartparens=
