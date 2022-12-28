@@ -832,6 +832,15 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     :custom
     (corfu-auto nil)
     (corfu-popupinfo-delay '(0.5 . 1.0)))
+
+#+begin_src emacs-lisp
+  (use-package kind-icon
+    :ensure t
+    :after corfu
+    :custom
+    (kind-icon-default-face 'corfu-default)
+    :config
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 
 *** Snippets
