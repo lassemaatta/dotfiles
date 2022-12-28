@@ -989,15 +989,18 @@ depending on whether the current buffer is using =LSP=.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-java
     :defer t
-    :init
-    (defun setup-java ()
-      (setq-local lsp-enable-snippet t))
-    :hook ((java-mode . lsp)
-           (java-mode . setup-java))
+    :hook ((java-mode . lsp))
     :bind (:map java-mode-map
               ("<tab>" . indent-for-tab-command))
     :custom
-    (lsp-java-maven-download-sources t))
+    (lsp-java-maven-download-sources t)
+    (lsp-java-java-path "/usr/lib/jvm/default-runtime/bin/java")
+    :config
+    (defun my-format-on-save ()
+      (message "format on save")
+      (when (eq major-mode 'java-mode)
+        (lsp-format-buffer)))
+    (add-hook 'before-save-hook 'my-format-on-save))
 #+END_SRC
 
 =lsp-java= has [[https://github.com/emacs-lsp/dap-mode/issues/533][issues]] with displaying ANSI colors when running e.g. =dap-java-run-test-class=.
@@ -1011,6 +1014,11 @@ depending on whether the current buffer is using =LSP=.
     :after (lsp-java)
     :config
     (add-hook 'compilation-filter-hook 'ansi-colorize-buffer))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package java-snippets
+    :after yasnippet)
 #+end_src
 
 *** Language Modes
@@ -1164,7 +1172,8 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
     (require 'smartparens-config)
     :hook ((emacs-lisp-mode
             clojure-mode
-            cider-repl-mode) . turn-on-smartparens-strict-mode)
+            cider-repl-mode
+            java-mode) . turn-on-smartparens-strict-mode)
     :bind (("C-<left>" . sp-backward-symbol)
            ("C-<right>" . sp-forward-symbol)
            ("M-C-<left>" . sp-backward-sexp)
