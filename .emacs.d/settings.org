@@ -1026,6 +1026,7 @@ depending on whether the current buffer is using =LSP=.
     :bind (:map java-mode-map
               ("<tab>" . indent-for-tab-command))
     :custom
+    (lsp-enable-snippets t)
     (lsp-java-maven-download-sources t)
     (lsp-java-java-path "/usr/lib/jvm/default-runtime/bin/java")
     :config
