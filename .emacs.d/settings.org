@@ -431,12 +431,10 @@ Use =modus-vivendi= as the main theme.
 #+BEGIN_SRC emacs-lisp
   (use-package modus-themes
     :custom
-    (modus-themes-org-blocks 'tinted-background)
+    (modus-themes-org-blocks 'gray-background)
     (modus-themes-mixed-fonts t)
-    :init
-    (modus-themes-load-themes)
     :config
-    (modus-themes-load-vivendi))
+    (load-theme 'modus-vivendi :no-confirm))
 #+END_SRC
 
 ** Utilities
