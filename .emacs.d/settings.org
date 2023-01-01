@@ -807,19 +807,12 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     (corfu-popupinfo-mode)
     (corfu-history-mode 1)
     (add-to-list 'savehist-additional-variables 'corfu-history)
-    (defun corfu-java ()
-      (message "Enable corfu-auto for java buffers")
-      (setq-local corfu-auto t
-                  corfu-auto-prefix 1)
-      (corfu-mode -1)
-      (corfu-mode))
     :bind (("S-SPC" . corfu-insert-separator)
            (:map corfu-map
                  ("TAB" . corfu-next)
                  ([tab] . corfu-next)
                  ("S-TAB" . corfu-previous)
                  ([backtab] . corfu-previous)))
-    :hook ((java-mode . corfu-java))
     :custom
     (corfu-auto nil)
     (corfu-preselect 'prompt)
