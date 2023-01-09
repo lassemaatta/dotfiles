@@ -33,6 +33,8 @@ exec swaync
 
 bindsym $mod+Shift+n exec swaync-client -t -sw
 
+default_border pixel 5
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
