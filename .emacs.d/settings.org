@@ -1206,10 +1206,17 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
            ("M-7" . sp-backward-slurp-sexp)
            ("M-8" . sp-backward-barf-sexp)
            ("M-9" . sp-forward-barf-sexp)
-           ("M-0" . sp-forward-slurp-sexp)
-           ("C-S-<up>" . sp-mark-sexp))
+           ("M-0" . sp-forward-slurp-sexp))
     :config
     (show-smartparens-global-mode -1))
+#+end_src
+
+Somewhat related, =expand-region= provides two nice tools to either expand or contract the selected region semantically (ie. it understands S-expressions, strings, ..).
+
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :bind (("C-S-<up>" . er/expand-region)
+           ("C-S-<down>" . er/contract-region)))
 #+end_src
 
 **** =highlight-parentheses=
