@@ -244,14 +244,6 @@ Hide the default splash screen.
   (setq inhibit-splash-screen t)
 #+END_SRC
 
-Dim other windows to make it easier to see the active window.
-
-#+begin_src emacs-lisp
-  (use-package auto-dim-other-buffers
-    :init
-    (auto-dim-other-buffers-mode t))
-#+end_src
-
 Highlight the current line.
 
 #+begin_src emacs-lips
@@ -440,6 +432,8 @@ Use =modus-vivendi= as the main theme.
     :custom
     (modus-themes-org-blocks 'gray-background)
     (modus-themes-mixed-fonts t)
+    (modus-vivendi-palette-overrides
+     '((bg-hl-line bg-magenta-subtle)))
     :config
     (load-theme 'modus-vivendi :no-confirm))
 #+END_SRC
