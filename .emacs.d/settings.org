@@ -345,6 +345,8 @@ Enable /HideShow/ mode: allows collapsing s-exprs (=<backtab>=  is =S-<tab>=).
 
 #+begin_src emacs-lisp
   (use-package hideshow
+    :init
+    (setq hs-minor-mode-map (make-sparse-keymap))
     :hook ((clojure-mode . hs-minor-mode)
            (emacs-lisp-mode . hs-minor-mode))
     :bind (("<backtab>" . hs-toggle-hiding)))
@@ -789,8 +791,15 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 #+begin_src emacs-lisp
   (use-package flycheck
     :hook ((prog-mode . flycheck-mode))
+    :bind (:map flycheck-mode-map
+           :prefix "C-c f"
+           :prefix-map flycheck-mode-map-p
+           ("n" . flycheck-next-error)
+           ("l" . flycheck-list-errors))
     :custom
-    (flycheck-display-errors-delay 0.1))
+    (flycheck-display-errors-delay 0.1)
+    :config
+    (define-key flycheck-mode-map flycheck-keymap-prefix nil))
 #+end_src
 
 [[https://github.com/minad/consult-flycheck][consult-flycheck]] provides a nice `consult-flycheck` command for navigating =flycheck= errors.
@@ -912,14 +921,13 @@ Use =my-refresh-completions= to setup the =completion-at-point-functions= as var
 
 *** Snippets
 
-[[https://github.com/joaotavora/yasnippet][yasnippet]] provides snippet functionality.
+[[https://github.com/joaotavora/yasnippet][yasnippet]] provides snippet functionality. Disable the whole keymap, so that it doesn't clobber up the =C-c= keymap.
 
 #+begin_src emacs-lisp
   (use-package yasnippet
     :hook ((prog-mode . yas-minor-mode))
-    :bind (:map yas-minor-mode-map
-           ("TAB" . nil)
-           ("<tab>" . nil)))
+    :config
+    (define-key yas-minor-mode-map (kbd "C-c &") nil))
 #+end_src
 
 Load some =clojure= specific snippets.
