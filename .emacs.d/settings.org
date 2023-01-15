@@ -252,6 +252,12 @@ Dim other windows to make it easier to see the active window.
     (auto-dim-other-buffers-mode t))
 #+end_src
 
+Highlight the current line.
+
+#+begin_src emacs-lips
+  (global-hl-line-mode)
+#+end_src
+
 Use =ace-window= to quickly move between windows.
 
 #+begin_src emacs-lisp
