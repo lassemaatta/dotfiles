@@ -8,8 +8,8 @@
 
 (defconst emacs-start-time (current-time))
 
-;; Disable GC during startup
-(setq gc-cons-threshold most-positive-fixnum
+;; Set a high GC limit during startup
+(setq gc-cons-threshold (* 256 1024 1024)
       garbage-collection-messages t)
 
 ;; Disable menubar and toolbar
