@@ -1037,6 +1037,7 @@ depending on whether the current buffer is using =LSP=.
     (lsp-enable-snippets t)
     (lsp-java-maven-download-sources t)
     (lsp-java-java-path "/usr/lib/jvm/default-runtime/bin/java")
+    (lsp-java-jdt-download-url "https://download.eclipse.org/jdtls/milestones/1.18.0/jdt-language-server-1.18.0-202212011657.tar.gz")
     :config
     (defun my-format-on-save ()
       (message "format on save")
