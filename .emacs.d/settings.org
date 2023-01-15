@@ -1192,6 +1192,7 @@ Set =.html= indentation from 2 to 4.
     (cider-default-cljs-repl 'shadow)
     (cider-enrich-classpath nil)
     (cider-repl-history-file (concat user-emacs-directory "/cider-history"))
+    (cider-repl-display-in-current-window t)
     :hook
     ((cider-mode . my-refresh-completions))
     :config
