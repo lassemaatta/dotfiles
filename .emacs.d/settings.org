@@ -584,6 +584,15 @@ Close the minibuffer if you click on a buffer.
 #+begin_src emacs-lisp
   (use-package org
     :defer t
+    :bind (:map org-mode-map
+           :prefix "C-c o"
+           :prefix-map org-mode-map-p
+           ("i" . org-insert-structure-template)
+           ("e" . org-edit-special)
+           :map org-src-mode-map
+           :prefix "C-c o"
+           :prefix-map org-mode-src-map-p
+           ("e" . org-edit-src-exit))
     :custom
     ;; Enable syntax highlighting when exporting as PDFs. Requires the =minted= package for LaTeX.
     (org-latex-listings 'minted)
@@ -660,7 +669,7 @@ Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
     :custom
     (org-roam-directory "~/org-roam")
     :bind (:prefix "C-c n"
-           :prefix-map org-roam
+           :prefix-map org-roam-p
            ("l" . org-roam-buffer-toggle)
            ("f" . org-roam-node-find)
            ("i" . org-roam-node-insert))
