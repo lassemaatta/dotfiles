@@ -3,6 +3,8 @@
 * Table of Contents                                            :TOC:noexport:
 - [[#preamble][Preamble]]
 - [[#load-initial-configuration][Load initial configuration]]
+  - [[#keybindings][Keybindings]]
+  - [[#clear-leader-key][Clear leader key]]
   - [[#disable-gc-while-loading][Disable GC while loading]]
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
   - [[#load-optional-local-settings][Load optional local settings]]
@@ -39,6 +41,32 @@
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
+
+** Keybindings
+
+Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestions when using keybindings.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :demand t
+    :custom
+    (which-key-sort-order 'which-key-key-order-alpha)
+    (which-key-separator ":")
+    (which-key-max-description-length 120)
+    (which-key-side-window-max-width 50)
+    (which-key-idle-delay 1.00)
+    :config
+    (which-key-setup-side-window-right-bottom)
+    (which-key-mode))
+#+END_SRC
+
+** Clear leader key
+
+Let's use =C-f= as the leader key for our commands, but first we must clear its existing command. The =C-c= prefix is already populated with random commands from packages, so this makes it easier to access our own commands.
+y
+#+begin_src emacs-lisp
+  (global-unset-key "\C-f")
+#+end_src
 
 ** Disable GC while loading
 
@@ -345,8 +373,6 @@ Enable /HideShow/ mode: allows collapsing s-exprs (=<backtab>=  is =S-<tab>=).
 
 #+begin_src emacs-lisp
   (use-package hideshow
-    :init
-    (setq hs-minor-mode-map (make-sparse-keymap))
     :hook ((clojure-mode . hs-minor-mode)
            (emacs-lisp-mode . hs-minor-mode))
     :bind (("<backtab>" . hs-toggle-hiding)))
@@ -441,23 +467,6 @@ Use =modus-vivendi= as the main theme.
 #+END_SRC
 
 ** Utilities
-*** Keybindings
-
-Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestions when using keybindings.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package which-key
-    :init
-    (which-key-mode)
-    :custom
-    (which-key-sort-order 'which-key-key-order-alpha)
-    (which-key-separator ":")
-    (which-key-max-description-length 120)
-    (which-key-side-window-max-width 50)
-    (which-key-idle-delay 1.00)
-    :config
-    (which-key-setup-side-window-right-bottom))
-#+END_SRC
 
 *** Minibuffer completion (=vertico=)
 
@@ -581,13 +590,13 @@ Close the minibuffer if you click on a buffer.
   (use-package org
     :defer t
     :bind (:map org-mode-map
-           :prefix "C-c o"
-           :prefix-map org-mode-map-p
+           :prefix "C-f o"
+           :prefix-map org-mode-prefix
            ("i" . org-insert-structure-template)
            ("e" . org-edit-special)
            :map org-src-mode-map
-           :prefix "C-c o"
-           :prefix-map org-mode-src-map-p
+           :prefix "C-f o"
+           :prefix-map org-mode-src-prefix
            ("e" . org-edit-src-exit))
     :custom
     ;; Enable syntax highlighting when exporting as PDFs. Requires the =minted= package for LaTeX.
@@ -601,6 +610,8 @@ Close the minibuffer if you click on a buffer.
     (org-clock-persist t)
     :mode ("\\.org\\'" . org-mode)
     :hook (org-mode . org-mode-init)
+    :init
+    (which-key-add-key-based-replacements "C-f o" "Org mode")
     :config
     (require 'org-indent)
     (defun org-mode-init ()
@@ -617,7 +628,6 @@ Close the minibuffer if you click on a buffer.
     (org-clock-persistence-insinuate))
 
   (use-package ob-http
-    ;:defer t
     :after org
     :config
     (message "Loaded ob-http"))
@@ -664,13 +674,15 @@ Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
   (use-package org-roam
     :custom
     (org-roam-directory "~/org-roam")
-    :bind (:prefix "C-c n"
-           :prefix-map org-roam-p
+    :bind (:prefix "C-f n"
+           :prefix-map org-roam-prefix
            ("l" . org-roam-buffer-toggle)
            ("f" . org-roam-node-find)
            ("i" . org-roam-node-insert))
     :config
-    (org-roam-db-autosync-mode))
+    (org-roam-db-autosync-mode)
+    :init
+    (which-key-add-key-based-replacements "C-f n" "Notes"))
 #+END_SRC
 
 *** Better undo (=undo-tree=)
@@ -792,12 +804,14 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
   (use-package flycheck
     :hook ((prog-mode . flycheck-mode))
     :bind (:map flycheck-mode-map
-           :prefix "C-c f"
-           :prefix-map flycheck-mode-map-p
+           :prefix "C-f e"
+           :prefix-map errors-prefix
            ("n" . flycheck-next-error)
            ("l" . flycheck-list-errors))
     :custom
     (flycheck-display-errors-delay 0.1)
+    :init
+    (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)")
     :config
     (define-key flycheck-mode-map flycheck-keymap-prefix nil))
 #+end_src
@@ -958,7 +972,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     :custom
     (lsp-completion-provider :none)
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-    (lsp-keymap-prefix "C-c l")
+    (lsp-keymap-prefix "C-f l")
     (lsp-idle-delay 0.5)
     (lsp-eldoc-enable-hover nil)
     (lsp-lens-enable t)
@@ -1171,13 +1185,15 @@ Set =.html= indentation from 2 to 4.
   (use-package clojure-mode
     :defer t
     :bind (:map clojure-mode-map
-             :prefix "C-c c"
-             :prefix-map clojure-p
-             ("c" . cider-connect))
+           :prefix "C-f c"
+           :prefix-map clojure-prefix
+           ("c" . cider-connect))
     :custom
     (clojure-indent-style 'align-arguments)
     (clojure-align-forms-automatically t)
-    (clojure-align-separator 'entire))
+    (clojure-align-separator 'entire)
+    :init
+    (which-key-add-key-based-replacements "C-f c" "Clojure"))
 #+END_SRC
 
 **** =cider=
@@ -1186,13 +1202,13 @@ Set =.html= indentation from 2 to 4.
   (use-package cider
     :defer t
     :bind (:map clojure-mode-map
-           :prefix "C-c c"
-           :prefix-map clojure-p
+           :prefix "C-f c"
+           :prefix-map clojure-prefix
            ("n" . cider-browse-ns)
            ("r" . cider-switch-to-repl-buffer)
            :map cider-repl-mode-map
-           :prefix "C-c c"
-           :prefix-map cider-repl-p
+           :prefix "C-f c"
+           :prefix-map cider-repl-prefix
            ("r" . cider-switch-to-last-clojure-buffer))
     :custom
     (nrepl-log-messages t)
