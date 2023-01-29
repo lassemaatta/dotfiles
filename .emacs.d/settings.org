@@ -830,8 +830,8 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     (corfu-popupinfo-mode)
     (corfu-history-mode 1)
     (add-to-list 'savehist-additional-variables 'corfu-history)
-    :bind (("S-SPC" . corfu-insert-separator)
-           (:map corfu-map
+    :bind ((:map corfu-map
+                 ("SPC" . corfu-insert-separator)
                  ("TAB" . corfu-next)
                  ([tab] . corfu-next)
                  ("S-TAB" . corfu-previous)
