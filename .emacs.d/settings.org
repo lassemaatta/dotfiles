@@ -41,7 +41,6 @@
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
-
 ** Keybindings
 
 Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestions when using keybindings.
@@ -777,7 +776,6 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 #+END_SRC
 
 ** Programming
-
 *** Error checking (=flycheck=)
 
 #+begin_src emacs-lisp
