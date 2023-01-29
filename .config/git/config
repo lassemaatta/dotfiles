@@ -1,0 +1,14 @@
+[user]
+	email = lasse.olavi.maatta@gmail.com
+	name = Lasse Määttä
+[gui]
+	fontui = -family \"Noto Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family Hack -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	diffcontext = 10
+	diffopts = --histogram
+[core]
+	editor = emacs -nw
+[diff "clojure"]
+	xfuncname = (^\\(.*|\\s*\\(def.*)
+[github]
+	user = lassemaatta
