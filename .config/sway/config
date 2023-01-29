@@ -29,6 +29,8 @@ gaps outer 5
 
 exec_always "systemctl --user import-environment"
 
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
 exec swaync
 
 bindsym $mod+Shift+n exec swaync-client -t -sw
