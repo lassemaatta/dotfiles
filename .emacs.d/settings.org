@@ -291,67 +291,42 @@ Use =ace-window= to quickly move between windows.
 
 *** Fonts
 
-Detect the screen DPI and update the font accordingly [[[https://emacs.stackexchange.com/a/36074][source]]].
-
-#+begin_src emacs-lisp
-  (defun current-dpi ()
-    (let* ((attrs (frame-monitor-attributes))
-           (size (assoc 'mm-size attrs))
-           (sizex (cadr size))
-           (res (cdr (assoc 'geometry attrs)))
-           (resx (caddr res))
-           dpi)
-      (catch 'exit
-        ;; in terminal
-        (unless sizex
-          (throw 'exit 10))
-        ;; on big screen
-        (when (> sizex 1000)
-          (throw 'exit 10))
-        ;; DPI
-        (round (* (/ (float resx) sizex) 25.4)))))
-#+end_src
+Detect the active monitor name and update the font size accordingly.
 
 #+begin_src emacs-lisp
   (defvar font-family "Hack")
   (defvar font-family-variable "Source Sans Pro")
-  (set-face-attribute 'default nil :family font-family :height 100)
-  (set-face-attribute 'fixed-pitch nil :family font-family :height 100)
-  (set-face-attribute 'variable-pitch nil :family font-family-variable :height 120)
-  (set-face-attribute 'mode-line nil :font font-family)
 
-  (defun update-font-size (font-size)
-    "Update the font DPI."
-    (internal-set-lisp-face-attribute
-     'default :font (font-spec :family font-family
-                               :size font-size) 0)
-    (internal-set-lisp-face-attribute
-     'fixed-pitch :font (font-spec :family font-family
-                                   :size font-size) 0)
-    (internal-set-lisp-face-attribute
-     'variable-pitch :font (font-spec :family font-family-variable
-                                      :size (+ 4 font-size)) 0))
+  (defun my-update-font-size (font-height)
+    "Update the font DPI to FONT-HEIGHT."
+    (set-face-attribute 'default nil :family font-family :height font-height)
+    (set-face-attribute 'fixed-pitch nil :family font-family :height font-height)
+    (set-face-attribute 'variable-pitch nil :family font-family-variable :height (round (* 1.3 font-height)))
+    (set-face-attribute 'mode-line nil :font font-family))
 
-  (defun dpi-to-font (dpi)
-    (cond
-     ((< dpi 140) 14)
-     ;; less than 150
-     ((< dpi 150) 16)
-     ;; 150 - 160
-     ((< dpi 160) 17)
-     ;; 160 - 170
-     ((< dpi 170) 19)
-     ;; more than 170
-     (t 17)))
-
-  (defun refresh-dpi ()
+  (defun my-monitor-name ()
+    "Return the name of the current monitor as string."
     (interactive)
-    (let* ((dpi (current-dpi))
-           (font-size (dpi-to-font dpi)))
-      (message (format "Detected DPI %s -> %s" dpi font-size))
-      (update-font-size font-size)))
+    (frame-monitor-attribute 'name))
 
-  (refresh-dpi)
+  (defun my-monitor-to-font-height ()
+    "Map monitor name to font height."
+    (pcase (my-monitor-name)
+      ("M28U/22060B001950" 130)
+      ("eDP-1-unknown" 130)
+      (name (progn
+              (message "Unknown monitor '%s'" name)
+              100))))
+
+  (defun my-refresh-dpi ()
+    "Update the font size based on the active monitor."
+    (interactive)
+    (let* ((font-height (my-monitor-to-font-height)))
+      (message (format "Set font height: %s" font-height))
+      (my-update-font-size font-height)))
+
+  (my-refresh-dpi)
+
 #+end_src
 
 * General programming
