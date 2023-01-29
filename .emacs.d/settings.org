@@ -1211,6 +1211,7 @@ Set =.html= indentation from 2 to 4.
     (put-clojure-indent 'testit/fact 1)
     (put-clojure-indent 'testit.core/fact 1)
     (put-clojure-indent 'page/html5 1)
+    (put-clojure-indent 'facts 1)
     (put-clojure-indent 'fact 1)
     (put-clojure-indent 'rf/reg-event-fx 1)
     (put-clojure-indent 'chain/reg-chain 1)
@@ -1224,7 +1225,9 @@ Set =.html= indentation from 2 to 4.
     (put-clojure-indent 'not-join 1)
     (put-clojure-indent 'r/with-let 1)
     (put-clojure-indent 'p/if-all-let 1)
-    (put-clojure-indent 'test-seq/seq-tx 1))
+    (put-clojure-indent 'test-seq/seq-tx 1)
+    (put-clojure-indent 'cc/modal-body 1)
+    (put-clojure-indent 'cc/composed-modal 1))
 #+END_SRC
 
 **** =smartparens=
