@@ -786,6 +786,11 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
     :after (magit treemacs))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (use-package forge
+    :after magit)
+#+end_src
+
 [[https://github.com/dgutov/diff-hl][diff-hl]] highlights modified lines in the gutter.
 
 #+BEGIN_SRC emacs-lisp
