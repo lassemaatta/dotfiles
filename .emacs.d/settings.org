@@ -760,9 +760,15 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
     :after (magit treemacs))
 #+END_SRC
 
+=forge= adds support for viewing and manipulating pull requests to =magit=.
+
+Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so that we may open closed pull requests from the magit status buffer.
+
 #+begin_src emacs-lisp
   (use-package forge
-    :after magit)
+    :after magit
+    :bind ((:map forge-pullreq-section-map
+                 ([remap magit-visit-thing] . forge-visit-topic))))
 #+end_src
 
 [[https://github.com/dgutov/diff-hl][diff-hl]] highlights modified lines in the gutter.
