@@ -1,6 +1,9 @@
 #+TITLE: Emacs Configuration
 #+STARTUP: showall
 * Table of Contents                                            :TOC:noexport:
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 - [[#preamble][Preamble]]
 - [[#load-initial-configuration][Load initial configuration]]
   - [[#keybindings][Keybindings]]
@@ -18,9 +21,10 @@
   - [[#help-helpful][Help (=helpful=)]]
   - [[#file-system-dired][File system (=dired=)]]
   - [[#ui][UI]]
+  - [[#fonts][Fonts]]
 - [[#general-programming][General programming]]
 - [[#packages][Packages]]
-  - [[#theming][Theming]]
+  - [[#theming-modus-themes-all-the-icons][Theming (=modus-themes=, =all-the-icons=)]]
   - [[#utilities][Utilities]]
   - [[#project-and-file-management][Project and File Management]]
   - [[#programming][Programming]]
@@ -39,7 +43,7 @@
 #+END_SRC
 * Load initial configuration
 :PROPERTIES:
-:VISIBILITY: folded
+:VISIBILITY: children
 :END:
 ** Keybindings
 
@@ -62,7 +66,7 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
 ** Clear leader key
 
 Let's use =C-f= as the leader key for our commands, but first we must clear its existing command. The =C-c= prefix is already populated with random commands from packages, so this makes it easier to access our own commands.
-y
+
 #+begin_src emacs-lisp
   (global-unset-key "\C-f")
 #+end_src
@@ -124,6 +128,9 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 #+END_SRC
 
 * General configuration for =emacs=
+:PROPERTIES:
+:VISIBILITY: children
+:END:
 ** Quality-of-Life
 
 Don't  require the user to type =yes= or =no= as a simple =y= or =n= is sufficient.
@@ -288,7 +295,7 @@ Use =ace-window= to quickly move between windows.
     (aw-ignore-on nil))
 #+end_src
 
-*** Fonts
+** Fonts
 
 Detect the active monitor name and update the font size accordingly.
 
@@ -329,7 +336,9 @@ Detect the active monitor name and update the font size accordingly.
 #+end_src
 
 * General programming
-
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 Show line numbers.
 
 #+BEGIN_SRC emacs-lisp
@@ -386,7 +395,10 @@ Emacs uses coarse regexp based parsers for syntax highlighting. =tree-sitter= pr
 #+end_src
 
 * Packages
-** Theming
+** Theming (=modus-themes=, =all-the-icons=)
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 Provide icons for stuff like =treemacs=.
 
@@ -441,7 +453,9 @@ Use =modus-vivendi= as the main theme.
 #+END_SRC
 
 ** Utilities
-
+:PROPERTIES:
+:VISIBILITY: children
+:END:
 *** Minibuffer completion (=vertico=)
 
 Hide commands in =M-x= which do not apply to the current mode.
@@ -558,7 +572,7 @@ Close the minibuffer if you click on a buffer.
     :defer t)
 #+END_SRC
 
-*** Org mode
+*** Org mode (=org=, =polymode=)
 
 #+begin_src emacs-lisp
   (use-package org
@@ -673,6 +687,9 @@ Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
 #+END_SRC
 
 ** Project and File Management
+:PROPERTIES:
+:VISIBILITY: children
+:END:
 *** Startup Dashboard (=dashboard=)
 
 [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] shows a list of recent projects and files when opening =emacs=.
@@ -742,7 +759,7 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
     :after (treemacs projectile))
 #+END_SRC
 
-*** Git
+*** Git (=magit=, =forge=)
 
 [[https://magit.vc/][magit]] provides a really nice =git= UI.
 
@@ -783,6 +800,9 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
 
 ** Programming
 *** Error checking (=flycheck=)
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package flycheck
@@ -826,6 +846,9 @@ Use =hl-todo= to highlight any =TODO= comments in code.
 #+end_src
 
 *** Completion (=corfu=)
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 Regardless of completion provider, always try to complete =<tab>=.
 
@@ -927,7 +950,10 @@ Use =my-refresh-completions= to setup the =completion-at-point-functions= as var
                                 (list #'cider-complete-at-point)))))))
 #+end_src
 
-*** Snippets
+*** Snippets (=yasnippet=)
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 [[https://github.com/joaotavora/yasnippet][yasnippet]] provides snippet functionality. Disable the whole keymap, so that it doesn't clobber up the =C-c= keymap.
 
@@ -957,6 +983,9 @@ Load some =clojure= specific snippets.
 
 *** Language Server Protocol
 **** General Setup
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-with-orderless][Corfu wiki]] on how =corfu= and =orderless= completion can be configured for =lsp-mode=.
 
@@ -1048,6 +1077,9 @@ depending on whether the current buffer is using =LSP=.
 #+END_SRC
 
 **** Java
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-java
@@ -1087,8 +1119,10 @@ depending on whether the current buffer is using =LSP=.
 #+end_src
 
 *** Language Modes
+:PROPERTIES:
+:VISIBILITY: children
+:END:
 **** HTML
-
 Set =.html= indentation from 2 to 4.
 
 #+BEGIN_SRC emacs-lisp
@@ -1173,6 +1207,9 @@ Set =.html= indentation from 2 to 4.
 #+END_SRC
 
 *** Clojure
+:PROPERTIES:
+:VISIBILITY: children
+:END:
 **** =clojure-mode=
 
 #+BEGIN_SRC emacs-lisp
