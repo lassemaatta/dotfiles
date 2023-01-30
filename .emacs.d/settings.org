@@ -815,6 +815,16 @@ Use [[https://github.com/flycheck/flycheck-inline][flycheck-inline]] to display 
     :hook ((flycheck-mode . flycheck-inline-mode)))
 #+end_src
 
+Use =hl-todo= to highlight any =TODO= comments in code.
+
+#+begin_src emacs-lisp
+  (use-package hl-todo
+    :hook ((prog-mode . hl-todo-mode))
+    :custom
+    (hl-todo-keyword-faces '(("TODO" . (face-attribute 'modus-themes-fg-red-intense :foreground))
+                             ("FIXME" . "#FF0000"))))
+#+end_src
+
 *** Completion (=corfu=)
 
 Regardless of completion provider, always try to complete =<tab>=.
