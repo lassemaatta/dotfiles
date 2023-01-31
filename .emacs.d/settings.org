@@ -1241,6 +1241,13 @@ Set =.html= indentation from 2 to 4.
            :prefix "C-f c"
            :prefix-map cider-repl-prefix
            ("r" . cider-switch-to-last-clojure-buffer))
+    :init
+    (defun my-cider-test-infer-test-ns (ns)
+      (when ns
+        (if (or (string-suffix-p "-test" ns)
+                (string-suffix-p "-itest" ns))
+            ns
+          (concat ns "-test"))))
     :custom
     (nrepl-log-messages t)
     (cider-repl-buffer-size-limit 10000)
@@ -1256,6 +1263,7 @@ Set =.html= indentation from 2 to 4.
     (cider-enrich-classpath nil)
     (cider-repl-history-file (concat user-emacs-directory "/cider-history"))
     (cider-repl-display-in-current-window t)
+    (cider-test-infer-test-ns #'my-cider-test-infer-test-ns)
     :hook
     ((cider-mode . my-refresh-completions))
     :config
