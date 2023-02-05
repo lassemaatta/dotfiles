@@ -628,6 +628,16 @@ As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to und
     (message "Loaded org-appear"))
 #+end_src
 
+=visual-fill-column= allows wrapping (and centering) text at a given width.
+
+#+begin_src emacs-lisp
+  (use-package visual-fill-column
+    :hook ((org-mode . visual-fill-column-mode))
+    :custom
+    (visual-fill-column-width 140)
+    (visual-fill-column-center-text t))
+#+end_src
+
 =polymode= offers /multiple major modes/ inside a single buffer.
 
 Disable LSP within a nested block as it causes the point to jump around (see [[https://github.com/polymode/polymode/issues/316][bug]]).
