@@ -425,6 +425,8 @@ Construct a simple modeline.
                   " "
                   mode-line-process
                   " "
+                  cider-mode-line
+                  " "
                   mode-line-end-spaces))
 #+END_SRC
 
