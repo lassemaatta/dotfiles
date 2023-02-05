@@ -373,24 +373,14 @@ Indent current function
   (global-set-key (kbd "C-<tab>") #'er-indent-defun)
 #+end_src
 
-Emacs uses coarse regexp based parsers for syntax highlighting. =tree-sitter= provides language-specific parsers, which are both faster and provide more accurate results. However, not all languages are yet supported.
+Emacs uses coarse regexp based parsers for syntax highlighting. Since emacs 29+, the internal =treesit= package provides language-specific parsers, which are both faster and provide more accurate results.
+
+However, not all languages are yet supported and =treesit= does not automatically use the =-ts=  modes. =treesit-auto= will both a) download the necessary grammars and b) active the proper =-ts= mode when available.
 
 #+begin_src emacs-lisp
-  (use-package tree-sitter
-    :hook ((;; Disable for clojure, as syntax highlighting doesn't seem to be available yet
-            ;; clojure-mode
-            ;; clojurec-mode
-            ;; clojurescript-mode
-            java-mode
-            javascript-mode
-            json-mode)
-           . tree-sitter-hl-mode)
+  (use-package treesit-auto
     :config
-    ;; (add-to-list 'tree-sitter-major-mode-language-alist '(clojure-mode . clojure))
-    (global-tree-sitter-mode))
-
-  (use-package tree-sitter-langs
-    :after tree-sitter)
+    (global-treesit-auto-mode))
 #+end_src
 
 * Packages
