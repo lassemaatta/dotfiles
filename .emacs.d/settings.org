@@ -341,7 +341,9 @@ Detect the active monitor name and update the font size accordingly.
 Show line numbers.
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'text-mode-hook 'display-line-numbers-mode)
+  (add-hook 'text-mode-hook (lambda ()
+                              (when (not (member major-mode '(org-mode)))
+                                (display-line-numbers-mode))))
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 
