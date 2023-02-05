@@ -6,13 +6,13 @@
 :END:
 - [[#preamble][Preamble]]
 - [[#load-initial-configuration][Load initial configuration]]
-  - [[#keybindings][Keybindings]]
   - [[#clear-leader-key][Clear leader key]]
   - [[#disable-gc-while-loading][Disable GC while loading]]
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
   - [[#load-optional-local-settings][Load optional local settings]]
   - [[#generate-toc][Generate TOC]]
 - [[#general-configuration-for-emacs][General configuration for =emacs=]]
+  - [[#keybindings][Keybindings]]
   - [[#quality-of-life][Quality-of-Life]]
   - [[#backups][Backups]]
   - [[#performance][Performance]]
@@ -45,24 +45,6 @@
 :PROPERTIES:
 :VISIBILITY: children
 :END:
-** Keybindings
-
-Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestions when using keybindings.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package which-key
-    :demand t
-    :custom
-    (which-key-sort-order 'which-key-key-order-alpha)
-    (which-key-separator ":")
-    (which-key-max-description-length 120)
-    (which-key-side-window-max-width 50)
-    (which-key-idle-delay 1.00)
-    :config
-    (which-key-setup-side-window-right-bottom)
-    (which-key-mode))
-#+END_SRC
-
 ** Clear leader key
 
 Let's use =C-f= as the leader key for our commands, but first we must clear its existing command. The =C-c= prefix is already populated with random commands from packages, so this makes it easier to access our own commands.
@@ -131,6 +113,23 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 :PROPERTIES:
 :VISIBILITY: children
 :END:
+** Keybindings
+
+Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestions when using keybindings.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :custom
+    (which-key-sort-order 'which-key-key-order-alpha)
+    (which-key-separator ":")
+    (which-key-max-description-length 120)
+    (which-key-side-window-max-width 50)
+    (which-key-idle-delay 1.00)
+    :config
+    (which-key-setup-side-window-right-bottom)
+    (which-key-mode))
+#+END_SRC
+
 ** Quality-of-Life
 
 Don't  require the user to type =yes= or =no= as a simple =y= or =n= is sufficient.
@@ -599,7 +598,8 @@ Close the minibuffer if you click on a buffer.
     :mode ("\\.org\\'" . org-mode)
     :hook (org-mode . org-mode-init)
     :init
-    (which-key-add-key-based-replacements "C-f o" "Org mode")
+    (eval-after-load 'which-key
+      (which-key-add-key-based-replacements "C-f o" "Org mode"))
     :config
     (require 'org-indent)
     (defun org-mode-init ()
@@ -670,7 +670,8 @@ Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
     :config
     (org-roam-db-autosync-mode)
     :init
-    (which-key-add-key-based-replacements "C-f n" "Notes"))
+    (eval-after-load 'which-key
+      (which-key-add-key-based-replacements "C-f n" "Notes")))
 #+END_SRC
 
 *** Better undo (=undo-tree=)
@@ -815,7 +816,8 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
     :custom
     (flycheck-display-errors-delay 0.1)
     :init
-    (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)")
+    (eval-after-load 'which-key
+      (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)"))
     :config
     (define-key flycheck-mode-map flycheck-keymap-prefix nil))
 #+end_src
@@ -1224,7 +1226,8 @@ Set =.html= indentation from 2 to 4.
     (clojure-align-forms-automatically t)
     (clojure-align-separator 'entire)
     :init
-    (which-key-add-key-based-replacements "C-f c" "Clojure"))
+    (eval-after-load 'which-key
+      (which-key-add-key-based-replacements "C-f c" "Clojure")))
 #+END_SRC
 
 **** =cider=
