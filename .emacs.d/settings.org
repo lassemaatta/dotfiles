@@ -265,8 +265,11 @@ Re-use the same buffer when navigating to subdirectories in =dired=.
 
 #+begin_src emacs-lisp
   (use-package dirvish
+    :after (all-the-icons)
     :init
-    (dirvish-override-dired-mode))
+    (dirvish-override-dired-mode)
+    :custom
+    (dirvish-attributes '(all-the-icons file-size collapse subtree-state vc-state)))
 #+end_src
 
 ** UI
