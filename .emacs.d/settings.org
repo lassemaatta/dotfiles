@@ -1048,7 +1048,6 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (lsp-ui-sideline-enable nil)
     (lsp-ui-doc-show-with-cursor t)
     (lsp-ui-doc-show-with-mouse nil)
-    (lsp-ui-doc-use-childframe nil)
     (lsp-ui-peek-list-width 75) ; Default is 50
     (lsp-ui-peek-peek-height 40) ; Default is 20 rows
     :bind (("M-." . lsp-ui-peek-find-references)))
