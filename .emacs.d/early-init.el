@@ -28,6 +28,9 @@
 ;; Set a black background so we won't flash white during startup
 (set-face-attribute 'default nil :background "#000000" :foreground "#bbc2cf")
 
+;; Don't report when native compilation produces warnings or errors
+(setq native-comp-async-report-warnings-errors nil)
+
 (provide 'early-init)
 
 ;;; early-init.el ends here
