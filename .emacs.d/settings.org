@@ -1169,13 +1169,6 @@ Set =.html= indentation from 2 to 4.
     :defer t)
 #+END_SRC
 
-**** Typescript
-
-#+BEGIN_SRC emacs-lisp
-  (use-package typescript-mode
-    :defer t)
-#+END_SRC
-
 **** Javascript
 
 #+BEGIN_SRC emacs-lisp
