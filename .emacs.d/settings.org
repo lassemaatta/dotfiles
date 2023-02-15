@@ -1208,6 +1208,12 @@ Set =.html= indentation from 2 to 4.
     :defer t)
 #+END_SRC
 
+**** Ansible Vault
+
+#+begin_src emacs-lisp
+  (use-package ansible-vault)
+#+end_src
+
 *** Clojure
 :PROPERTIES:
 :VISIBILITY: children
