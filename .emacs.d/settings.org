@@ -1064,8 +1064,6 @@ depending on whether the current buffer is using =LSP=.
      ((bound-and-true-p lsp-mode) (lsp-ui-imenu))
      ((active-minibuffer-window) (exit-minibuffer))
      (t (consult-imenu))))
-
-  (global-set-key (kbd "C-u") 'show-or-hide-imenu)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
