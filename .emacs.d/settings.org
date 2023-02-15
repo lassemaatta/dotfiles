@@ -336,6 +336,7 @@ Detect the active monitor name and update the font size accordingly.
 
   (my-refresh-dpi)
 
+  (add-hook 'server-after-make-frame-hook 'my-refresh-dpi)
 #+end_src
 
 * General programming
@@ -707,6 +708,7 @@ Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
   (use-package dashboard
     :after (projectile)
     :custom
+    (initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
     (dashboard-center-content t)
     (dashboard-set-heading-icons t)
     (dashboard-projects-backend 'projectile)
