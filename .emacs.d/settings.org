@@ -708,7 +708,6 @@ Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
   (use-package dashboard
     :after (projectile)
     :custom
-    (initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
     (dashboard-center-content t)
     (dashboard-set-heading-icons t)
     (dashboard-projects-backend 'projectile)
