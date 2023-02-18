@@ -847,7 +847,22 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
     (eval-after-load 'which-key
       (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)"))
     :config
-    (define-key flycheck-mode-map flycheck-keymap-prefix nil))
+    (define-key flycheck-mode-map flycheck-keymap-prefix nil)
+    ;; Fine tune error list location
+    (add-to-list 'display-buffer-alist
+                 `(,(rx bos "*Flycheck errors*" eos)
+                   (display-buffer-reuse-window
+                    display-buffer-in-side-window)
+                   (side            . bottom)
+                   (reusable-frames . visible)
+                   (window-height   . 0.20)))
+    ;; Open (and close) the error list automatically
+    (add-hook 'flycheck-after-syntax-check-hook
+              (lambda  ()
+                (if flycheck-current-errors
+                    (flycheck-list-errors)
+                  (-when-let* ((error-window (get-buffer-window flycheck-error-list-buffer)))
+                    (delete-window error-window))))))
 #+end_src
 
 [[https://github.com/minad/consult-flycheck][consult-flycheck]] provides a nice `consult-flycheck` command for navigating =flycheck= errors.
@@ -856,13 +871,6 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
   (use-package consult-flycheck
     :after (consult flycheck)
     :bind (("C-d" . consult-flycheck)))
-#+end_src
-
-Use [[https://github.com/flycheck/flycheck-inline][flycheck-inline]] to display errors under the point.
-
-#+begin_src emacs-lisp
-  (use-package flycheck-inline
-    :hook ((flycheck-mode . flycheck-inline-mode)))
 #+end_src
 
 Use =hl-todo= to highlight any =TODO= comments in code.
