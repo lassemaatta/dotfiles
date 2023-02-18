@@ -28,9 +28,11 @@
 (unless package--initialized
   (package-initialize))
 
-;; Download the package list if we've yet to do so
-(when (not package-archive-contents)
-  (package-refresh-contents))
+;; Download the package list immediately if we've yet to do so (e.g. after reinstalling)
+;; Otherwise fetch in the background
+(if (not package-archive-contents)
+  (package-refresh-contents)
+  (package-refresh-contents t))
 
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))
