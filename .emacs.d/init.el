@@ -28,6 +28,10 @@
 (unless package--initialized
   (package-initialize))
 
+;; Download the package list if we've yet to do so
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))
   (message "Loaded packages in %.3fs" elapsed))
