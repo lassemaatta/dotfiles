@@ -565,9 +565,28 @@ Close the minibuffer if you click on a buffer.
 
 [[https://github.com/dajva/rg.el][rg]] provides [[https://github.com/BurntSushi/ripgrep][ripgrep]] searching within =emacs=.
 
+Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[https://www.reddit.com/r/emacs/comments/un283d/comment/i8pxp4k/][link]]).
+
 #+BEGIN_SRC emacs-lisp
   (use-package rg
-    :defer t)
+    :defer t
+    :bind (("C-f s" . rg-menu))
+    :config
+    (eval-after-load 'which-key
+      (which-key-add-key-based-replacements "C-f s" "Search (rg)"))
+
+    ;; Focus on search results immediately
+    (add-to-list
+     'display-buffer-alist
+     '("\\*rg\\*" . (nil . ((body-function . select-window)))))
+
+    ;; Add some custom search shortcuts
+    (rg-define-search clojure-project
+      :query ask
+      :format literal
+      :dir project
+      :files "*.{cljc,cljs,clj}"
+      :menu ("Custom" "c" "Clojure")))
 #+END_SRC
 
 *** Org mode (=org=, =polymode=)
