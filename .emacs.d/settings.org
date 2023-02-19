@@ -843,6 +843,7 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
            ("l" . flycheck-list-errors))
     :custom
     (flycheck-display-errors-delay 0.1)
+    (flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch new-line mode-enabled))
     :init
     (eval-after-load 'which-key
       (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)"))
@@ -857,12 +858,20 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
                    (reusable-frames . visible)
                    (window-height   . 6)))
     ;; Open (and close) the error list automatically
+    (defun my-close-error-list ()
+      "Closes the flycheck error list"
+      (-when-let* ((error-window (get-buffer-window flycheck-error-list-buffer)))
+        (delete-window error-window)))
+    (defun my-window-change-fn (window)
+      "After the buffer changes, close the error window if it's empty"
+      (when (not flycheck-current-errors)
+        (my-close-error-list)))
     (add-hook 'flycheck-after-syntax-check-hook
               (lambda  ()
+                (add-to-list 'window-buffer-change-functions #'my-window-change-fn)
                 (if flycheck-current-errors
                     (flycheck-list-errors)
-                  (-when-let* ((error-window (get-buffer-window flycheck-error-list-buffer)))
-                    (delete-window error-window))))))
+                  (my-close-error-list)))))
 #+end_src
 
 [[https://github.com/minad/consult-flycheck][consult-flycheck]] provides a nice `consult-flycheck` command for navigating =flycheck= errors.
