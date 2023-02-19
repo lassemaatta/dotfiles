@@ -1015,7 +1015,7 @@ Load some =clojure= specific snippets.
 
 #+begin_src emacs-lisp
   (use-package clojure-snippets
-    :after (yasnippet)
+    :after (yasnippet clojure-mode)
     :config
     (yas-reload-all))
 #+end_src
@@ -1115,7 +1115,7 @@ depending on whether the current buffer is using =LSP=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package consult-lsp
-    :hook lsp-mode
+    :after flycheck
     :bind (:map flycheck-mode-map
                 ("C-f e d" . consult-lsp-diagnostics)))
 #+END_SRC
@@ -1159,7 +1159,7 @@ depending on whether the current buffer is using =LSP=.
 
 #+begin_src emacs-lisp
   (use-package java-snippets
-    :after yasnippet)
+    :after (yasnippet lsp-java))
 #+end_src
 
 *** Language Modes
@@ -1246,7 +1246,8 @@ Set =.html= indentation from 2 to 4.
 **** Ansible Vault
 
 #+begin_src emacs-lisp
-  (use-package ansible-vault)
+  (use-package ansible-vault
+    :defer t)
 #+end_src
 
 *** Clojure
