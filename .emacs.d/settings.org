@@ -855,7 +855,7 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
                     display-buffer-in-side-window)
                    (side            . bottom)
                    (reusable-frames . visible)
-                   (window-height   . 0.20)))
+                   (window-height   . 6)))
     ;; Open (and close) the error list automatically
     (add-hook 'flycheck-after-syntax-check-hook
               (lambda  ()
