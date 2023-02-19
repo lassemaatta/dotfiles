@@ -1115,9 +1115,9 @@ depending on whether the current buffer is using =LSP=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package consult-lsp
-    :after (consult lsp)
-    :bind (("C-S-d" . consult-lsp-diagnostics)
-           ("C-S-s" . consult-lsp-symbols)))
+    :hook lsp-mode
+    :bind (:map flycheck-mode-map
+                ("C-f e d" . consult-lsp-diagnostics)))
 #+END_SRC
 
 **** Java
