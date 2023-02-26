@@ -297,6 +297,14 @@ Use =ace-window= to quickly move between windows.
     (aw-ignore-on nil))
 #+end_src
 
+Show the whole file path in the window title
+
+#+begin_src emacs-lisp
+  (setq frame-title-format
+        `((buffer-file-name "%f" "%b")
+          ,(format " - GNU Emacs %s" emacs-version)))
+#+end_src
+
 ** Fonts
 
 Detect the active monitor name and update the font size accordingly.
