@@ -749,6 +749,7 @@ Note that we exclude some build directories so that changes in files don't propa
            ("<f5>" . treemacs-find-file))
     :custom
     (treemacs-space-between-root-nodes nil)
+    (treemacs-expand-after-init nil)
     :config
     (define-key treemacs-mode-map [drag-mouse-1] nil)
     (treemacs-follow-mode -1)
