@@ -1127,7 +1127,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            (lsp-completion-mode . my-refresh-completions))
     :bind (("<C-return>" . lsp-find-definition)
            ("<C-.>" . lsp-find-definition)
-           ("<C-M-return>" . lsp-describe-thing-at-point))
+           ("<C-M-return>" . lsp-describe-thing-at-point)
+           ("C-f l d" . lsp-ui-doc-glance))
     :commands (lsp lsp-deferred))
 #+END_SRC
 
@@ -1136,7 +1137,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     :custom
     (lsp-ui-sideline-show-code-actions nil)
     (lsp-ui-sideline-enable nil)
-    (lsp-ui-doc-show-with-cursor t)
+    (lsp-ui-doc-show-with-cursor nil)
     (lsp-ui-doc-show-with-mouse nil)
     (lsp-ui-peek-list-width 75) ; Default is 50
     (lsp-ui-peek-peek-height 40) ; Default is 20 rows
