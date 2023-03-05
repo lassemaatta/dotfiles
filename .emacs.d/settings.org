@@ -85,7 +85,9 @@ Always install all packages.
   (require 'use-package-ensure)
   (setq use-package-always-ensure t
         use-package-verbose t
-        use-package-compute-statistics t)
+        use-package-compute-statistics t
+        use-package-always-defer (not (daemonp))
+        use-package-always-demand (daemonp))
 #+END_SRC
 
 ** Load optional local settings
@@ -445,7 +447,8 @@ However, not all languages are yet supported and =treesit= does not automaticall
 Provide icons for stuff like =treemacs=.
 
 #+BEGIN_SRC emacs-lisp
-    (use-package all-the-icons)
+  (use-package all-the-icons
+    :demand t)
 #+END_SRC
 
 Provide icons for completion menus (e.g. when selecting which file to open etc.).
@@ -487,13 +490,19 @@ Use =modus-vivendi= as the main theme.
 
 #+BEGIN_SRC emacs-lisp
   (use-package modus-themes
+    :demand t
     :custom
     (modus-themes-org-blocks 'gray-background)
     (modus-themes-mixed-fonts t)
     (modus-vivendi-palette-overrides
      '((bg-hl-line bg-magenta-subtle)))
     :config
-    (load-theme 'modus-vivendi :no-confirm))
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+                  (defun my-init-theme-fn (frame)
+                    (with-selected-frame frame
+                      (load-theme 'modus-vivendi :no-confirm))))
+      (load-theme 'modus-vivendi :no-confirm)))
 #+END_SRC
 
 ** Utilities
@@ -615,7 +624,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+BEGIN_SRC emacs-lisp
   (use-package rg
-    :defer t
     :bind (("C-f s" . rg-menu))
     :config
     (eval-after-load 'which-key
@@ -639,7 +647,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package org
-    :defer t
     :bind (:map org-mode-map
            :prefix "C-f o"
            :prefix-map org-mode-prefix
@@ -714,7 +721,6 @@ Disable LSP within a nested block as it causes the point to jump around (see [[h
 
 #+begin_src emacs-lisp
   (use-package polymode
-    :defer t
     :config
     (setq-default polymode-lsp-integration nil))
 
@@ -771,8 +777,10 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
+    :demand t
     :after (projectile)
     :custom
+    (initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
     (dashboard-center-content t)
     (dashboard-set-heading-icons t)
     (dashboard-projects-backend 'projectile)
@@ -999,8 +1007,7 @@ Add icons to completion menu with =kind-icon=.
 Use =my-refresh-completions= to setup the =completion-at-point-functions= as various minor modes often alter it in ways we don't like. We use =company= just for =company-yasnippet= support.
 
 #+begin_src emacs-lisp
-  (use-package company
-    :defer t)
+  (use-package company)
 
   (defun my-wrap-with-pred (capf pred)
     (lambda (&rest args)
@@ -1091,7 +1098,6 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :defer 0
     :custom
     (lsp-completion-provider :none)
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -1181,7 +1187,6 @@ depending on whether the current buffer is using =LSP=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-java
-    :defer t
     :hook ((java-mode . lsp))
     :bind (:map java-mode-map
               ("<tab>" . indent-for-tab-command))
@@ -1232,20 +1237,17 @@ Set =.html= indentation from 2 to 4.
 **** Docker and =docker-compose=
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode
-    :defer t)
+  (use-package dockerfile-mode)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package docker-compose-mode
-    :defer t)
+  (use-package docker-compose-mode)
 #+END_SRC
 
 **** Graphviz and =dot=
 
 #+BEGIN_SRC emacs-lisp
   (use-package graphviz-dot-mode
-    :defer t
     :hook ((dot . graphviz-dot-mode))
     :custom
     (graphviz-dot-indent-width 2))
@@ -1254,8 +1256,7 @@ Set =.html= indentation from 2 to 4.
 **** Groovy
 
 #+BEGIN_SRC emacs-lisp
-  (use-package groovy-mode
-    :defer t)
+  (use-package groovy-mode)
 #+END_SRC
 
 **** Javascript
@@ -1268,8 +1269,7 @@ Set =.html= indentation from 2 to 4.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package json-mode
-    :defer t)
+  (use-package json-mode)
 #+END_SRC
 
 [[https://github.com/DamienCassou/json-navigator][json-navigator]] provides a nice tree view of large =JSON= structures.
@@ -1281,7 +1281,6 @@ Set =.html= indentation from 2 to 4.
 
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
-    :defer t
     :init
     (add-hook
      'js-mode-hook
@@ -1293,15 +1292,13 @@ Set =.html= indentation from 2 to 4.
 **** SSH config files
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ssh-config-mode
-    :defer t)
+  (use-package ssh-config-mode)
 #+END_SRC
 
 **** Ansible Vault
 
 #+begin_src emacs-lisp
-  (use-package ansible-vault
-    :defer t)
+  (use-package ansible-vault)
 #+end_src
 
 *** Clojure
@@ -1330,7 +1327,6 @@ Set =.html= indentation from 2 to 4.
 
 #+BEGIN_SRC emacs-lisp
   (use-package cider
-    :defer t
     :bind (:map clojure-mode-map
            :prefix "C-f c"
            :prefix-map clojure-prefix
