@@ -882,6 +882,61 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
            (magit-post-refresh . diff-hl-magit-post-refresh)))
 #+END_SRC
 
+*** Links from regexp
+
+Detect strings that look like Jira ticket identifiers and turn them into links.
+
+#+begin_src emacs-lisp
+  (defcustom my-jira-root "https://jira.atlassian.com"
+    "Default link to your Jira root."
+    :type 'string
+    :group 'my-customs)
+
+  (defcustom my-jira-pattern "\\(DEV\\|FOO\\)-[0-9]+"
+    "Default pattern for detecting Jira tickets.
+  For example, match strings like \"DEV-123\" or \"FOO-1\"."
+    :type 'regexp
+    :group 'my-customs)
+
+  (use-package button-lock
+    :init
+    (defvar-local my-button nil)
+    (defun my-toggle-jira-buttons ()
+      (interactive)
+      (if (bound-and-true-p button-lock-mode)
+          (progn
+            (message "Disabling button-lock-mode")
+            (button-lock-unset-button my-button)
+            (button-lock-mode -1)
+            (setq-local my-button nil))
+        (progn
+          (message "Enabling button-lock-mode")
+          (button-lock-mode +1)
+          (setq-local my-button
+                      (button-lock-set-button
+                       my-jira-pattern
+                       (lambda ()
+                         (interactive)
+                         (browse-url (concat my-jira-root
+                                             "/browse/"
+                                             (buffer-substring
+                                              (previous-single-property-change (point) 'mouse-face)
+                                              (next-single-property-change (point) 'mouse-face)))))
+                       :face (list 'org-link)
+                       :mouse-face 'custom-button-mouse
+                       :keyboard-binding "RET"))
+          ;; Magit tends to forget the `magit-visit-thing' keybindings
+          (when (eq major-mode 'magit-status-mode)
+            (define-key magit-status-mode-map (read-kbd-macro "RET") 'magit-show-commit))
+          (when (eq major-mode 'magit-log-mode)
+            (define-key magit-log-mode-map (read-kbd-macro "RET") 'magit-show-commit))
+          ;; Make sure the new link style is applied
+          (run-at-time "0.1 sec" nil #'font-lock-update))))
+    :hook ((org-mode . my-toggle-jira-buttons)
+           (magit-log-mode . my-toggle-jira-buttons)
+           (magit-status-mode . my-toggle-jira-buttons)))
+#+end_src
+
 ** Programming
 *** Error checking (=flycheck=)
 :PROPERTIES:
