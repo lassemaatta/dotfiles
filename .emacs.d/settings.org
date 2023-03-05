@@ -22,6 +22,7 @@
   - [[#file-system-dired][File system (=dired=)]]
   - [[#ui][UI]]
   - [[#fonts][Fonts]]
+  - [[#spell-checking][Spell-checking]]
 - [[#general-programming][General programming]]
 - [[#packages][Packages]]
   - [[#theming-modus-themes-all-the-icons][Theming (=modus-themes=, =all-the-icons=)]]
@@ -174,7 +175,7 @@ The =suggest-key-bindings= feature adds several seconds of delays to various com
   (setq suggest-key-bindings nil)
 #+END_SRC
 
-Enable shortcuts for the internal profiler
+Enable shortcuts for the internal profiler.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f9>") 'profiler-start)
@@ -182,7 +183,7 @@ Enable shortcuts for the internal profiler
   (global-set-key (kbd "<f11>") 'profiler-report)
 #+END_SRC
 
-Use left-to-right text direction instead of detecting per line, for a minor perfomance boost.
+Use left-to-right text direction instead of detecting per line, for a minor performance boost.
 
 #+BEGIN_SRC emacs-lisp
   (setq-default bidi-paragraph-direction 'left-to-right)
@@ -347,6 +348,43 @@ Detect the active monitor name and update the font size accordingly.
   (add-hook 'server-after-make-frame-hook 'my-refresh-dpi)
 #+end_src
 
+** Spell-checking
+
+#+begin_src emacs-lisp
+  (use-package spell-fu
+    :config
+    (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "en"))
+    (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "fi"))
+    (spell-fu-dictionary-add
+     (spell-fu-get-personal-dictionary "en-personal" "/home/lassemaatta/.fu_spell_personal"))
+    (defun my-spell-org ()
+      (setq spell-fu-faces-exclude
+            '(org-block-begin-line
+              org-block-end-line
+              org-block
+              org-code
+              org-date
+              org-drawer org-document-info-keyword
+              org-ellipsis
+              org-link
+              org-meta-line
+              org-properties
+              org-properties-value
+              org-special-keyword
+              org-src
+              org-tag
+              org-verbatim))
+      (spell-fu-mode))
+    :custom
+    (ispell-personal-dictionary "~/.spell_fu_personal")
+    (spell-fu-global-ignore-buffer (lambda (buf) (buffer-local-value 'buffer-read-only buf)))
+    :custom-face
+    (spell-fu-incorrect-face ((((supports :underline (:style wave))) :underline (:style wave :color "#feacd0"))
+                              (t :underline t :inherit error)))
+    :hook ((clojure-mode . spell-fu-mode)
+           (org-mode . my-spell-org)))
+#+end_src
+
 * General programming
 :PROPERTIES:
 :VISIBILITY: folded
@@ -417,7 +455,7 @@ Provide icons for completion menus (e.g. when selecting which file to open etc.)
     :after all-the-icons)
 #+END_SRC
 
-Construct a simple modeline.
+Construct a simple mode line.
 
 #+BEGIN_SRC emacs-lisp
   (setq-default projectile-mode-line-prefix "")
@@ -690,9 +728,9 @@ Disable LSP within a nested block as it causes the point to jump around (see [[h
     (poly-org-mode +1))
 #+end_src
 
-*** Notekeeping (=org-roam=)
+*** Note keeping (=org-roam=)
 
-Use [[https://www.orgroam.com/][org-roam]] for notekeeping and timetracking.
+Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
