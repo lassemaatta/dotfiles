@@ -890,11 +890,17 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
            ("l" . flycheck-list-errors))
     :custom
     (flycheck-display-errors-delay 0.1)
-    (flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch new-line mode-enabled))
+    (flycheck-check-syntax-automatically '(save idle-buffer-switch new-line mode-enabled))
     :init
     (eval-after-load 'which-key
       (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)"))
     :config
+    (setq flycheck-error-list-format `[("File" 10)
+                                       ("Line" 5 flycheck-error-list-entry-< :right-align t)
+                                       ("Col" 4 nil :right-align t)
+                                       ("Level" 8 flycheck-error-list-entry-level-<)
+                                       ("ID" 16 t)
+                                       (,(flycheck-error-list-make-last-column "Message" 'Checker) 0 t)])
     (define-key flycheck-mode-map flycheck-keymap-prefix nil)
     ;; Fine tune error list location
     (add-to-list 'display-buffer-alist
