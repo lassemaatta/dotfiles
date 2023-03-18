@@ -1365,11 +1365,6 @@ Set =.html= indentation from 2 to 4.
 
 #+BEGIN_SRC emacs-lisp
   (use-package clojure-mode
-    :defer t
-    :bind (:map clojure-mode-map
-           :prefix "C-f c"
-           :prefix-map clojure-prefix
-           ("c" . cider-connect))
     :custom
     (clojure-indent-style 'align-arguments)
     (clojure-align-forms-automatically t)
@@ -1386,6 +1381,7 @@ Set =.html= indentation from 2 to 4.
     :bind (:map clojure-mode-map
            :prefix "C-f c"
            :prefix-map clojure-prefix
+           ("c" . cider-connect)
            ("n" . cider-browse-ns)
            ("r" . cider-switch-to-repl-buffer)
            :map cider-repl-mode-map
