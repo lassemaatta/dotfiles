@@ -683,7 +683,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
      '((clojure . t)
        (emacs-lisp . t)
        (http . t)
-       (dot . t)))
+       (dot . t)
+       (shell . t)))
     (org-clock-persistence-insinuate))
 
   (use-package ob-http
