@@ -862,6 +862,19 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
   (use-package magit
     :custom
     (magit-diff-refine-hunk 'all)
+    (magit-blame-styles
+     '((headings
+        (heading-format . "%-20a %C %s\n"))
+       (margin
+        (margin-format    . ("%s%f" " %C %a" " %H"))
+        (margin-width     . 42)
+        (margin-face      . magit-blame-margin)
+        (margin-body-face . (magit-blame-dimmed)))
+       (highlight
+        (highlight-face . magit-blame-highlight))
+       (lines
+        (show-lines . t)
+        (show-message . t))))
     :commands (magit-status))
 #+END_SRC
 
