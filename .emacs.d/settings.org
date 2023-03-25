@@ -1145,9 +1145,15 @@ Use =my-refresh-completions= to setup the =completion-at-point-functions= as var
 
 [[https://github.com/joaotavora/yasnippet][yasnippet]] provides snippet functionality. Disable the whole keymap, so that it doesn't clobber up the =C-c= keymap.
 
+Also, move =yas-expand= from =<tab>= to =C-S-<tab>= so that it doesn't accidentally activate.
+
 #+begin_src emacs-lisp
   (use-package yasnippet
     :hook ((prog-mode . yas-minor-mode))
+    :bind (:map yas-minor-mode-map
+                ("<tab>" . nil)
+                ("TAB" . nil)
+                ("C-S-<iso-lefttab>" . yas-expand))
     :config
     (define-key yas-minor-mode-map (kbd "C-c &") nil))
 #+end_src
