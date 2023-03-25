@@ -1068,7 +1068,9 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     (corfu-popupinfo-delay '(0.5 . 1.0))
     (corfu-cycle t)
     (corfu-on-exact-match nil)
-    (corfu-quit-no-match nil))
+    (corfu-quit-no-match nil)
+    (corfu-min-width 70)
+    (corfu-count 20))
 #+end_src
 
 Add icons to completion menu with =kind-icon=.
