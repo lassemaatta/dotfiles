@@ -197,6 +197,12 @@ Disable the bidirectional parenthesis algorithm, for a minor performance boost.
   (setq bidi-inhibit-bpa t)
 #+END_SRC
 
+There's a default wait time of =0.1= seconds between emacs and =GTK=.
+
+#+begin_src emacs-lisp
+  (setq pgtk-wait-for-event-timeout 0.01)
+#+end_src
+
 ** Scrolling
 
 Set =scroll-margin= to =0= , otherwise the scrolling will jump around when clicking on entries in =treemacs=.
