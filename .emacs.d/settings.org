@@ -1127,9 +1127,11 @@ Use =my-refresh-completions= to setup the =completion-at-point-functions= as var
                 (list #'cape-file
                       (apply 'cape-super-capf
                              (-concat
-                              (list (my-wrap-with-pred
-                                     (cape-company-to-capf #'company-yasnippet)
-                                     #'my-valid-snippet-point))
+                              (when (and (boundp 'java-mode) java-mode)
+                                (message "Yasnippet for java")
+                                (list (my-wrap-with-pred
+                                       (cape-company-to-capf #'company-yasnippet)
+                                       #'my-valid-snippet-point)))
                               (when (and (boundp 'lsp-mode) lsp-mode)
                                 (message "LSP active")
                                 (list #'lsp-completion-at-point))
