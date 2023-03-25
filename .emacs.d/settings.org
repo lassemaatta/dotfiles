@@ -730,11 +730,13 @@ Disable LSP within a nested block as it causes the point to jump around (see [[h
 
 #+begin_src emacs-lisp
   (use-package polymode
+    :disabled t
     :config
     (setq-default polymode-lsp-integration nil))
 
   (use-package poly-org
     :defer t
+    :disabled t
     :after polymode)
 
   (defun load-polymode()
