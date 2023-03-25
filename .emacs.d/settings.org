@@ -528,7 +528,9 @@ Hide commands in =M-x= which do not apply to the current mode.
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
     :init
-    (vertico-mode))
+    (vertico-mode)
+    :custom
+    (vertico-sort-function #'vertico-sort-history-alpha))
 #+END_SRC
 
 [[https://github.com/oantolin/orderless][orderless]] provides /completion style/ (ie. fuzzy searching) for command completion.
