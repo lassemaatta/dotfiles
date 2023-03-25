@@ -957,8 +957,9 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
           ;; Make sure the new link style is applied
           (run-at-time "0.1 sec" nil #'font-lock-update))))
     :hook ((org-mode . my-toggle-jira-buttons)
-           (magit-log-mode . my-toggle-jira-buttons)
-           (magit-status-mode . my-toggle-jira-buttons)))
+           ;(magit-log-mode . my-toggle-jira-buttons)
+           ;(magit-status-mode . my-toggle-jira-buttons)
+           ))
 #+end_src
 
 ** Programming
