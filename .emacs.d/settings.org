@@ -1220,7 +1220,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            ;; if you want which-key integration
            (lsp-mode . lsp-enable-which-key-integration)
            (lsp-completion-mode . my/lsp-mode-setup-completion)
-           (lsp-completion-mode . my-refresh-completions))
+           (lsp-after-open-hook . my-refresh-completions))
     :bind (("<C-return>" . lsp-find-definition)
            ("<C-.>" . lsp-find-definition)
            ("<C-M-return>" . lsp-describe-thing-at-point)
