@@ -1193,11 +1193,13 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
     (lsp-keymap-prefix "C-f l")
     (lsp-idle-delay 0.5)
-    (lsp-eldoc-enable-hover nil)
+    (lsp-eldoc-enable-hover t)
     (lsp-lens-enable t)
     (lsp-headerline-breadcrumb-enable nil)
     ;; Close LSP server when last buffer closed
-    (lsp-keep-workspace-alive t)
+    (lsp-keep-workspace-alive nil)
+    ;; Don't include the var/function declaration itself when listing references to a var/function
+    (lsp-references-exclude-definition t)
     ;; We use yasnippet, but not through LSP
     (lsp-enable-snippet nil)
     ;; Prefer clojure-mode indentation
@@ -1206,7 +1208,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (lsp-imenu-index-function #'lsp-imenu-create-categorized-index)
     ;; For logging IO between client and server
     (lsp-log-io nil)
-    ;;(lsp-clojure-custom-server-command '("bash" "-c" "/home/lassemaatta/Lataukset/clojure-lsp"))
+    ;(lsp-clojure-custom-server-command '("bash" "-c" "/home/lassemaatta/Lataukset/clojure-lsp"))
     :init
     (defun my/lsp-mode-setup-completion ()
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
