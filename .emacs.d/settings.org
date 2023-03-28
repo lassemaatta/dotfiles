@@ -930,7 +930,8 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
       (if (bound-and-true-p button-lock-mode)
           (progn
             (message "Disabling button-lock-mode")
-            (button-lock-unset-button my-button)
+            (when my-button
+              (button-lock-unset-button my-button))
             (button-lock-mode -1)
             (setq-local my-button nil))
         (progn
