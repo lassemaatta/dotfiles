@@ -358,39 +358,18 @@ Detect the active monitor name and update the font size accordingly.
 
 ** Spell-checking
 
+[[https://github.com/minad/jinx][jinx]] is a new spell-checker which uses various spell-checking engines through [[https://abiword.github.io/enchant/][enchant]].
+
 #+begin_src emacs-lisp
-  (use-package spell-fu
-    :config
-    (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "en"))
-    (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "fi"))
-    (spell-fu-dictionary-add
-     (spell-fu-get-personal-dictionary "en-personal" "/home/lassemaatta/.fu_spell_personal"))
-    (defun my-spell-org ()
-      (setq spell-fu-faces-exclude
-            '(org-block-begin-line
-              org-block-end-line
-              org-block
-              org-code
-              org-date
-              org-drawer org-document-info-keyword
-              org-ellipsis
-              org-link
-              org-meta-line
-              org-properties
-              org-properties-value
-              org-special-keyword
-              org-src
-              org-tag
-              org-verbatim))
-      (spell-fu-mode))
+  (use-package jinx
+    :demand t
     :custom
-    (ispell-personal-dictionary "~/.spell_fu_personal")
-    (spell-fu-global-ignore-buffer (lambda (buf) (buffer-local-value 'buffer-read-only buf)))
+    (jinx-languages '("en" "fi"))
     :custom-face
-    (spell-fu-incorrect-face ((((supports :underline (:style wave))) :underline (:style wave :color "#feacd0"))
-                              (t :underline t :inherit error)))
-    :hook ((clojure-mode . spell-fu-mode)
-           (org-mode . my-spell-org)))
+    (jinx-misspelled ((((supports :underline (:style wave))) :underline (:style wave :color "#feacd0"))
+                      (t :underline t :inherit error)))
+    :config
+    (global-jinx-mode +1))
 #+end_src
 
 * General programming
