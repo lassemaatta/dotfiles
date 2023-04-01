@@ -686,6 +686,13 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-clock-persistence-insinuate))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package org-superstar
+    :custom
+    (org-superstar-remove-leading-stars t)
+    :hook ((org-mode . org-superstar-mode)))
+#+end_src
+
 =ob-http= allows making HTTP requests in org mode source blocks with ~begin_src http~.
 
 #+begin_src emacs-lisp
