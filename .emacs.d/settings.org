@@ -658,16 +658,13 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-babel-clojure-sync-nrepl-timeout nil)
     (org-clock-persist t)
     :mode ("\\.org\\'" . org-mode)
-    :hook (org-mode . org-mode-init)
+    :hook ((org-mode . org-indent-mode)
+           (org-mode . variable-pitch-mode)
+           (org-mode . visual-line-mode))
     :init
     (eval-after-load 'which-key
       (which-key-add-key-based-replacements "C-f o" "Org mode"))
     :config
-    (require 'org-indent)
-    (defun org-mode-init ()
-      (org-indent-mode 1)
-      (variable-pitch-mode 1)
-      (visual-line-mode 1))
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (org-babel-do-load-languages
      'org-babel-load-languages
@@ -677,11 +674,20 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
        (dot . t)
        (shell . t)))
     (org-clock-persistence-insinuate))
+#+end_src
 
+=ob-http= allows making HTTP requests in org mode source blocks with ~begin_src http~.
+
+#+begin_src emacs-lisp
   (use-package ob-http
-    :after org
-    :config
-    (message "Loaded ob-http"))
+    :after org)
+#+end_src
+
+=ox-gfm= allows exporting org mode documents as /GitHub flavored Markdown/.
+
+#+begin_src emacs-lisp
+  (use-package ox-gfm
+    :after org)
 #+end_src
 
 As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to undo that when the point enters a styled word. The =org-appear-autolinks= does the same to links.
