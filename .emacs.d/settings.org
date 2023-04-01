@@ -133,6 +133,10 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
     (which-key-mode))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (use-package hydra)
+#+end_src
+
 ** Quality-of-Life
 
 Don't  require the user to type =yes= or =no= as a simple =y= or =n= is sufficient.
@@ -1331,14 +1335,7 @@ Set =.html= indentation from 2 to 4.
   (use-package groovy-mode)
 #+END_SRC
 
-**** Javascript
-
-#+BEGIN_SRC emacs-lisp
-  (use-package js
-    :mode ("\\.js\\'" . js-mode)
-    :custom
-    (js-indent-level 2))
-#+END_SRC
+**** JSON
 
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode)
@@ -1349,6 +1346,55 @@ Set =.html= indentation from 2 to 4.
 #+BEGIN_SRC emacs-lisp
   (use-package json-navigator
     :defer t)
+#+END_SRC
+
+#+begin_src emacs-lisp
+  (use-package json-par
+    :hook ((json-mode . json-par-mode))
+    :config
+    (defhydra hydra-json-par (:hint nil)
+      "
+  ^Move^
+  ^^^^^^^^-----------------------------------------------------------------
+  _j_: forward-member   _h_: up + backward
+  _k_: backward-member  _l_: up + forward
+  _a_: line-start       _I_: insert \"\":\"\"
+  _e_: line-end
+  _A_: list-start
+  _E_: list-end
+  "
+      ("j" #'json-par-forward-member)
+      ("k" #'json-par-backward-member)
+      ("J" #'json-par-forward-record)
+      ("K" #'json-par-backward-record)
+      ("a" #'json-par-beginning-of-member)
+      ("e" #'json-par-end-of-member)
+      ("A" #'json-par-beginning-of-list)
+      ("E" #'json-par-end-of-list)
+      ("h" #'json-par-up-backward)
+      ("l" #'json-par-up-forward)
+      ("I" (lambda ()
+             (interactive)
+             (json-par-end-of-member)
+             (json-par-insert-comma)
+             (json-par-insert-double-quotes)
+             (save-excursion
+               (forward-char)
+               (json-par-insert-colon)
+               (forward-char)
+               (json-par-insert-double-quotes)))))
+    (define-key json-mode-map "\C-fj" 'hydra-json-par/body)
+    (eval-after-load 'which-key
+      (which-key-add-key-based-replacements "C-f j" "JSON")))
+#+end_src
+
+**** Javascript
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js
+    :mode ("\\.js\\'" . js-mode)
+    :custom
+    (js-indent-level 2))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
