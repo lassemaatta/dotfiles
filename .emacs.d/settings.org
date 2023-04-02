@@ -667,6 +667,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-babel-clojure-backend 'cider)
     (org-babel-clojure-sync-nrepl-timeout nil)
     (org-clock-persist t)
+    (org-agenda-files '("~/Dropbox/org/" "~/org-roam/"))
     :mode ("\\.org\\'" . org-mode)
     :hook ((org-mode . org-indent-mode)
            (org-mode . variable-pitch-mode)
