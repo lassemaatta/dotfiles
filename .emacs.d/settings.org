@@ -802,7 +802,9 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
     (dashboard-center-content t)
     (dashboard-set-heading-icons t)
     (dashboard-projects-backend 'projectile)
-    (dashboard-items '((bookmarks . 5)
+    (dashboard-agenda-prefix-format " %i %s ")
+    (dashboard-items '((agenda . 5)
+                       (bookmarks . 5)
                        (projects . 5)
                        (recents . 10)))
     :config
