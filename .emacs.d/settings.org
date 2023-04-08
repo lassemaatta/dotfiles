@@ -369,7 +369,7 @@ Detect the active monitor name and update the font size accordingly.
   (use-package jinx
     :demand t
     :custom
-    (jinx-languages '("en" "fi"))
+    (jinx-languages "en fi")
     :custom-face
     (jinx-misspelled ((((supports :underline (:style wave))) :underline (:style wave :color "#feacd0"))
                       (t :underline t :inherit error)))
