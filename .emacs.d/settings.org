@@ -699,6 +699,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-babel-clojure-sync-nrepl-timeout nil)
     (org-clock-persist t)
     (org-agenda-files '("~/Dropbox/org/" "~/org-roam/"))
+    (org-habit-preceding-days 7)
+    (org-habit-following-days 14)
     (org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d@)" "CANCELLED(c@)")))
     (org-todo-keyword-faces '(("CANCELLED" . (face-attribute 'modus-themes-fg-yellow :foreground))))
     :mode ("\\.org\\'" . org-mode)
