@@ -78,6 +78,39 @@ Always install all packages.
         use-package-always-demand (daemonp))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (use-package system-packages
+    :custom
+    (system-packages-package-manager 'yay)
+    :config
+    (add-to-list 'system-packages-supported-package-managers
+                 '(yay .
+                          ((default-sudo . nil)
+                           (install . "yay -S")
+                           (search . "yay -Ss")
+                           (uninstall . "yay -Rs")
+                           (update . "yay -Syu")
+                           (clean-cache . "yay -Sc")
+                           (log . "cat /var/log/pacman.log")
+                           (change-log . "yay -Qc")
+                           (get-info . "yay -Qi")
+                           (get-info-remote . "yay -Si")
+                           (list-files-provided-by . "yay -Ql")
+                           (owning-file . "yay -Qo")
+                           (owning-file-remote . "yay -F")
+                           (verify-all-packages . "yay -Qkk")
+                           (verify-all-dependencies . "yay -Dk")
+                           (remove-orphaned . "yay -Rns $(yay -Qtdq)")
+                           (list-installed-packages . "yay -Qe")
+                           (list-installed-packages-all . "yay -Q")
+                           (list-dependencies-of . "yay -Qi")
+                           (noconfirm . "--noconfirm")))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package use-package-ensure-system-package)
+#+end_src
+
 ** Load optional local settings
 
 #+BEGIN_SRC emacs-lisp
@@ -782,6 +815,8 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+begin_src emacs-lisp
   (use-package mu4e
+    :ensure-system-package ((mbsync . isync)
+                            mu)
     :load-path "/usr/share/emacs/site-lisp/mu4e"
     :commands (mu4e)
     :custom
