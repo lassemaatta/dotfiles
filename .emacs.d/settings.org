@@ -299,6 +299,7 @@ Re-use the same buffer when navigating to subdirectories in =dired=.
 
 #+begin_src emacs-lisp
   (use-package dirvish
+    :demand t
     :after (all-the-icons)
     :init
     (dirvish-override-dired-mode)
@@ -465,6 +466,7 @@ Provide icons for completion menus (e.g. when selecting which file to open etc.)
 
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-completion
+    :demand t
     :after all-the-icons)
 #+END_SRC
 
@@ -541,6 +543,7 @@ Hide commands in =M-x= which do not apply to the current mode.
 
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
+    :demand t
     :init
     (vertico-mode)
     :custom
@@ -551,6 +554,7 @@ Hide commands in =M-x= which do not apply to the current mode.
 
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
+    :demand t
     :after vertico
     :custom
     (completion-styles '(basic orderless partial-completion))
@@ -562,6 +566,7 @@ Hide commands in =M-x= which do not apply to the current mode.
 
 #+BEGIN_SRC emacs-lisp
   (use-package cape
+    :demand t
     :after vertico)
 #+END_SRC
 
@@ -569,6 +574,7 @@ The [[https://github.com/minad/marginalia][marginalia]] package provides descrip
 
 #+BEGIN_SRC emacs-lisp
   (use-package marginalia
+    :demand t
     :after (vertico all-the-icons-completion)
     :init
     (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
@@ -610,12 +616,14 @@ The [[https://github.com/oantolin/embark][embark]] package provides a way to run
 
 #+BEGIN_SRC emacs-lisp
   (use-package embark
+    :demand t
     :after vertico
     :bind (("C-ä" . embark-act)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (use-package embark-consult
+    :demand t
     :after (embark consult))
 #+END_SRC
 
@@ -815,6 +823,7 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+begin_src emacs-lisp
   (use-package mu4e
+    :demand t
     :ensure-system-package ((mbsync . isync)
                             mu)
     :load-path "/usr/share/emacs/site-lisp/mu4e"
@@ -897,6 +906,7 @@ Note that we exclude some build directories so that changes in files don't propa
     (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore))
 
   (use-package treemacs-all-the-icons
+    :demand t
     :after (treemacs))
 #+END_SRC
 
@@ -953,6 +963,7 @@ Use =treemacs-magit= to update the =treemacs= view when =magit= updates the =git
 
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs-magit
+    :demand t
     :after (magit treemacs))
 #+END_SRC
 
