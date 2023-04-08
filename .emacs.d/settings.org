@@ -823,6 +823,24 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 :VISIBILITY: folded
 :END:
 
+Manually run =mbsync= with
+
+#+begin_src bash :tangle no
+  mbsync --config .config/mbsyncrc -a
+#+end_src
+
+Init =mu= indexing with something like
+
+#+begin_src bash  :tangle no
+  mu init --maildir=/home/lassemaatta/mail --my-address=lasse.olavi.maatta@gmail.com
+#+end_src
+
+and run it with
+
+#+begin_src bash :tangle no
+  mu index
+#+end_src
+
 #+begin_src emacs-lisp
   (use-package mu4e
     :demand t
@@ -835,6 +853,7 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
     (mu4e-change-filenames-when-moving t)
     (mu4e-confirm-quit nil)
     (mu4e-context-policy 'pick-first)
+    (mu4e-update-interval (* 5 60))
     :config
     (setq mu4e-maildir-shortcuts
           '(("/gmail/Inbox"             . ?i)
@@ -855,7 +874,8 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
                     (mu4e-drafts-folder  . "/gmail/[Gmail]/Drafts")
                     (mu4e-sent-folder  . "/gmail/[Gmail]/Sent Mail")
                     (mu4e-refile-folder  . "/gmail/[Gmail]/All Mail")
-                    (mu4e-trash-folder  . "/gmail/[Gmail]/Bin"))))))
+                    (mu4e-trash-folder  . "/gmail/[Gmail]/Bin")))))
+    (mu4e t))
 #+end_src
 
 ** Project and File Management
