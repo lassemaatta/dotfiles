@@ -29,7 +29,7 @@
   (package-initialize))
 
 ;; Download the package list immediately if we've yet to do so (e.g. after reinstalling)
-(when (not package-archive-contents)
+(unless package-archive-contents
   (package-refresh-contents))
 
 (let ((elapsed (float-time (time-subtract (current-time)

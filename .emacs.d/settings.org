@@ -67,19 +67,6 @@ The =early-init.el= disables garbage collection at startup. Here we re-enable it
 
 ** Bootstrap =use-package=
 
-#+BEGIN_SRC emacs-lisp
-  (unless package-archive-contents
-    (package-refresh-contents))
-
-  (defvar my-package-list '(use-package))
-
-  (dolist (package my-package-list)
-    (unless (package-installed-p package)
-      (package-install package)))
-
-  (require 'use-package)
-#+END_SRC
-
 Always install all packages.
 
 #+BEGIN_SRC emacs-lisp
