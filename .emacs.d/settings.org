@@ -897,6 +897,7 @@ and run it with
     (dashboard-center-content t)
     (dashboard-set-heading-icons t)
     (dashboard-projects-backend 'projectile)
+    (dashboard-agenda-release-buffers t)
     (dashboard-agenda-prefix-format " %i %s ")
     (dashboard-items '((agenda . 5)
                        (bookmarks . 5)
