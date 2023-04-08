@@ -1,0 +1,27 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User lasse.olavi.maatta@gmail.com
+PassCmd "pass email/lasse.olavi.maatta@gmail.com"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+SubFolders Verbatim
+# The trailing "/" is important
+Path ~/mail/gmail/
+Inbox ~/mail/gmail/Inbox
+
+Channel gmail
+Far :gmail-remote:
+Near :gmail-local:
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Drafts" "[Gmail]/Bin"
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+# Sync the movement of messages between folders and deletions, add after making sure the sync works
+Expunge Both
+# Save the synchronization state files in the relevant directory
+SyncState *
