@@ -906,7 +906,8 @@ and run it with
                        (projects . 5)
                        (recents . 10)))
     :config
-    (dashboard-setup-startup-hook))
+    (dashboard-setup-startup-hook)
+    (add-hook 'server-after-make-frame-hook 'revert-buffer))
 #+END_SRC
 
 *** File Explorer (=treemacs=)
