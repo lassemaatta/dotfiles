@@ -687,7 +687,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
            ("e" . org-edit-src-exit))
     :custom
     (org-modules '(ol-w3m ol-bibtex ol-docview ol-gnus ol-info ol-eww
-                          ol-git-link ol-man org-habit))
+                          ol-man org-habit))
     ;; Enable syntax highlighting when exporting as PDFs. Requires the =minted= package for LaTeX.
     (org-latex-listings 'minted)
     (org-latex-pdf-process
