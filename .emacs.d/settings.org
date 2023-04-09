@@ -857,7 +857,6 @@ and run it with
     (mu4e-change-filenames-when-moving t)
     (mu4e-confirm-quit nil)
     (mu4e-context-policy 'pick-first)
-    (mu4e-update-interval (* 5 60))
     :config
     (setq mu4e-maildir-shortcuts
           '(("/gmail/Inbox"             . ?i)
@@ -878,8 +877,7 @@ and run it with
                     (mu4e-drafts-folder  . "/gmail/[Gmail]/Drafts")
                     (mu4e-sent-folder  . "/gmail/[Gmail]/Sent Mail")
                     (mu4e-refile-folder  . "/gmail/[Gmail]/All Mail")
-                    (mu4e-trash-folder  . "/gmail/[Gmail]/Bin")))))
-    (mu4e t))
+                    (mu4e-trash-folder  . "/gmail/[Gmail]/Bin"))))))
 #+end_src
 
 ** Project and File Management
