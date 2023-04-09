@@ -1033,6 +1033,7 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
     :group 'my-customs)
 
   (use-package button-lock
+    :disabled t
     :init
     (defvar-local my-button nil)
     (defun my-toggle-jira-buttons ()
