@@ -1639,6 +1639,7 @@ Set =.html= indentation from 2 to 4.
     (put-clojure-indent 'for-frag 1)
     (put-clojure-indent 'for-all 1)
     (put-clojure-indent 'u/for-all 1)
+    (put-clojure-indent 'or-join 1)
     (put-clojure-indent 'not-join 1)
     (put-clojure-indent 'r/with-let 1)
     (put-clojure-indent 'p/if-all-let 1)
