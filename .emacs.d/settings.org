@@ -372,8 +372,8 @@ Detect the active monitor name and update the font size accordingly.
   (defun my-monitor-to-font-height ()
     "Map monitor name to font height."
     (pcase (my-monitor-name)
-      ("M28U/22060B001950" 130)
-      ("eDP-1-unknown" 130)
+      ("M28U/22060B001950" 90)
+      ("eDP-1-unknown" 90)
       ((pred (string-prefix-p "P27h-20/V906XFMC")) 110)
       (name (progn
               (message "Unknown monitor '%s'" name)
