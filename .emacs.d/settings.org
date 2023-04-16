@@ -1345,9 +1345,10 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            (lsp-after-open-hook . my-refresh-completions))
     :bind (("<C-return>" . lsp-find-definition)
            ("<C-.>" . lsp-find-definition)
-           ("<C-M-return>" . lsp-describe-thing-at-point)
-           ("C-f l d" . lsp-ui-doc-glance))
-    :commands (lsp lsp-deferred))
+           ("<C-M-return>" . lsp-describe-thing-at-point))
+    :commands (lsp lsp-deferred)
+    :config
+    (define-key lsp-mode-map (kbd "C-f l d") 'lsp-ui-doc-glance))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
