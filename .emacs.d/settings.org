@@ -192,6 +192,11 @@ Automatically refresh buffers if the file has changed on disk.
    version-control t)
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (add-hook 'delete-frame-functions 'recentf-save-list)
+  (add-hook 'delete-frame-functions 'savehist-autosave)
+#+end_src
+
 ** Performance
 
 Increase the default number of bytes to read from subprocesses, as the default is just 4 kB.
