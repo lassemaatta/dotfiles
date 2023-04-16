@@ -80,6 +80,7 @@ Always install all packages.
 
 #+begin_src emacs-lisp
   (use-package system-packages
+    :demand t
     :custom
     (system-packages-package-manager 'yay)
     :config
@@ -107,8 +108,11 @@ Always install all packages.
                            (noconfirm . "--noconfirm")))))
 #+end_src
 
+The =use-package-ensure-system-package= provides the =:ensure-system-package= keyword for =use-package= recipes.
+
 #+begin_src emacs-lisp
-  (use-package use-package-ensure-system-package)
+  (use-package use-package-ensure-system-package
+    :demand t)
 #+end_src
 
 ** Load optional local settings
@@ -812,6 +816,7 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
+    :demand t
     :custom
     (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
     (undo-tree-auto-save-history nil)
