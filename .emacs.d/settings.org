@@ -1594,11 +1594,15 @@ Set =.html= indentation from 2 to 4.
            ("c" . cider-connect)
            ("n" . cider-browse-ns)
            ("r" . cider-switch-to-repl-buffer)
+           ("R" . #'my-cider-user-reset)
            :map cider-repl-mode-map
            :prefix "C-f c"
            :prefix-map cider-repl-prefix
            ("r" . cider-switch-to-last-clojure-buffer))
     :init
+    (defun my-cider-user-reset ()
+      (interactive)
+      (cider-interactive-eval "(ns user) (user/reset)" nil nil (cider--nrepl-pr-request-map)))
     (defun my-cider-test-infer-test-ns (ns)
       "Given a namespace NS, find the corresponding test namespace (which may be NS itself)."
       (when ns
