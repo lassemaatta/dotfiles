@@ -711,6 +711,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-habit-following-days 14)
     (org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d@)" "CANCELLED(c@)")))
     (org-todo-keyword-faces '(("CANCELLED" . (face-attribute 'modus-themes-fg-yellow :foreground))))
+    (org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml/plantuml.jar"))
     :mode ("\\.org\\'" . org-mode)
     :hook ((org-mode . org-indent-mode)
            (org-mode . variable-pitch-mode)
@@ -720,13 +721,15 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
       (which-key-add-key-based-replacements "C-f o" "Org mode"))
     :config
     (add-to-list 'org-latex-packages-alist '("" "minted"))
+    (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((clojure . t)
        (emacs-lisp . t)
        (http . t)
        (dot . t)
-       (shell . t)))
+       (shell . t)
+       (plantuml . t)))
     (org-clock-persistence-insinuate))
 #+end_src
 
@@ -742,6 +745,10 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 #+begin_src emacs-lisp
   (use-package ob-http
     :after org)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package plantuml-mode)
 #+end_src
 
 =ox-gfm= allows exporting org mode documents as /GitHub flavored Markdown/.
