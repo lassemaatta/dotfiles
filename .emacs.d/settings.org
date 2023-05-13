@@ -25,7 +25,7 @@
   - [[#spell-checking][Spell-checking]]
 - [[#general-programming][General programming]]
 - [[#packages][Packages]]
-  - [[#theming-modus-themes-all-the-icons][Theming (=modus-themes=, =all-the-icons=)]]
+  - [[#theming-modus-themes][Theming (=modus-themes=)]]
   - [[#utilities][Utilities]]
   - [[#email][Email]]
   - [[#project-and-file-management][Project and File Management]]
@@ -307,13 +307,10 @@ Re-use the same buffer when navigating to subdirectories in =dired=.
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package dirvish
+  (use-package nerd-icons-dired
     :demand t
-    :after (all-the-icons)
-    :init
-    (dirvish-override-dired-mode)
-    :custom
-    (dirvish-attributes '(all-the-icons file-size collapse subtree-state vc-state)))
+    :after (nerd-icons)
+    :hook (dired-mode . nerd-icons-dired-mode))
 #+end_src
 
 ** UI
@@ -354,7 +351,7 @@ Show the whole file path in the window title
 Detect the active monitor name and update the font size accordingly.
 
 #+begin_src emacs-lisp
-  (defvar font-family "Hack")
+  (defvar font-family "Hack Nerd Font")
   (defvar font-family-variable "Source Sans Pro")
 
   (defun my-update-font-size (font-height)
@@ -459,7 +456,7 @@ However, not all languages are yet supported and =treesit= does not automaticall
 #+end_src
 
 * Packages
-** Theming (=modus-themes=, =all-the-icons=)
+** Theming (=modus-themes=)
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
@@ -467,16 +464,18 @@ However, not all languages are yet supported and =treesit= does not automaticall
 Provide icons for stuff like =treemacs=.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons
+  (use-package nerd-icons
     :demand t)
 #+END_SRC
 
 Provide icons for completion menus (e.g. when selecting which file to open etc.).
 
 #+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons-completion
+  (use-package nerd-icons-completion
     :demand t
-    :after all-the-icons)
+    :after nerd-icons
+    :config
+    (nerd-icons-completion-mode))
 #+END_SRC
 
 Construct a simple mode line.
@@ -583,9 +582,8 @@ The [[https://github.com/minad/marginalia][marginalia]] package provides descrip
 #+BEGIN_SRC emacs-lisp
   (use-package marginalia
     :demand t
-    :after (vertico all-the-icons-completion)
+    :after (vertico nerd-icons-completion)
     :init
-    (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
     (marginalia-mode))
 #+END_SRC
 
@@ -952,9 +950,11 @@ Note that we exclude some build directories so that changes in files don't propa
           (cl-search "/node_modules" absolute-path)))
     (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore))
 
-  (use-package treemacs-all-the-icons
+  (use-package treemacs-nerd-icons
     :demand t
-    :after (treemacs))
+    :after (treemacs nerd-icons)
+    :config
+    (treemacs-load-theme "nerd-icons"))
 #+END_SRC
 
 *** Project Management (=projectile=)
