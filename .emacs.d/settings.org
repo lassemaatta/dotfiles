@@ -1569,6 +1569,15 @@ Set =.html= indentation from 2 to 4.
   (use-package ansible-vault)
 #+end_src
 
+**** Markdown
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :init
+    ;; Fix for https://github.com/jrblevin/markdown-mode/issues/578
+    (setq native-comp-jit-compilation-deny-list '("markdown-mode\\.el$")))
+#+end_src
+
 *** Clojure
 :PROPERTIES:
 :VISIBILITY: children
