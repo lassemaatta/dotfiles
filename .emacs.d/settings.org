@@ -1610,16 +1610,19 @@ Set =.html= indentation from 2 to 4.
       (when ns
         ;; Check if we're currently in a test namespace?
         (if (or (string-suffix-p "-test" ns)
-                (string-suffix-p "-itest" ns))
+                (string-suffix-p "-itest" ns)
+                (string-suffix-p "-i-test" ns))
             ns
           ;; We're not -> check if Cider knows a matching -test or -itest namespace
           (let ((namespaces (cider-sync-request:ns-list))
                 (unit-test-ns (concat ns "-test"))
-                (integration-test-ns (concat ns "-itest")))
+                (integration-test-ns (concat ns "-itest"))
+                (i-ntegration-test-ns (concat ns "-i-test")))
             (cond
              ;; Cider can't match multiple so prefer the unit-test namespace
              ((member unit-test-ns namespaces) unit-test-ns)
              ((member integration-test-ns namespaces) integration-test-ns)
+             ((member i-ntegration-test-ns namespaces) i-ntegration-test-ns)
              (t unit-test-ns))))))
     :custom
     (nrepl-log-messages t)
