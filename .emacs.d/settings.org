@@ -313,6 +313,14 @@ Re-use the same buffer when navigating to subdirectories in =dired=.
     :hook (dired-mode . nerd-icons-dired-mode))
 #+end_src
 
+Use =C-s= to filter entries in a =dired= buffer.
+
+#+begin_src emacs-lisp
+  (use-package dired-narrow
+    :bind (:map dired-mode-map
+           ("C-s" . dired-narrow)))
+#+end_src
+
 ** UI
 
 Hide the default splash screen.
