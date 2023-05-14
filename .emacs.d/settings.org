@@ -468,15 +468,12 @@ Provide icons for stuff like =treemacs=.
     :demand t)
 #+END_SRC
 
-Provide icons for completion menus (e.g. when selecting which file to open etc.).
-
-#+BEGIN_SRC emacs-lisp
-  (use-package nerd-icons-completion
+#+begin_src emacs-lisp
+  (use-package nerd-icons-ibuffer
     :demand t
     :after nerd-icons
-    :config
-    (nerd-icons-completion-mode))
-#+END_SRC
+    :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+#+end_src
 
 Construct a simple mode line.
 
@@ -582,9 +579,19 @@ The [[https://github.com/minad/marginalia][marginalia]] package provides descrip
 #+BEGIN_SRC emacs-lisp
   (use-package marginalia
     :demand t
-    :after (vertico nerd-icons-completion)
+    :after (vertico)
     :init
     (marginalia-mode))
+#+END_SRC
+
+Provide icons for completion menus (e.g. when selecting which file to open etc.).
+
+#+BEGIN_SRC emacs-lisp
+  (use-package nerd-icons-completion
+    :demand t
+    :after (nerd-icons marginalia)
+    :config
+    (nerd-icons-completion-marginalia-setup))
 #+END_SRC
 
 The [[https://github.com/minad/consult][consult]] package provides a bunch of utility functions related to completions (e.g. switch buffer, search within buffer..).
