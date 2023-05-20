@@ -492,21 +492,18 @@ Construct a simple mode line.
                 '("%e"
                   mode-line-front-space
                   mode-line-frame-identification
-                  projectile--mode-line
+                  (projectile-mode projectile--mode-line)
                   " "
                   mode-line-buffer-identification
-                  " "
                   (vc-mode vc-mode)
                   " "
                   mode-name
-                  " "
-                  flycheck-mode-line
+                  (flycheck-mode flycheck-mode-line)
                   " "
                   mode-line-misc-info
                   " "
                   mode-line-process
-                  " "
-                  cider-mode-line
+                  (cider-mode cider-mode-line)
                   " "
                   mode-line-end-spaces))
 #+END_SRC
