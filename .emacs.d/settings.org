@@ -611,13 +611,7 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     :custom
     (consult-narrow-key "<")
     (consult-project-function (lambda (_)
-                                (projectile-project-root)))
-    :config
-    (consult-customize
-     consult-line
-     :initial (thing-at-point 'symbol)
-     consult-ripgrep
-     :initial (thing-at-point 'symbol)))
+                                (projectile-project-root))))
 #+END_SRC
 
 #+begin_src emacs-lisp
