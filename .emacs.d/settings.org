@@ -1222,8 +1222,8 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
            ("n" . flycheck-next-error)
            ("l" . flycheck-list-errors))
     :custom
-    (flycheck-display-errors-delay 0.1)
-    (flycheck-check-syntax-automatically '(save idle-buffer-switch new-line mode-enabled))
+    (flycheck-display-errors-delay 1.0)
+    (flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch new-line mode-enabled))
     :init
     (eval-after-load 'which-key
       (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)"))
