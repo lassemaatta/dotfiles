@@ -143,6 +143,98 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 :END:
 ** Keybindings
 
+#+begin_src emacs-lisp
+    (use-package general
+      :demand t)
+#+end_src
+
+#+begin_src emacs-lisp
+  (defconst my-leader "SPC")
+
+  (general-create-definer my-leader-def
+    :prefix my-leader)
+
+  (my-leader-def
+    :states '(normal visual)
+    ""   '(nil :which-key "leader key")
+    "q"  '(:ignore t :which-key "Quit")
+    "qq" '(save-buffers-kill-emacs :which-key "Quit emacs")
+    ;; Buffers
+    "b"  '(:ignore t :which-key "Buffers")
+    "bn" '(next-buffer :which-key "Next buffer")
+    "bp" '(previous-buffer :which-key "Previous buffer")
+    "bP" '(consult-project-buffer :which-key "Project buffers")
+    "bb" '(consult-buffer :which-key "Switch buffer")
+    "bk" '(kill-buffer :which-key "Kill buffer")
+    "bx" '(kill-buffer-and-window :which-key "Kill buffer, close window")
+    "bm" `(,(lambda ()
+              (interactive)
+              (switch-to-buffer "*Messages*"))
+           :which-key "Messages")
+    ;; Files
+    "f"  '(:ignore t :which-key "Files")
+    "fs" '(evil-write-all :which-key "Save all")
+    "fS" '(save-buffer :which-key "Save")
+    ;; Lisp
+    "l"  '(:ignore t :which-key "Lisp")
+    "ll" '(eval-last-sexp :which-key "Eval last")
+    "le" '(eval-defun :which-key "Eval defun"))
+
+#+end_src
+
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :demand t
+    :disabled t
+    :after undo-tree
+    :init
+    (defun my-reset-cursor ()
+      (interactive)
+      (when (and (boundp 'evil-mode) (not evil-mode))
+        (message "reset cursor")
+        (setq-default cursor-type 'box)
+        (set-cursor-color "#FFFFFF")))
+    :hook
+    (evil-mode . my-reset-cursor)
+    :custom
+    (evil-normal-state-cursor '("green" box))
+    (evil-want-keybinding nil)
+    (evil-want-C-u-scroll t)
+    (evil-undo-system 'undo-tree)
+    (evil-mode-line-format '(before . mode-line-front-space))
+    :bind
+    (:map evil-normal-state-map
+          ("<tab>" . evil-indent))
+    :config
+    (modus-themes-with-colors
+      (setq evil-normal-state-tag   (propertize " COMMAND " 'face `((:background ,bg-green-intense :foreground ,fg-main)))
+            evil-emacs-state-tag    (propertize "  EMACS  " 'face `((:background ,bg-yellow-subtle :foreground ,fg-dim)))
+            evil-insert-state-tag   (propertize " ------- " 'face `((:background ,bg-red-subtle :foreground ,fg-main)))
+            evil-replace-state-tag  (propertize " REPLACE " 'face `((:background ,bg-red-intense :foreground ,fg-main)))
+            evil-motion-state-tag   (propertize "  MOTION " 'face `((:background ,bg-blue-subtle :foreground ,fg-main)))
+            evil-visual-state-tag   (propertize "  VISUAL " 'face `((:background ,bg-cyan-intense :foreground ,fg-main)))
+            evil-operator-state-tag (propertize " OPERATE " 'face `((:background ,bg-magenta-intense :foreground ,fg-main)))))
+    (evil-mode 1))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :demand t
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package evil-goggles
+    :demand t
+    :after evil
+    :config
+    (evil-goggles-mode)
+    (evil-goggles-use-diff-faces))
+#+end_src
+
 Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestions when using keybindings.
 
 #+BEGIN_SRC emacs-lisp
@@ -289,6 +381,14 @@ Cleanup trailing whitespace when saving a buffer.
 
 #+begin_src emacs-lisp
   (use-package helpful
+    :general
+    (my-leader-def
+      :states '(normal visual)
+      ;; helpful
+      "h" '(:ignore t :which-key "help")
+      "hv" 'helpful-variable
+      "hf" 'helpful-function
+      "hk" 'helpful-key)
     :bind
     (([remap describe-key]      . helpful-key)
      ([remap describe-command]  . helpful-command)
@@ -689,15 +789,22 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package org
-    :bind (:map org-mode-map
-           :prefix "C-f o"
-           :prefix-map org-mode-prefix
-           ("i" . org-insert-structure-template)
-           ("e" . org-edit-special)
-           :map org-src-mode-map
-           :prefix "C-f o"
-           :prefix-map org-mode-src-prefix
-           ("e" . org-edit-src-exit))
+    :general
+    (my-leader-def
+      :states '(normal visual)
+      :keymaps 'org-mode-map
+      "m" '(:ignore t :which-key "Org Mode")
+      "mi" 'org-insert-structure-template
+      "me" 'org-edit-special
+      "mc" '(:ignore t :which-key "orc-clock")
+      "mci" 'org-clock-in
+      "mco" 'org-clock-out
+      "mcd" 'org-clock-display)
+    (my-leader-def
+      :predicate 'org-src-mode
+      :states '(normal visual)
+      :keymaps 'org-src-mode-map
+      "q" 'org-edit-src-exit)
     :custom
     (org-modules '(ol-w3m ol-bibtex ol-docview ol-gnus ol-info ol-eww
                           ol-man org-habit))
