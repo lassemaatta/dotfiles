@@ -171,6 +171,13 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
               (interactive)
               (switch-to-buffer "*Messages*"))
            :which-key "Messages")
+    ;; Help
+    "h" '(:ignore t :which-key "help")
+    "hv" '(describe-variable :which-key "Describe variable")
+    "hf" '(describe-function :which-key "Describe function")
+    "hk" '(describe-key :which-key "Describe key")
+    "hb" '(describe-bindings :which-key "Show bindings")
+    "hm" '(describe-mode :which-key "Describe mode")
     ;; Files
     "f"  '(:ignore t :which-key "Files")
     "fs" '(evil-write-all :which-key "Save all")
@@ -198,6 +205,7 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
     :hook
     (evil-mode . my-reset-cursor)
     :custom
+    (evil-move-beyond-eol t)
     (evil-normal-state-cursor '("green" box))
     (evil-want-keybinding nil)
     (evil-want-C-u-scroll t)
@@ -381,14 +389,6 @@ Cleanup trailing whitespace when saving a buffer.
 
 #+begin_src emacs-lisp
   (use-package helpful
-    :general
-    (my-leader-def
-      :states '(normal visual)
-      ;; helpful
-      "h" '(:ignore t :which-key "help")
-      "hv" 'helpful-variable
-      "hf" 'helpful-function
-      "hk" 'helpful-key)
     :bind
     (([remap describe-key]      . helpful-key)
      ([remap describe-command]  . helpful-command)
@@ -801,10 +801,11 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
       "mco" 'org-clock-out
       "mcd" 'org-clock-display)
     (my-leader-def
-      :predicate 'org-src-mode
       :states '(normal visual)
+      :predicate '(org-src-mode)
       :keymaps 'org-src-mode-map
-      "q" 'org-edit-src-exit)
+      "m"  '(:ignore t :which-key "Org special buffer")
+      "mq" '(org-edit-src-exit :which-key "Quit"))
     :custom
     (org-modules '(ol-w3m ol-bibtex ol-docview ol-gnus ol-info ol-eww
                           ol-man org-habit))
@@ -1812,6 +1813,13 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
            ("M-0" . sp-forward-slurp-sexp))
     :config
     (show-smartparens-global-mode -1))
+#+end_src
+
+#+begin_src elisp
+  (use-package evil-cleverparens
+    :hook ((emacs-lisp-mode
+            clojure-mode
+            cider-repl-mode) . evil-cleverparens-mode))
 #+end_src
 
 Somewhat related, =expand-region= provides two nice tools to either expand or contract the selected region semantically (ie. it understands S-expressions, strings, ..).
