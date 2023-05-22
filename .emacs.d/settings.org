@@ -144,18 +144,25 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 ** Keybindings
 
 #+begin_src emacs-lisp
+  (setq use-evil nil)
+#+end_src
+
+#+begin_src emacs-lisp
     (use-package general
       :demand t)
 #+end_src
 
 #+begin_src emacs-lisp
-  (defconst my-leader "SPC")
+  (defconst my-leader (if use-evil "SPC" "C-f"))
 
-  (general-create-definer my-leader-def
-    :prefix my-leader)
+  (if use-evil
+      (general-create-definer my-leader-def
+        :prefix my-leader
+        :states '(normal visual))
+    (general-create-definer my-leader-def
+      :prefix my-leader))
 
   (my-leader-def
-    :states '(normal visual)
     ""   '(nil :which-key "leader key")
     "q"  '(:ignore t :which-key "Quit")
     "qq" '(save-buffers-kill-emacs :which-key "Quit emacs")
@@ -171,29 +178,44 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
               (interactive)
               (switch-to-buffer "*Messages*"))
            :which-key "Messages")
+    ;; Errors
+    "e"  '(:ignore t :which-key "Errors")
+    ;; Files
+    "f"  '(:ignore t :which-key "Files")
+    "fs" `(,(lambda ()
+              (interactive)
+              (save-some-buffers t))
+           :which-key "Save all")
+    "fS" '(save-buffer :which-key "Save")
     ;; Help
-    "h" '(:ignore t :which-key "help")
+    "h" '(:ignore t :which-key "Help")
     "hv" '(describe-variable :which-key "Describe variable")
     "hf" '(describe-function :which-key "Describe function")
     "hk" '(describe-key :which-key "Describe key")
     "hb" '(describe-bindings :which-key "Show bindings")
     "hm" '(describe-mode :which-key "Describe mode")
-    ;; Files
-    "f"  '(:ignore t :which-key "Files")
-    "fs" '(evil-write-all :which-key "Save all")
-    "fS" '(save-buffer :which-key "Save")
+    ;; LSP
+    "l"  '(:ignore t :which-key "LSP")
+    ;; Notes
+    "n"  '(:ignore t :which-key "Notes")
+    "na" '(org-agenda :which-key "Agenda")
+    ;; Search
+    "s"  '(:ignore t :which-key "Search")
     ;; Lisp
-    "l"  '(:ignore t :which-key "Lisp")
-    "ll" '(eval-last-sexp :which-key "Eval last")
-    "le" '(eval-defun :which-key "Eval defun"))
-
+    "x"  '(:ignore t :which-key "Execute LISP"))
 #+end_src
 
+#+begin_src emacs-lisp
+  (my-leader-def
+    :keymaps 'emacs-lisp-mode-map
+    "xl" '(eval-last-sexp :which-key "Eval last")
+    "xe" '(eval-defun :which-key "Eval defun"))
+#+end_src
 
 #+begin_src emacs-lisp
   (use-package evil
     :demand t
-    :disabled t
+    :disabled (not use-evil)
     :after undo-tree
     :init
     (defun my-reset-cursor ()
@@ -229,14 +251,16 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 #+begin_src emacs-lisp
   (use-package evil-collection
     :demand t
+    :disabled (not use-evil)
     :after evil
     :config
-    (evil-collection-init))
+    (evil-collection-init '(dashboard cider)))
 #+end_src
 
 #+begin_src emacs-lisp
   (use-package evil-goggles
     :demand t
+    :disabled (not use-evil)
     :after evil
     :config
     (evil-goggles-mode)
@@ -249,12 +273,12 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
   (use-package which-key
     :custom
     (which-key-sort-order 'which-key-key-order-alpha)
-    (which-key-separator ":")
-    (which-key-max-description-length 120)
-    (which-key-side-window-max-width 50)
-    (which-key-idle-delay 1.00)
+    (which-key-separator " -> ")
+    (which-key-idle-delay 0.5)
+    (which-key-min-display-lines 6)
+    (which-key-add-column-padding 2)
     :config
-    (which-key-setup-side-window-right-bottom)
+    (which-key-setup-side-window-bottom)
     (which-key-mode))
 #+END_SRC
 
@@ -705,6 +729,9 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
   (use-package consult
     :demand t
     :after (projectile)
+    :general
+    (my-leader-def
+      "ss" '(consult-line :which-key "Search (in buffer)"))
     :bind (("C-s" . consult-line)
            ("C-x b" . consult-buffer)
            ("C-M-y" . consult-yank-from-kill-ring))
@@ -766,11 +793,10 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+BEGIN_SRC emacs-lisp
   (use-package rg
-    :bind (("C-f s" . rg-menu))
+    :general
+    (my-leader-def
+      "sm" '(rg-menu :which-key "Search menu"))
     :config
-    (eval-after-load 'which-key
-      (which-key-add-key-based-replacements "C-f s" "Search (rg)"))
-
     ;; Focus on search results immediately
     (add-to-list
      'display-buffer-alist
@@ -791,8 +817,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
   (use-package org
     :general
     (my-leader-def
-      :states '(normal visual)
       :keymaps 'org-mode-map
+      :major-modes t
       "m" '(:ignore t :which-key "Org Mode")
       "mi" 'org-insert-structure-template
       "me" 'org-edit-special
@@ -801,9 +827,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
       "mco" 'org-clock-out
       "mcd" 'org-clock-display)
     (my-leader-def
-      :states '(normal visual)
-      :predicate '(org-src-mode)
       :keymaps 'org-src-mode-map
+      :predicate 'org-src-mode
       "m"  '(:ignore t :which-key "Org special buffer")
       "mq" '(org-edit-src-exit :which-key "Quit"))
     :custom
@@ -828,9 +853,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     :hook ((org-mode . org-indent-mode)
            (org-mode . variable-pitch-mode)
            (org-mode . visual-line-mode))
-    :init
-    (eval-after-load 'which-key
-      (which-key-add-key-based-replacements "C-f o" "Org mode"))
     :config
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
@@ -920,18 +942,15 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
+    :general
+    (my-leader-def
+      "nl" '(org-roam-buffer-toggle :which-key "List notes")
+      "nf" '(org-roam-node-find :which-key "Find note")
+      "ni" '(org-roam-node-insert :which-key "Insert note"))
     :custom
     (org-roam-directory "~/org-roam")
-    :bind (:prefix "C-f n"
-           :prefix-map org-roam-prefix
-           ("l" . org-roam-buffer-toggle)
-           ("f" . org-roam-node-find)
-           ("i" . org-roam-node-insert))
     :config
-    (org-roam-db-autosync-mode)
-    :init
-    (eval-after-load 'which-key
-      (which-key-add-key-based-replacements "C-f n" "Notes")))
+    (org-roam-db-autosync-mode))
 #+END_SRC
 
 *** Better undo (=undo-tree=)
@@ -1215,18 +1234,15 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
 
 #+begin_src emacs-lisp
   (use-package flycheck
+    :general
+    (my-leader-def
+      :keymaps 'flycheck-mode-map
+      "en" '(flycheck-next-error :which-key "Goto next")
+      "el" '(flycheck-list-errors :which-key "List errors"))
     :hook ((prog-mode . flycheck-mode))
-    :bind (:map flycheck-mode-map
-           :prefix "C-f e"
-           :prefix-map errors-prefix
-           ("n" . flycheck-next-error)
-           ("l" . flycheck-list-errors))
     :custom
     (flycheck-display-errors-delay 1.0)
     (flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch new-line mode-enabled))
-    :init
-    (eval-after-load 'which-key
-      (which-key-add-key-based-replacements "C-f e" "Errors (flycheck)"))
     :config
     (setq flycheck-error-list-format `[("File" 10)
                                        ("Line" 5 flycheck-error-list-entry-< :right-align t)
@@ -1433,6 +1449,11 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
+    :general
+    (my-leader-def
+      :keymaps 'lsp-mode-map
+      ;"la" '(lsp-execute-code-action :which-key "Code actions")
+      "lR" '(lsp-workspace-restart :which-key "Restart workspace"))
     :custom
     (lsp-completion-provider :none)
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -1473,13 +1494,15 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     :bind (("<C-return>" . lsp-find-definition)
            ("<C-.>" . lsp-find-definition)
            ("<C-M-return>" . lsp-describe-thing-at-point))
-    :commands (lsp lsp-deferred)
-    :config
-    (define-key lsp-mode-map (kbd "C-f l d") 'lsp-ui-doc-glance))
+    :commands (lsp lsp-deferred))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
+    :general
+    (my-leader-def
+      :keymaps 'lsp-mode-map
+      "ld" '(lsp-ui-doc-glance :which-key "Glance docs"))
     :custom
     (lsp-ui-sideline-show-code-actions nil)
     (lsp-ui-sideline-enable nil)
@@ -1516,8 +1539,10 @@ depending on whether the current buffer is using =LSP=.
 #+BEGIN_SRC emacs-lisp
   (use-package consult-lsp
     :after flycheck
-    :bind (:map flycheck-mode-map
-                ("C-f e d" . consult-lsp-diagnostics)))
+    :general
+    (my-leader-def
+      :keymaps 'flycheck-mode-map
+      "ed" '(consult-lsp-diagnostics :which-key "LSP diagnostics")))
 #+END_SRC
 
 **** Java
@@ -1703,27 +1728,32 @@ Set =.html= indentation from 2 to 4.
     :custom
     (clojure-indent-style 'align-arguments)
     (clojure-align-forms-automatically t)
-    (clojure-align-separator 'entire)
-    :init
-    (eval-after-load 'which-key
-      (which-key-add-key-based-replacements "C-f c" "Clojure")))
+    (clojure-align-separator 'entire))
 #+END_SRC
 
 **** =cider=
 
 #+BEGIN_SRC emacs-lisp
   (use-package cider
-    :bind (:map clojure-mode-map
-           :prefix "C-f c"
-           :prefix-map clojure-prefix
-           ("c" . cider-connect)
-           ("n" . cider-browse-ns)
-           ("r" . cider-switch-to-repl-buffer)
-           ("R" . #'my-cider-user-reset)
-           :map cider-repl-mode-map
-           :prefix "C-f c"
-           :prefix-map cider-repl-prefix
-           ("r" . cider-switch-to-last-clojure-buffer))
+    :general
+    (my-leader-def
+      :keymaps 'clojure-mode-map
+      :major-modes t
+      "m"  '(:ignore t :which-key "Clojure")
+      "mc" '(cider-connect :which-key "Cider connect"))
+    (my-leader-def
+      :predicate '(cider-connected-p)
+      :keymaps 'clojure-mode-map
+      :major-modes t
+      "mn" '(cider-browse-ns :which-key "Browse namespaces")
+      "mr" '(cider-switch-to-repl-buffer :which-key "Switch to REPL")
+      "mR" '(my-cider-user-reset :which-key "Reset (system)"))
+    (my-leader-def
+      :predicate '(cider-connected-p)
+      :keymaps 'cider-repl-mode-map
+      :major-modes t
+      "m"  '(:ignore t :which-key "Clojure (REPl)")
+      "mr" '(cider-switch-to-last-clojure-buffer :which-key "Switch back"))
     :init
     (defun my-cider-user-reset ()
       (interactive)
@@ -1817,6 +1847,7 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
 
 #+begin_src elisp
   (use-package evil-cleverparens
+    :disabled (not use-evil)
     :hook ((emacs-lisp-mode
             clojure-mode
             cider-repl-mode) . evil-cleverparens-mode))
