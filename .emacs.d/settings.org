@@ -757,7 +757,7 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
 #+begin_src emacs-lisp
   (use-package consult-projectile
     :demand t
-    :after consult
+    :after (consult projectile)
     :config
     (substitute-key-definition 'projectile-find-file
                                'consult-projectile
@@ -1113,7 +1113,7 @@ Note that we exclude some build directories so that changes in files don't propa
     :custom
     (projectile-completion-system 'default)
     (projectile-project-search-path '("~/work/"))
-    (projectile-switch-project-action #'projectile-dired)
+    (projectile-switch-project-action #'projectile-find-file)
     (projectile-enable-caching t)
     :init
     (projectile-mode +1)
@@ -1127,6 +1127,29 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
   (use-package treemacs-projectile
     :after (treemacs projectile))
 #+END_SRC
+
+#+begin_src emacs-lisp
+  (use-package perspective
+    :demand t
+    :after (consult)
+    :bind
+    (([remap kill-buffer] . persp-kill-buffer*))
+    :custom
+    (persp-mode-prefix-key (kbd "C-f p"))
+    (persp-purge-initial-persp-on-save t)
+    (persp-state-default-file (concat user-emacs-directory "persp.state"))
+    :config
+    ;; Use perspective as a buffer source for consult when switching buffers
+    (consult-customize consult--source-buffer :hidden t :default nil)
+    (add-to-list 'consult-buffer-sources persp-consult-source)
+    (persp-mode +1))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package persp-projectile
+    :after (projectile perspective)
+    :demand t)
+#+end_src
 
 *** Git (=magit=, =forge=)
 
