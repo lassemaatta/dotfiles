@@ -49,10 +49,19 @@
 :END:
 ** Clear leader key
 
-Let's use =C-f= as the leader key for our commands, but first we must clear its existing command. The =C-c= prefix is already populated with random commands from packages, so this makes it easier to access our own commands.
+Create a flag to toggle whether we use =evil= or traditional =emacs= bindings.
 
 #+begin_src emacs-lisp
-  (global-unset-key "\C-f")
+  (setq use-evil nil)
+#+end_src
+
+Let's use =C-f= (or =space=) as the leader key for our commands, but first we must clear its existing command. The =C-c= prefix is already populated with random commands from packages, so this makes it easier to access our own commands.
+
+#+begin_src emacs-lisp
+  (defconst my-leader (if use-evil "SPC" (kbd "C-f")))
+
+  (unless use-evil
+    (global-unset-key "\C-f"))
 #+end_src
 
 ** Disable GC while loading
@@ -144,33 +153,28 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 ** Keybindings
 
 #+begin_src emacs-lisp
-  (setq use-evil nil)
-#+end_src
-
-#+begin_src emacs-lisp
-    (use-package general
-      :demand t)
-#+end_src
-
-#+begin_src emacs-lisp
-  (defconst my-leader (if use-evil "SPC" "C-f"))
-
-  (if use-evil
+  (use-package general
+    :demand t
+    :config
+    (if use-evil
+        (general-create-definer my-leader-def
+          :prefix my-leader
+          :states '(normal visual))
       (general-create-definer my-leader-def
-        :prefix my-leader
-        :states '(normal visual))
-    (general-create-definer my-leader-def
-      :prefix my-leader))
+        :prefix my-leader)))
+#+end_src
 
+#+begin_src emacs-lisp
   (my-leader-def
     ""   '(nil :which-key "leader key")
     "q"  '(:ignore t :which-key "Quit")
     "qq" '(save-buffers-kill-emacs :which-key "Quit emacs")
+    "qr" '(restart-emacs :which-key "Restart emacs")
     ;; Buffers
     "b"  '(:ignore t :which-key "Buffers")
-    "bn" '(next-buffer :which-key "Next buffer")
-    "bp" '(previous-buffer :which-key "Previous buffer")
-    "bP" '(consult-project-buffer :which-key "Project buffers")
+    "bl" '(next-buffer :which-key "Next buffer")
+    "bh" '(previous-buffer :which-key "Previous buffer")
+    "bp" '(consult-projectile :which-key "Project buffers")
     "bb" '(consult-buffer :which-key "Switch buffer")
     "bk" '(kill-buffer :which-key "Kill buffer")
     "bx" '(kill-buffer-and-window :which-key "Kill buffer, close window")
@@ -178,6 +182,10 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
               (interactive)
               (switch-to-buffer "*Messages*"))
            :which-key "Messages")
+    "bs" `(,(lambda ()
+              (interactive)
+              (find-file (concat user-emacs-directory "settings.org")))
+           :which-key "Settings.org")
     ;; Errors
     "e"  '(:ignore t :which-key "Errors")
     ;; Files
@@ -207,7 +215,7 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 
 #+begin_src emacs-lisp
   (my-leader-def
-    :keymaps 'emacs-lisp-mode-map
+    :keymaps '(emacs-lisp-mode-map org-mode-map)
     "xl" '(eval-last-sexp :which-key "Eval last")
     "xe" '(eval-defun :which-key "Eval defun"))
 #+end_src
@@ -527,6 +535,11 @@ Detect the active monitor name and update the font size accordingly.
 #+begin_src emacs-lisp
   (use-package jinx
     :demand t
+    :general
+    (my-leader-def
+      :keymaps 'jinx-mode-map
+      "et" '(jinx-correct :which-key "Correct mispelled")
+      "em" '(jinx-next :which-key "Next mispelled"))
     :custom
     (jinx-languages "en fi")
     :custom-face
@@ -1452,7 +1465,6 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     :general
     (my-leader-def
       :keymaps 'lsp-mode-map
-      ;"la" '(lsp-execute-code-action :which-key "Code actions")
       "lR" '(lsp-workspace-restart :which-key "Restart workspace"))
     :custom
     (lsp-completion-provider :none)
@@ -1754,6 +1766,11 @@ Set =.html= indentation from 2 to 4.
       :major-modes t
       "m"  '(:ignore t :which-key "Clojure (REPl)")
       "mr" '(cider-switch-to-last-clojure-buffer :which-key "Switch back"))
+    (my-leader-def
+      :predicate '(cider-connected-p)
+      :keymaps 'clojure-mode-map
+      "xl" '(cider-eval-last-sexp :which-key "Eval last")
+      "xe" '(cider-eval-defun-at-point :which-key "Eval defun"))
     :init
     (defun my-cider-user-reset ()
       (interactive)
