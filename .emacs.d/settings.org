@@ -648,6 +648,7 @@ Construct a simple mode line.
                   mode-line-misc-info
                   " "
                   mode-line-process
+                  " "
                   (cider-mode cider-mode-line)
                   " "
                   mode-line-end-spaces))
