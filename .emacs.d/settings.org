@@ -880,7 +880,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     :mode ("\\.org\\'" . org-mode)
     :hook ((org-mode . org-indent-mode)
            (org-mode . variable-pitch-mode)
-           (org-mode . visual-line-mode))
+           (org-mode . visual-line-mode)
+           (org-babel-after-execute . org-redisplay-inline-images))
     :config
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
