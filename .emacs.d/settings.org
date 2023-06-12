@@ -174,8 +174,6 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
     "b"  '(:ignore t :which-key "Buffers")
     "bl" '(next-buffer :which-key "Next buffer")
     "bh" '(previous-buffer :which-key "Previous buffer")
-    "bp" '(consult-projectile :which-key "Project buffers")
-    "bb" '(consult-buffer :which-key "Switch buffer")
     "bk" '(kill-buffer :which-key "Kill buffer")
     "bx" '(kill-buffer-and-window :which-key "Kill buffer, close window")
     "bm" `(,(lambda ()
@@ -209,6 +207,16 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
     "na" '(org-agenda :which-key "Agenda")
     ;; Search
     "s"  '(:ignore t :which-key "Search")
+    ;; Testing
+    "t"  '(:ignore t :which-key "Testing")
+    "w"  '(:ignore t :which-key "Windows")
+    "ww" '(delete-window :which-key "Delete this")
+    "wo" '(delete-other-windows :which-key "Delete others")
+    "w S-<right>" '(split-window-right :which-key "Add right")
+    "w <right>" '(windmove-right :which-key "Move right")
+    "w <up>" '(windmove-up :which-key "Move up")
+    "w <left>" '(windmove-left :which-key "Move left")
+    "w <down>" '(windmove-down :which-key "Move down")
     ;; Lisp
     "x"  '(:ignore t :which-key "Execute LISP"))
 #+end_src
@@ -744,6 +752,7 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     :after (projectile)
     :general
     (my-leader-def
+      "bb" '(consult-buffer :which-key "Switch buffer")
       "ss" '(consult-line :which-key "Search (in buffer)"))
     :bind (("C-s" . consult-line)
            ("C-x b" . consult-buffer)
@@ -758,6 +767,11 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
   (use-package consult-projectile
     :demand t
     :after (consult projectile)
+    :general
+    (my-leader-def
+      :keymaps 'projectile-mode-map
+      "bp" '(consult-projectile :which-key "Project buffers")
+      "pf" '(consult-projectile-find-file :which-key "Find file"))
     :config
     (substitute-key-definition 'projectile-find-file
                                'consult-projectile
@@ -957,7 +971,6 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
   (use-package org-roam
     :general
     (my-leader-def
-      "nl" '(org-roam-buffer-toggle :which-key "List notes")
       "nf" '(org-roam-node-find :which-key "Find note")
       "ni" '(org-roam-node-insert :which-key "Insert note"))
     :custom
@@ -1110,6 +1123,10 @@ Note that we exclude some build directories so that changes in files don't propa
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :after (vertico)
+    :general
+    (my-leader-def
+      :keymaps 'projectile-mode-map
+      "ti" '(projectile-toggle-between-implementation-and-test :which-key "Toggle impl/test"))
     :custom
     (projectile-completion-system 'default)
     (projectile-project-search-path '("~/work/"))
@@ -1134,8 +1151,16 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
     :after (consult)
     :bind
     (([remap kill-buffer] . persp-kill-buffer*))
+    :general
+    (my-leader-def
+      :keymaps 'persp-mode-map
+      "pg" '(persp-set-buffer :which-key "Grab buffer to persp")
+      "ps" '(persp-switch :which-key "Switch persp")
+      "pr" '(persp-remove-buffer :which-key "Remove buffer from persp")
+      "pn" '(persp-next :which-key "Next perspective")
+      "pp" '(persp-prev :which-key "Previous perspective"))
     :custom
-    (persp-mode-prefix-key (kbd "C-f p"))
+    (persp-mode-prefix-key (kbd "C-c r"))
     (persp-purge-initial-persp-on-save t)
     (persp-state-default-file (concat user-emacs-directory "persp.state"))
     :config
@@ -1148,7 +1173,11 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 #+begin_src emacs-lisp
   (use-package persp-projectile
     :after (projectile perspective)
-    :demand t)
+    :demand t
+    :general
+    (my-leader-def
+      :keymaps 'projectile-mode-map
+      "po" '(projectile-persp-switch-project :which-key "Open project")))
 #+end_src
 
 *** Git (=magit=, =forge=)
@@ -1782,7 +1811,11 @@ Set =.html= indentation from 2 to 4.
       :major-modes t
       "mn" '(cider-browse-ns :which-key "Browse namespaces")
       "mr" '(cider-switch-to-repl-buffer :which-key "Switch to REPL")
-      "mR" '(my-cider-user-reset :which-key "Reset (system)"))
+      "mR" '(my-cider-user-reset :which-key "Reset (system)")
+      "tt" '(cider-test-run-test :which-key "Run test")
+      "tn" '(cider-test-run-ns-tests :which-key "Run namespace tests")
+      "tp" '(cider-test-run-project-tests :which-key "Run project tests")
+      "tr" '(cider-test-rerun-test :which-key "Rerun last test"))
     (my-leader-def
       :predicate '(cider-connected-p)
       :keymaps 'cider-repl-mode-map
