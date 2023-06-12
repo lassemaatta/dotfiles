@@ -1838,8 +1838,7 @@ Set =.html= indentation from 2 to 4.
       (when ns
         ;; Check if we're currently in a test namespace?
         (if (or (string-suffix-p "-test" ns)
-                (string-suffix-p "-itest" ns)
-                (string-suffix-p "-i-test" ns))
+                (string-suffix-p "-itest" ns))
             ns
           ;; We're not -> check if Cider knows a matching -test or -itest namespace
           (let ((namespaces (cider-sync-request:ns-list))
