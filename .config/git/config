@@ -12,3 +12,5 @@
 	xfuncname = (^\\(.*|\\s*\\(def.*)
 [github]
 	user = lassemaatta
+[merge]
+	conflictstyle = diff3
