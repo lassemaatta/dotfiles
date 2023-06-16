@@ -1522,6 +1522,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
       "lR" '(lsp-workspace-restart :which-key "Restart workspace"))
     :custom
     (lsp-completion-provider :none)
+    (lsp-completion-sort-initial-results nil)
     ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
     (lsp-keymap-prefix "C-f l")
     (lsp-idle-delay 0.5)
