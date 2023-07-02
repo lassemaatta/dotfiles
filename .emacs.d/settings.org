@@ -1376,7 +1376,7 @@ Regardless of completion provider, always try to complete =<tab>=.
 
 Use [[https://github.com/minad/corfu][corfu]] for completion at point functionality, similar to =company=.
 
-While completing, use =S-SPC= to add a separator, which does not abort the completion but instead allows you to add more search words.
+While completing, use =SPC= to add a separator, which does not abort the completion but instead allows you to add more search words.
 
 When looking at completion candidates with =corfu=, we can use =corfu-popupinfo= to show a documentation popup with docstrings et al.
 
@@ -1385,7 +1385,7 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     :init
     (global-corfu-mode)
     (corfu-popupinfo-mode)
-    (corfu-history-mode 1)
+    (corfu-history-mode -1)
     (add-to-list 'savehist-additional-variables 'corfu-history)
     :bind ((:map corfu-map
                  ("SPC" . corfu-insert-separator)
@@ -1400,8 +1400,11 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     (corfu-cycle t)
     (corfu-on-exact-match nil)
     (corfu-quit-no-match nil)
+    (corfu-preview-current nil)
     (corfu-min-width 70)
-    (corfu-count 20))
+    (corfu-count 20)
+    :custom-face
+    (corfu-default ((t (:height 85)))))
 #+end_src
 
 Add icons to completion menu with =kind-icon=.
