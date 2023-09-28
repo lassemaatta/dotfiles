@@ -1847,8 +1847,14 @@ Set =.html= indentation from 2 to 4.
     (put-clojure-indent 'r/with-let 1)
     (put-clojure-indent 'p/if-all-let 1)
     (put-clojure-indent 'test-seq/seq-tx 1)
+    (put-clojure-indent 'cc/button 1)
     (put-clojure-indent 'cc/modal-body 1)
-    (put-clojure-indent 'cc/composed-modal 1))
+    (put-clojure-indent 'cc/modal-footer 1)
+    (put-clojure-indent 'cc/composed-modal 1)
+    (put-clojure-indent 'GET 2)
+    (put-clojure-indent 'POST 2)
+    (put-clojure-indent 'PUT 2)
+    (put-clojure-indent 'context 2))
 #+END_SRC
 
 **** =smartparens=
