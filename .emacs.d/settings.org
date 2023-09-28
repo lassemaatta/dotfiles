@@ -205,6 +205,7 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
     ;; Notes
     "n"  '(:ignore t :which-key "Notes")
     "na" '(org-agenda :which-key "Agenda")
+    "p"  '(:ignore t :which-key "Project")
     ;; Search
     "s"  '(:ignore t :which-key "Search")
     ;; Testing
@@ -1163,7 +1164,8 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
       "ps" '(persp-switch :which-key "Switch persp")
       "pr" '(persp-remove-buffer :which-key "Remove buffer from persp")
       "pn" '(persp-next :which-key "Next perspective")
-      "pp" '(persp-prev :which-key "Previous perspective"))
+      "pp" '(persp-prev :which-key "Previous perspective")
+      "pk" '(persp-kill :which-key "Kill perspective"))
     :custom
     (persp-mode-prefix-key (kbd "C-c r"))
     (persp-purge-initial-persp-on-save t)
