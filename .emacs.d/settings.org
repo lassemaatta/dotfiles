@@ -1821,6 +1821,7 @@ Set =.html= indentation from 2 to 4.
     (cider-repl-history-file (concat user-emacs-directory "/cider-history"))
     (cider-repl-display-in-current-window t)
     (cider-test-infer-test-ns #'my-cider-test-infer-test-ns)
+    (cider-dynamic-indentation nil)
     :hook
     ((cider-mode . (lambda ()
                      (remove-hook 'completion-at-point-functions #'cider-complete-at-point))))
