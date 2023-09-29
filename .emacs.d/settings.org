@@ -1193,6 +1193,7 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :custom
+    (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
     (magit-diff-refine-hunk 'all)
     (magit-blame-styles
      '((headings
