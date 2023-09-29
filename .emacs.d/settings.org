@@ -1405,9 +1405,7 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
     (corfu-quit-no-match nil)
     (corfu-preview-current nil)
     (corfu-min-width 70)
-    (corfu-count 20)
-    :custom-face
-    (corfu-default ((t (:height 85)))))
+    (corfu-count 20))
 #+end_src
 
 Add icons to completion menu with =kind-icon=.
@@ -1418,6 +1416,7 @@ Add icons to completion menu with =kind-icon=.
     :after corfu
     :custom
     (kind-icon-default-face 'corfu-default)
+    (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.8 :scale 1.0))
     :config
     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
