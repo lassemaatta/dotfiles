@@ -1965,6 +1965,13 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
      t
      "*jet error buffer*"
      t))
+
+  (defun my-xml-pretty-format ()
+    (interactive)
+    (save-excursion
+        (shell-command-on-region (point-min) (point-max) "xmllint --format -" (buffer-name) t)
+        (nxml-mode)
+        (indent-region begin end)))
 #+END_SRC
 
 * Postamble
