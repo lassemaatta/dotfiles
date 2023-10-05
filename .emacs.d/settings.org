@@ -6,6 +6,7 @@
 :END:
 - [[#preamble][Preamble]]
 - [[#load-initial-configuration][Load initial configuration]]
+  - [[#configuration-flags][Configuration flags]]
   - [[#clear-leader-key][Clear leader key]]
   - [[#disable-gc-while-loading][Disable GC while loading]]
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
@@ -47,13 +48,21 @@
 :PROPERTIES:
 :VISIBILITY: children
 :END:
-** Clear leader key
+** Configuration flags
+
+Whether to use =eglot= or =lsp-mode=.
+
+#+BEGIN_SRC emacs-lisp
+  (defconst my-use-eglot t)
+#+END_SRC
 
 Create a flag to toggle whether we use =evil= or traditional =emacs= bindings.
 
 #+begin_src emacs-lisp
-  (setq use-evil nil)
+  (defconst use-evil nil)
 #+end_src
+
+** Clear leader key
 
 Let's use =C-f= (or =space=) as the leader key for our commands, but first we must clear its existing command. The =C-c= prefix is already populated with random commands from packages, so this makes it easier to access our own commands.
 
@@ -650,6 +659,7 @@ Construct a simple mode line.
                   (vc-mode vc-mode)
                   " "
                   mode-name
+                  (flymake-mode flymake-mode-line-format)
                   (flycheck-mode flycheck-mode-line)
                   " "
                   mode-line-misc-info
@@ -1110,7 +1120,7 @@ Note that we exclude some build directories so that changes in files don't propa
     :custom
     (treemacs-space-between-root-nodes nil)
     (treemacs-expand-after-init nil)
-    (treemacs-no-png-images t)
+    (treemacs-no-png-images (not my-use-eglot))
     :config
     (define-key treemacs-mode-map [drag-mouse-1] nil)
     (treemacs-follow-mode -1)
@@ -1313,6 +1323,7 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
 
 #+begin_src emacs-lisp
   (use-package flycheck
+    :if (not my-use-eglot)
     :general
     (my-leader-def
       :keymaps 'flycheck-mode-map
@@ -1473,15 +1484,57 @@ Load some =clojure= specific snippets.
 #+end_src
 
 *** Language Server Protocol
-**** General Setup
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
 
-See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-with-orderless][Corfu wiki]] on how =corfu= and =orderless= completion can be configured for =lsp-mode=.
+We use either =lsp-mode= or =eglot=, depending on =my-use-eglot=.
+
+See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-with-orderless][Corfu wiki]] on how =corfu= and =orderless= completion can be configured for =lsp-mode= or =eglot=.
+
+**** Eglot
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
+
+#+begin_src emacs-lisp
+  (use-package eglot
+    :if my-use-eglot
+    :general
+    ("M-." 'xref-find-references)
+    ("<C-.>" 'xref-find-definitions)
+    ("<C-return>" 'xref-find-definitions)
+    :hook
+    ((clojure-mode . eglot-ensure)
+     (clojurescript-mode . eglot-ensure)
+     (clojurec-mode . eglot-ensure)
+     (js-mode . eglot-ensure)
+     (typescript-mode . eglot-ensure))
+    :custom
+    (eglot-connect-timeout 300)
+    (eglot-sync-connect nil)
+    (completion-category-overrides '((eglot (styles orderless)))))
+#+end_src
+
+=lsp-mode= has it's own mechanism for traversing into =.jar= files etc, but for =eglot= we need to use =jarchive=.
+
+#+begin_src emacs-lisp
+  (use-package jarchive
+    :if my-use-eglot
+    ;; Temporarily fetch latest from git due to bug(s).
+    :vc (:fetcher sourcehut :repo dannyfreeman/jarchive/)
+    :config
+    (jarchive-setup))
+#+end_src
+
+**** lsp-mode
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
+    :if (not my-use-eglot)
     :general
     (my-leader-def
       :keymaps 'lsp-mode-map
@@ -1532,6 +1585,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
+    :after (lsp-mode)
     :general
     (my-leader-def
       :keymaps 'lsp-mode-map
@@ -1560,6 +1614,7 @@ depending on whether the current buffer is using =LSP=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-treemacs
+    :after (lsp-mode)
     :bind (("<f2>" . lsp-treemacs-symbols)
            ("<f3>" . lsp-treemacs-call-hierarchy))
     :custom
@@ -1570,7 +1625,7 @@ depending on whether the current buffer is using =LSP=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package consult-lsp
-    :after flycheck
+    :after (flycheck lsp-mode)
     :general
     (my-leader-def
       :keymaps 'flycheck-mode-map
@@ -1584,6 +1639,7 @@ depending on whether the current buffer is using =LSP=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-java
+    :after (lsp-mode)
     :hook ((java-mode . lsp))
     :bind (:map java-mode-map
               ("<tab>" . indent-for-tab-command))
@@ -1835,6 +1891,8 @@ Set =.html= indentation from 2 to 4.
     (cider-repl-display-in-current-window t)
     (cider-test-infer-test-ns #'my-cider-test-infer-test-ns)
     (cider-dynamic-indentation nil)
+    ;; Eglot and cider overlap in xref
+    (cider-use-xref (not my-use-eglot))
     :hook
     ((cider-mode . (lambda ()
                      (remove-hook 'completion-at-point-functions #'cider-complete-at-point))))
