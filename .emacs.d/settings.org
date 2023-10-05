@@ -1428,6 +1428,13 @@ Add icons to completion menu with =kind-icon=.
     (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package corfu-candidate-overlay
+    :after corfu
+    :config
+    (corfu-candidate-overlay-mode +1))
+#+end_src
+
 *** Snippets (=yasnippet=)
 :PROPERTIES:
 :VISIBILITY: folded
