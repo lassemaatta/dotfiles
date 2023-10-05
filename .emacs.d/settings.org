@@ -87,6 +87,13 @@ Always install all packages.
         use-package-always-demand (daemonp))
 #+END_SRC
 
+Install [[https://github.com/slotThe/vc-use-package][vc-use-package]] to teach =use-package= the =:vc= option.
+
+#+begin_src emacs-lisp
+  (unless (package-installed-p 'vc-use-package)
+    (package-vc-install "https://github.com/slotThe/vc-use-package"))
+#+end_src
+
 #+begin_src emacs-lisp
   (use-package system-packages
     :demand t
