@@ -1501,19 +1501,28 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
   (use-package eglot
     :if my-use-eglot
     :general
+    ("C-f l d" '(eldoc-box-help-at-point :which-key "Glance docs"))
+    ("C-f l a" '(eglot-code-actions :which-key "Code actions"))
     ("M-." 'xref-find-references)
     ("<C-.>" 'xref-find-definitions)
     ("<C-return>" 'xref-find-definitions)
     :hook
-    ((clojure-mode . eglot-ensure)
-     (clojurescript-mode . eglot-ensure)
-     (clojurec-mode . eglot-ensure)
-     (js-mode . eglot-ensure)
-     (typescript-mode . eglot-ensure))
+    ((clojure-mode
+      clojurescript-mode
+      clojurec-mode
+      js-mode
+      typescript-mode) . eglot-ensure)
+    (eglot-managed-mode . my-eglot-loaded)
     :custom
     (eglot-connect-timeout 300)
-    (eglot-sync-connect nil)
-    (completion-category-overrides '((eglot (styles orderless)))))
+    (eglot-sync-connect 1)
+    (eglot-autoshutdown t)
+    (eglot-extend-to-xref t)
+    (eglot-confirm-server-initiated-edits nil)
+    (completion-category-overrides '((eglot (styles orderless))))
+    :config
+    (defun my-eglot-loaded ()
+      (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)))
 #+end_src
 
 =lsp-mode= has it's own mechanism for traversing into =.jar= files etc, but for =eglot= we need to use =jarchive=.
