@@ -19,7 +19,7 @@
   - [[#performance][Performance]]
   - [[#scrolling][Scrolling]]
   - [[#whitespace][Whitespace]]
-  - [[#help-helpful][Help (=helpful=)]]
+  - [[#help][Help]]
   - [[#file-system-dired][File system (=dired=)]]
   - [[#ui][UI]]
   - [[#fonts][Fonts]]
@@ -440,19 +440,63 @@ Cleanup trailing whitespace when saving a buffer.
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 
-** Help (=helpful=)
+** Help
 
 [[https://github.com/Wilfred/helpful][helpful]] provides some additional information in help buffers, such as keymaps or call locations.
 
 #+begin_src emacs-lisp
   (use-package helpful
+    :general
+    (my-leader-def
+      :keymaps 'emacs-lisp-mode-map
+      "hh" '(helpful-at-point :which-key "Thing-at-point"))
     :bind
     (([remap describe-key]      . helpful-key)
      ([remap describe-command]  . helpful-command)
      ([remap describe-variable] . helpful-variable)
-     ([remap describe-function] . helpful-callable)
-     :map emacs-lisp-mode-map
-     ("C-c C-d" . helpful-at-point)))
+     ([remap describe-function] . helpful-callable)))
+#+end_src
+
+=eldoc= is the built-in documentation tool, which can show documentation in e.g. the echo area or a dedicated buffer.
+
+#+begin_src emacs-lisp
+  (use-package eldoc
+    :custom
+    (eldoc-documentation-strategy 'eldoc-documentation-compose))
+#+end_src
+
+[[https://github.com/casouri/eldoc-box][eldoc-box]] can display =eldoc= documentation in a nice popup child-frame.
+
+#+begin_src emacs-lisp
+  (use-package eldoc-box
+    :general
+    (my-leader-def
+      :keymaps '(clojure-mode-map)
+      "hh" '(eldoc-box-help-at-point :which-key "Glance docs")))
+#+end_src
+
+Let's define some helper functions, which can be used to wrap the various =eldoc= display functions (like =eldoc-display-in-echo-area= or =eldoc-display-in-buffer=). These functions allow us to choose which documentation (e.g. function signatures, flymake errors, LSP documentation) appears in which output.
+
+#+begin_src emacs-lisp
+  (defun my-filter-by-source (display-fn &rest source-fns)
+    "Wrap DISPLAY-FN such that only docs from SOURCE-FNS are shown."
+    (lambda (docs interactive)
+      (let ((docs (->> docs
+                       (-filter (lambda (doc)
+                                  (let* ((plist (cdr doc))
+                                         (origin (plist-get plist :origin)))
+                                    (-contains? source-fns origin)))))))
+        (funcall display-fn docs interactive))))
+
+  (defun my-remove-by-source (display-fn &rest source-fns)
+    "Wrap DISPLAY-FN such that any docs from SOURCE-FNS are ignored."
+    (lambda (docs interactive)
+      (let ((docs (->> docs
+                       (-remove (lambda (doc)
+                                  (let* ((plist (cdr doc))
+                                         (origin (plist-get plist :origin)))
+                                    (-contains? source-fns origin)))))))
+        (funcall display-fn docs interactive))))
 #+end_src
 
 ** File system (=dired=)
@@ -1521,8 +1565,19 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (eglot-confirm-server-initiated-edits nil)
     (completion-category-overrides '((eglot (styles orderless))))
     :config
+    ;; Don't show hover documentation in echo area
+    (defalias 'my-display-in-echo-area (my-remove-by-source 'eldoc-display-in-echo-area
+                                                            'eglot-hover-eldoc-function))
+    ;; Only show hover documentation in doc buffer
+    (defalias 'my-display-in-buffer (my-filter-by-source 'eldoc-display-in-buffer
+                                                         'eglot-hover-eldoc-function))
     (defun my-eglot-loaded ()
-      (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)))
+      (setq eldoc-display-functions (list 'my-display-in-echo-area
+                                          'my-display-in-buffer))
+      (setq eldoc-documentation-functions (list 'flymake-eldoc-function
+                                                'eglot-signature-eldoc-function
+                                                'eglot-hover-eldoc-function
+                                                t))))
 #+end_src
 
 =lsp-mode= has it's own mechanism for traversing into =.jar= files etc, but for =eglot= we need to use =jarchive=.
