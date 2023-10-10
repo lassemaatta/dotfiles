@@ -1958,9 +1958,15 @@ Set =.html= indentation from 2 to 4.
     ;; Eglot and cider overlap in xref
     (cider-use-xref (not my-use-eglot))
     :hook
-    ((cider-mode . (lambda ()
-                     (remove-hook 'completion-at-point-functions #'cider-complete-at-point))))
+    ((cider-mode . my-cider-loaded))
     :config
+    (defun my-cider-loaded ()
+      (interactive)
+      (remove-hook 'completion-at-point-functions #'cider-complete-at-point)
+      (when my-use-eglot
+        (if (bound-and-true-p cider-mode)
+            (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function)
+          (add-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function nil t))))
     (cider-repl-toggle-pretty-printing)
 
     (put-clojure-indent 'testit/fact 1)
