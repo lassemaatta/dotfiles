@@ -48,16 +48,19 @@
                         "<no hash>"))
 (defconst current-hash (get-file-hash org-src))
 
-;; Forward declare function
-(declare-function org-babel-tangle-file "ob-tangle" (file &optional target-file lang-re))
+(defun my-tangle (src dst)
+  "Tangle org mode SRC to DST in another Emacs process."
+  (let ((command (format "emacs --quick --batch --eval \"(progn (require 'org) (org-babel-tangle-file \\\"%s\\\" \\\"%s\\\"))\""
+                         src
+                         dst)))
+    (shell-command command)))
 
 (if (not (string= stored-hash current-hash))
     (progn
       (message "Hashes do not match (%s vs %s) => Tangling settings.."
                stored-hash current-hash)
       (let ((org-start (float-time (current-time))))
-        (require 'org)
-        (org-babel-tangle-file org-src org-dst)
+        (my-tangle org-src org-dst)
         (let ((org-end (float-time (current-time))))
           (message "Tangled.. done (%.3fs)" (float-time (time-subtract (current-time)
                                                                        org-start)))))
