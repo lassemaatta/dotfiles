@@ -96,13 +96,6 @@ Always install all packages.
         use-package-always-demand (daemonp))
 #+END_SRC
 
-Install [[https://github.com/slotThe/vc-use-package][vc-use-package]] to teach =use-package= the =:vc= option.
-
-#+begin_src emacs-lisp
-  (unless (package-installed-p 'vc-use-package)
-    (package-vc-install "https://github.com/slotThe/vc-use-package"))
-#+end_src
-
 #+begin_src emacs-lisp
   (use-package system-packages
     :demand t
@@ -178,71 +171,76 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
           :states '(normal visual))
       (general-create-definer my-leader-def
         :prefix my-leader)))
+
+  ;; Flush the queue so that latter 'use-package' calls can use ':general'.
+  (elpaca-wait)
 #+end_src
 
 #+begin_src emacs-lisp
-  (my-leader-def
-    ""   '(nil :which-key "leader key")
-    "q"  '(:ignore t :which-key "Quit")
-    "qq" '(save-buffers-kill-emacs :which-key "Quit emacs")
-    "qr" '(restart-emacs :which-key "Restart emacs")
-    ;; Buffers
-    "b"  '(:ignore t :which-key "Buffers")
-    "bl" '(next-buffer :which-key "Next buffer")
-    "bh" '(previous-buffer :which-key "Previous buffer")
-    "bk" '(kill-buffer :which-key "Kill buffer")
-    "bx" '(kill-buffer-and-window :which-key "Kill buffer, close window")
-    "bm" `(,(lambda ()
-              (interactive)
-              (switch-to-buffer "*Messages*"))
-           :which-key "Messages")
-    "bs" `(,(lambda ()
-              (interactive)
-              (find-file (concat user-emacs-directory "settings.org")))
-           :which-key "Settings.org")
-    ;; Errors
-    "e"  '(:ignore t :which-key "Errors")
-    ;; Files
-    "f"  '(:ignore t :which-key "Files")
-    "fs" `(,(lambda ()
-              (interactive)
-              (save-some-buffers t))
-           :which-key "Save all")
-    "fS" '(save-buffer :which-key "Save")
-    ;; Help
-    "h" '(:ignore t :which-key "Help")
-    "hv" '(describe-variable :which-key "Describe variable")
-    "hf" '(describe-function :which-key "Describe function")
-    "hk" '(describe-key :which-key "Describe key")
-    "hb" '(describe-bindings :which-key "Show bindings")
-    "hm" '(describe-mode :which-key "Describe mode")
-    ;; LSP
-    "l"  '(:ignore t :which-key "LSP")
-    ;; Notes
-    "n"  '(:ignore t :which-key "Notes")
-    "na" '(org-agenda :which-key "Agenda")
-    "p"  '(:ignore t :which-key "Project")
-    ;; Search
-    "s"  '(:ignore t :which-key "Search")
-    ;; Testing
-    "t"  '(:ignore t :which-key "Testing")
-    "w"  '(:ignore t :which-key "Windows")
-    "ww" '(delete-window :which-key "Delete this")
-    "wo" '(delete-other-windows :which-key "Delete others")
-    "w S-<right>" '(split-window-right :which-key "Add right")
-    "w <right>" '(windmove-right :which-key "Move right")
-    "w <up>" '(windmove-up :which-key "Move up")
-    "w <left>" '(windmove-left :which-key "Move left")
-    "w <down>" '(windmove-down :which-key "Move down")
-    ;; Lisp
-    "x"  '(:ignore t :which-key "Execute LISP"))
+  (elpaca nil
+    (my-leader-def
+      ""   '(nil :which-key "leader key")
+      "q"  '(:ignore t :which-key "Quit")
+      "qq" '(save-buffers-kill-emacs :which-key "Quit emacs")
+      "qr" '(restart-emacs :which-key "Restart emacs")
+      ;; Buffers
+      "b"  '(:ignore t :which-key "Buffers")
+      "bl" '(next-buffer :which-key "Next buffer")
+      "bh" '(previous-buffer :which-key "Previous buffer")
+      "bk" '(kill-buffer :which-key "Kill buffer")
+      "bx" '(kill-buffer-and-window :which-key "Kill buffer, close window")
+      "bm" `(,(lambda ()
+                (interactive)
+                (switch-to-buffer "*Messages*"))
+             :which-key "Messages")
+      "bs" `(,(lambda ()
+                (interactive)
+                (find-file (concat user-emacs-directory "settings.org")))
+             :which-key "Settings.org")
+      ;; Errors
+      "e"  '(:ignore t :which-key "Errors")
+      ;; Files
+      "f"  '(:ignore t :which-key "Files")
+      "fs" `(,(lambda ()
+                (interactive)
+                (save-some-buffers t))
+             :which-key "Save all")
+      "fS" '(save-buffer :which-key "Save")
+      ;; Help
+      "h" '(:ignore t :which-key "Help")
+      "hv" '(describe-variable :which-key "Describe variable")
+      "hf" '(describe-function :which-key "Describe function")
+      "hk" '(describe-key :which-key "Describe key")
+      "hb" '(describe-bindings :which-key "Show bindings")
+      "hm" '(describe-mode :which-key "Describe mode")
+      ;; LSP
+      "l"  '(:ignore t :which-key "LSP")
+      ;; Notes
+      "n"  '(:ignore t :which-key "Notes")
+      "na" '(org-agenda :which-key "Agenda")
+      "p"  '(:ignore t :which-key "Project")
+      ;; Search
+      "s"  '(:ignore t :which-key "Search")
+      ;; Testing
+      "t"  '(:ignore t :which-key "Testing")
+      "w"  '(:ignore t :which-key "Windows")
+      "ww" '(delete-window :which-key "Delete this")
+      "wo" '(delete-other-windows :which-key "Delete others")
+      "w S-<right>" '(split-window-right :which-key "Add right")
+      "w <right>" '(windmove-right :which-key "Move right")
+      "w <up>" '(windmove-up :which-key "Move up")
+      "w <left>" '(windmove-left :which-key "Move left")
+      "w <down>" '(windmove-down :which-key "Move down")
+      ;; Lisp
+      "x"  '(:ignore t :which-key "Execute LISP")))
 #+end_src
 
 #+begin_src emacs-lisp
-  (my-leader-def
-    :keymaps '(emacs-lisp-mode-map org-mode-map)
-    "xl" '(eval-last-sexp :which-key "Eval last")
-    "xe" '(eval-defun :which-key "Eval defun"))
+  (elpaca nil
+    (my-leader-def
+      :keymaps '(emacs-lisp-mode-map org-mode-map)
+      "xl" '(eval-last-sexp :which-key "Eval last")
+      "xe" '(eval-defun :which-key "Eval defun")))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -462,6 +460,7 @@ Cleanup trailing whitespace when saving a buffer.
 
 #+begin_src emacs-lisp
   (use-package eldoc
+    :elpaca nil
     :custom
     (eldoc-documentation-strategy 'eldoc-documentation-compose))
 #+end_src
@@ -642,6 +641,7 @@ Enable /HideShow/ mode: allows collapsing s-exprs (=<backtab>=  is =S-<tab>=).
 
 #+begin_src emacs-lisp
   (use-package hideshow
+    :elpaca nil
     :hook ((clojure-mode . hs-minor-mode)
            (emacs-lisp-mode . hs-minor-mode))
     :bind (("<backtab>" . hs-toggle-hiding)))
@@ -863,6 +863,7 @@ Use =savehist= to save minibuffer command history between sessions.
 
 #+BEGIN_SRC emacs-lisp
   (use-package savehist
+    :elpaca nil
     :init
     (savehist-mode))
 #+END_SRC
@@ -909,6 +910,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 #+begin_src emacs-lisp
   (use-package org
     :demand t
+    :elpaca nil
     :general
     (my-leader-def
       :keymaps 'org-mode-map
@@ -951,14 +953,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     :config
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((clojure . t)
-       (emacs-lisp . t)
-       (http . t)
-       (dot . t)
-       (shell . t)
-       (plantuml . t)))
     (org-clock-persistence-insinuate))
 #+end_src
 
@@ -975,6 +969,19 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 #+begin_src emacs-lisp
   (use-package ob-http
     :after org)
+#+end_src
+
+#+begin_src emacs-lisp
+  (add-hook 'elpaca-after-init-hook
+            (lambda ()
+              (org-babel-do-load-languages
+               'org-babel-load-languages
+               '((clojure . t)
+                 (emacs-lisp . t)
+                 (http . t)
+                 (dot . t)
+                 (shell . t)
+                 (plantuml . t)))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1086,12 +1093,14 @@ and run it with
 
 #+begin_src emacs-lisp
   (use-package emacs
+    :elpaca nil
     :ensure-system-package ((mbsync . isync)
                             mu))
 #+end_src
 
 #+begin_src emacs-lisp
   (use-package mu4e
+    :elpaca nil
     :load-path "/usr/share/emacs/site-lisp/mu4e"
     :after org
     :commands (mu4e)
@@ -1593,7 +1602,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
   (use-package jarchive
     :if my-use-eglot
     ;; Temporarily fetch latest from git due to bug(s).
-    :vc (:fetcher sourcehut :repo dannyfreeman/jarchive/)
+    :elpaca (:host sourcehut :repo "dannyfreeman/jarchive/")
     :config
     (jarchive-setup))
 #+end_src
@@ -1735,6 +1744,7 @@ depending on whether the current buffer is using =LSP=.
       (ansi-color-apply-on-region (point-min) (point-max))))
 
   (use-package ansi-color
+    :elpaca nil
     :after (lsp-java)
     :config
     (add-hook 'compilation-filter-hook 'ansi-colorize-buffer))
@@ -1840,6 +1850,7 @@ Set =.html= indentation from 2 to 4.
 
 #+BEGIN_SRC emacs-lisp
   (use-package js
+    :elpaca nil
     :mode ("\\.js\\'" . js-mode)
     :custom
     (js-indent-level 2))

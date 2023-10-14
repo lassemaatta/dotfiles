@@ -29,19 +29,7 @@
   "Calculate the MD5 hash of a FILEPATH."
   (md5 (get-string-from-file filePath)))
 
-(require 'package)
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-
-(setq package-enable-at-startup nil)
-(unless package--initialized
-  (package-initialize))
-
-;; Download the package list immediately if we've yet to do so (e.g. after reinstalling)
-(unless package-archive-contents
-  (package-refresh-contents))
+(load "~/.emacs.d/elpaca-bootstrap.el")
 
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))
@@ -86,6 +74,8 @@
   (let ((org-end (float-time (current-time))))
     (message "Load.. done (%.3fs)" (float-time (time-subtract (current-time)
                                                               load-start)))))
+
+(elpaca-wait)
 
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))

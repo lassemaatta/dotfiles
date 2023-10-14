@@ -1,4 +1,4 @@
-;;; early-init.el --- Minimal setup before loading the GUI
+;;; early-init.el --- Minimal setup before loading the GUI -*- lexical-binding: t; -*-
 
 
 ;;; Commentary:
@@ -30,6 +30,8 @@
 
 ;; Don't report when native compilation produces warnings or errors
 (setq native-comp-async-report-warnings-errors nil)
+
+(setq package-enable-at-startup nil)
 
 (provide 'early-init)
 
