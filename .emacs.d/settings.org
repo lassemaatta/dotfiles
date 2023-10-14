@@ -847,7 +847,7 @@ The [[https://github.com/oantolin/embark][embark]] package provides a way to run
 #+BEGIN_SRC emacs-lisp
   (use-package embark
     :demand t
-    :after vertico
+    :after (org vertico)
     :bind (("C-ä" . embark-act)))
 #+END_SRC
 
@@ -906,6 +906,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package org
+    :demand t
     :general
     (my-leader-def
       :keymaps 'org-mode-map
@@ -1034,6 +1035,7 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
+    :after org
     :general
     (my-leader-def
       "nf" '(org-roam-node-find :which-key "Find note")
@@ -1090,6 +1092,7 @@ and run it with
 #+begin_src emacs-lisp
   (use-package mu4e
     :load-path "/usr/share/emacs/site-lisp/mu4e"
+    :after org
     :commands (mu4e)
     :custom
     (mu4e-get-mail-command "mbsync --config ~/.config/mbsyncrc -a")
@@ -1130,7 +1133,7 @@ and run it with
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :demand t
-    :after (projectile)
+    :after (projectile org)
     :custom
     (dashboard-center-content t)
     (dashboard-set-heading-icons t)
@@ -1188,7 +1191,7 @@ Note that we exclude some build directories so that changes in files don't propa
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :after (vertico)
+    :after (vertico org)
     :general
     (my-leader-def
       :keymaps 'projectile-mode-map
@@ -1523,7 +1526,7 @@ Load some =clojure= specific snippets.
 
 #+begin_src emacs-lisp
   (use-package consult-yasnippet
-    :after (yasnippet)
+    :after (yasnippet org)
     :bind  (("C-ö" . consult-yasnippet)))
 #+end_src
 
@@ -1689,7 +1692,7 @@ depending on whether the current buffer is using =LSP=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package consult-lsp
-    :after (flycheck lsp-mode)
+    :after (flycheck lsp-mode org)
     :general
     (my-leader-def
       :keymaps 'flycheck-mode-map
@@ -2034,6 +2037,7 @@ Somewhat related, =expand-region= provides two nice tools to either expand or co
 
 #+begin_src emacs-lisp
   (use-package expand-region
+    :after org
     :bind (("C-S-<up>" . er/expand-region)
            ("C-S-<down>" . er/contract-region)))
 #+end_src
