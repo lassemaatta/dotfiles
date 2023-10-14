@@ -304,6 +304,7 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
 
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
+    :demand t
     :custom
     (which-key-sort-order 'which-key-key-order-alpha)
     (which-key-separator " -> ")
@@ -995,9 +996,7 @@ As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to und
     :hook ((org-mode . org-appear-mode))
     :custom
     (org-hide-emphasis-markers t)
-    (org-appear-autolinks t)
-    :config
-    (message "Loaded org-appear"))
+    (org-appear-autolinks t))
 #+end_src
 
 =visual-fill-column= allows wrapping (and centering) text at a given width.
@@ -1300,6 +1299,9 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
 
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
+    :init
+    (defun smartrep-define-key (a b c)
+      nil)
     :hook ((prog-mode . global-diff-hl-mode)
            (dired-mode . diff-hl-dired-mode)
            (magit-pre-refresh . diff-hl-magit-pre-refresh)
@@ -1850,7 +1852,7 @@ Set =.html= indentation from 2 to 4.
      'js-mode-hook
      (lambda ()
        (unless (eq major-mode 'json-mode)
-               (js2-minor-mode)))))
+         (js2-minor-mode)))))
 #+END_SRC
 
 **** SSH config files
@@ -2103,9 +2105,9 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
   (defun my-xml-pretty-format ()
     (interactive)
     (save-excursion
-        (shell-command-on-region (point-min) (point-max) "xmllint --format -" (buffer-name) t)
-        (nxml-mode)
-        (indent-region begin end)))
+      (shell-command-on-region (point-min) (point-max) "xmllint --format -" (buffer-name) t)
+      (nxml-mode)
+      (indent-region begin end)))
 #+END_SRC
 
 * Postamble
