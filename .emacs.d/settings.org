@@ -469,6 +469,7 @@ Cleanup trailing whitespace when saving a buffer.
 
 #+begin_src emacs-lisp
   (use-package eldoc-box
+    :after eldoc
     :general
     (my-leader-def
       :keymaps '(clojure-mode-map)
@@ -962,6 +963,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package org-superstar
+    :after org
     :custom
     (org-superstar-remove-leading-stars t)
     :hook ((org-mode . org-superstar-mode)))
