@@ -6,6 +6,17 @@
 
 (defvar emacs-start-time (current-time))
 
+(defvar my-require-tree nil)
+
+(defun my-require--advice (orig-fun feature &rest args)
+  (setq my-require-tree
+        (append my-require-tree
+                (list (let ((my-require-tree (list feature)))
+                        (apply orig-fun feature args)
+                        my-require-tree)))))
+
+(advice-add 'require :around 'my-require--advice)
+
 ;; Define some utility functions
 
 (defun get-string-from-file (filePath)
