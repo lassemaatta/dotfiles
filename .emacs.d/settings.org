@@ -1330,6 +1330,12 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
                  ([remap magit-visit-thing] . forge-visit-topic))))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package git-link
+    :after magit)
+#+end_src
+
+
 [[https://github.com/dgutov/diff-hl][diff-hl]] highlights modified lines in the gutter.
 
 #+BEGIN_SRC emacs-lisp
