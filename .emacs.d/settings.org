@@ -2153,5 +2153,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 :END:
 
 #+BEGIN_SRC emacs-lisp
+  (provide 'settings)
+
   ;;; settings.el ends here
 #+END_SRC
