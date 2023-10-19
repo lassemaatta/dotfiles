@@ -78,8 +78,9 @@ Let's use =C-f= (or =space=) as the leader key for our commands, but first we mu
 The =early-init.el= disables garbage collection at startup. Here we re-enable it once startup is complete.
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-startup-hook
+  (add-hook 'elpaca-after-init-hook
             (lambda ()
+              (message "Elpaca done!")
               (setq gc-cons-threshold (* 128 1024 1024))))
 #+END_SRC
 
