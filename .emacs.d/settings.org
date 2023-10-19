@@ -819,7 +819,8 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     (my-leader-def
       "bb" '(consult-buffer :which-key "Switch buffer")
       "ss" '(consult-line :which-key "Search (in buffer)")
-      "sr" '(consult-ripgrep :which-key "Search (ripgrep)"))
+      "sr" '(consult-ripgrep :which-key "Search (ripgrep)")
+      "si" '(consult-imenu :which-key "Imenu"))
     :bind (("C-s" . consult-line)
            ("C-x b" . consult-buffer)
            ("C-M-y" . consult-yank-from-kill-ring))
@@ -828,7 +829,16 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     (consult-project-function (lambda (_)
                                 (projectile-project-root)))
     (xref-show-xrefs-function #'consult-xref)
-    (xref-show-definitions-function #'consult-xref))
+    (xref-show-definitions-function #'consult-xref)
+    :config
+    (require 'consult-imenu)
+    (add-to-list 'consult-imenu-config
+                 '(clojure-mode :toplevel "Functions"
+                                :types ((?f "Functions"  font-lock-function-name-face)
+                                        (?m "Macros"     font-lock-function-name-face)
+                                        (?n "Namespaces" font-lock-constant-face)
+                                        (?i "Interfaces" font-lock-type-face)
+                                        (?v "Variables"  font-lock-variable-name-face)))))
 #+END_SRC
 
 #+begin_src emacs-lisp
