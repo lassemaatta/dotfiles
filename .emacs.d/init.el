@@ -75,8 +75,6 @@
     (message "Load.. done (%.3fs)" (float-time (time-subtract (current-time)
                                                               load-start)))))
 
-(elpaca-wait)
-
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))
   (message "Init.el finished...done (%.3fs)" elapsed))
