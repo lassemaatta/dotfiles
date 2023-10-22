@@ -1206,6 +1206,16 @@ Note that we exclude some build directories so that changes in files don't propa
     (treemacs-load-theme "nerd-icons"))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (use-package treemacs-mu4e
+    :elpaca (:host github :repo "Alexander-Miller/treemacs" :files ("src/extra/treemacs-mu4e.el"))
+    :after (treemacs mu4e)
+    :general
+    (my-leader-def
+      :keymaps 'mu4e-main-mode-map
+      "<f1>" '(treemacs-mu4e :which-key "Show mu4e folders")))
+#+end_src
+
 *** Project Management (=projectile=)
 
 [[https://github.com/bbatsov/projectile][projectile]] is used for managing projects.
