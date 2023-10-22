@@ -813,7 +813,7 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
 #+BEGIN_SRC emacs-lisp
   (use-package consult
     :demand t
-    :after (projectile)
+    :after (projectile xref)
     :general
     (my-leader-def
       "bb" '(consult-buffer :which-key "Switch buffer")
@@ -1407,6 +1407,19 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
 #+end_src
 
 ** Programming
+*** References
+
+#+begin_src emacs-lisp
+  (use-package xref
+    :demand t
+    :general
+    ("M-." 'xref-find-references)
+    ("<C-.>" 'xref-find-definitions)
+    ("<C-return>" 'xref-find-definitions)
+    :custom
+    (xref-prompt-for-identifier nil))
+#+end_src
+
 *** Error checking (=flycheck=)
 :PROPERTIES:
 :VISIBILITY: folded
@@ -1594,9 +1607,6 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     :general
     ("C-f l d" '(eldoc-box-help-at-point :which-key "Glance docs"))
     ("C-f l a" '(eglot-code-actions :which-key "Code actions"))
-    ("M-." 'xref-find-references)
-    ("<C-.>" 'xref-find-definitions)
-    ("<C-return>" 'xref-find-definitions)
     :hook
     ((clojure-mode
       clojurescript-mode
@@ -1620,11 +1630,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
                                                          'eglot-hover-eldoc-function))
     (defun my-eglot-loaded ()
       (setq eldoc-display-functions (list 'my-display-in-echo-area
-                                          'my-display-in-buffer))
-      (setq eldoc-documentation-functions (list 'flymake-eldoc-function
-                                                'eglot-signature-eldoc-function
-                                                'eglot-hover-eldoc-function
-                                                t))))
+                                          'my-display-in-buffer))))
 #+end_src
 
 =lsp-mode= has it's own mechanism for traversing into =.jar= files etc, but for =eglot= we need to use =jarchive=.
@@ -1650,7 +1656,6 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (my-leader-def
       :keymaps 'lsp-mode-map
       "lR" '(lsp-workspace-restart :which-key "Restart workspace"))
-    ("M-." 'lsp-find-references)
     :custom
     (lsp-completion-provider :none)
     (lsp-completion-sort-initial-results nil)
@@ -1688,9 +1693,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            (lsp-completion-mode . my/lsp-mode-setup-completion)
            (lsp-after-apply-edits . (lambda (op)
                                       (save-some-buffers t))))
-    :bind (("<C-return>" . lsp-find-definition)
-           ("<C-.>" . lsp-find-definition)
-           ("<C-M-return>" . lsp-describe-thing-at-point))
+    :bind (("<C-M-return>" . lsp-describe-thing-at-point))
     :commands (lsp lsp-deferred))
 #+END_SRC
 
@@ -2004,8 +2007,8 @@ Set =.html= indentation from 2 to 4.
     (cider-repl-display-in-current-window t)
     (cider-test-infer-test-ns #'my-cider-test-infer-test-ns)
     (cider-dynamic-indentation nil)
-    ;; Eglot and cider overlap in xref
-    (cider-use-xref (not my-use-eglot))
+    ;; Give lower priority to cider xref backend over LSP
+    (cider-xref-fn-depth 0)
     :hook
     ((cider-mode . my-cider-loaded))
     :config
