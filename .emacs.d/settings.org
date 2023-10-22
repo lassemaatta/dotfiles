@@ -459,6 +459,7 @@ Cleanup trailing whitespace when saving a buffer.
 
 #+begin_src emacs-lisp
   (use-package eldoc
+    :ensure t
     :custom
     (eldoc-documentation-strategy 'eldoc-documentation-compose))
 #+end_src
