@@ -50,7 +50,7 @@
 :END:
 ** Configuration flags
 
-Whether to use =eglot= or =lsp-mode=.
+Whether to use =eglot= (and =flymake=) or =lsp-mode= (and =lsp-ui=, =flycheck=).
 
 #+BEGIN_SRC emacs-lisp
   (defconst my-use-eglot t)
@@ -137,13 +137,11 @@ The =use-package-ensure-system-package= provides the =:ensure-system-package= ke
 ** Load optional local settings
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/init/")
-  (require 'init-local nil t)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file "~/.emacs.d/emacs-custom.el")
-  (load custom-file)
+  (add-hook 'elpaca-after-init-hook
+            (lambda ()
+              (load "~/.emacs.d/init/init-local.el")
+              (setq custom-file "~/.emacs.d/emacs-custom.el")
+              (load custom-file)))
 #+END_SRC
 
 ** Generate TOC
@@ -508,6 +506,8 @@ Re-use the same buffer when navigating to subdirectories in =dired=.
 #+begin_src emacs-lisp
   (put 'dired-find-alternate-file 'disabled nil)
 #+end_src
+
+Show some nice icons in =dired= buffers.
 
 #+begin_src emacs-lisp
   (use-package nerd-icons-dired
