@@ -31,6 +31,7 @@
   - [[#email][Email]]
   - [[#project-and-file-management][Project and File Management]]
   - [[#programming][Programming]]
+  - [[#terminal][Terminal]]
 - [[#postamble][Postamble]]
 
 * Preamble
@@ -2225,6 +2226,32 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       (nxml-mode)
       (indent-region begin end)))
 #+END_SRC
+
+** Terminal
+
+#+begin_src emacs-lisp
+  (use-package vterm
+    :elpaca (vterm :post-build
+                   (progn
+                     (setq vterm-always-compile-module t)
+                     (require 'vterm)
+                     ;;print compilation info for elpaca
+                     (with-current-buffer (get-buffer-create vterm-install-buffer-name)
+                       (goto-char (point-min))
+                       (while (not (eobp))
+                         (message "%S"
+                                  (buffer-substring (line-beginning-position)
+                                                    (line-end-position)))
+                         (forward-line)))
+                     (when-let ((so (expand-file-name "./vterm-module.so"))
+                                ((file-exists-p so)))
+                       (make-symbolic-link
+                        so (expand-file-name (file-name-nondirectory so)
+                                             "../../builds/vterm")
+                        'ok-if-already-exists))))
+    :ensure t
+    :demand t)
+#+end_src
 
 * Postamble
 :PROPERTIES:
