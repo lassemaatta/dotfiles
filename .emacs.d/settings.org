@@ -577,15 +577,29 @@ Detect the active monitor name and update the font size accordingly.
     (interactive)
     (frame-monitor-attribute 'name))
 
+  (defun my-monitor-attrs-to-font-height ()
+    "Use screen resolution and physical size to determine font size."
+    (let-alist (frame-monitor-attributes)
+      (let ((x (nth 2 .geometry))
+            (y (nth 3 .geometry))
+            (w (nth 0 .mm-size))
+            (h (nth 1 .mm-size)))
+        (message "%sx%s px, %s mm x %s mm" x y w h)
+        (cond
+         ;; x270 -> 130
+         ((and (eq x 1920) (eq y 1080)
+               (eq w 280) (eq h 160)) 130)))))
+
   (defun my-monitor-to-font-height ()
     "Map monitor name to font height."
-    (pcase (my-monitor-name)
-      ("M28U/22060B001950" 90)
-      ("eDP-1-unknown" 90)
-      ((pred (string-prefix-p "P27h-20/V906XFMC")) 110)
-      (name (progn
-              (message "Unknown monitor '%s'" name)
-              100))))
+    (or (my-monitor-attrs-to-font-height)
+        (pcase (my-monitor-name)
+          ("M28U/22060B001950" 90)
+          ("eDP-1-unknown" 130)
+          ((pred (string-prefix-p "P27h-20/V906XFMC")) 110)
+          (name (progn
+                  (message "Unknown monitor '%s'" name)
+                  100)))))
 
   (defun my-refresh-dpi ()
     "Update the font size based on the active monitor."
