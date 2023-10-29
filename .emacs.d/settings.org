@@ -2249,8 +2249,11 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
                         so (expand-file-name (file-name-nondirectory so)
                                              "../../builds/vterm")
                         'ok-if-already-exists))))
-    :ensure t
-    :demand t)
+    :demand t
+    :hook (vterm-mode . my-on-vterm)
+    :config
+    (defun my-on-vterm ()
+      (setq-local global-hl-line-mode nil)))
 #+end_src
 
 * Postamble
