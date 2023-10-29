@@ -62,6 +62,14 @@ Create a flag to toggle whether we use =evil= or traditional =emacs= bindings.
   (defconst use-evil nil)
 #+end_src
 
+#+begin_src emacs-lisp
+  (defun my-lsb-release ()
+    (interactive)
+    (string-trim (shell-command-to-string "lsb_release --short --id")))
+
+  (defconst my-release (my-lsb-release))
+#+end_src
+
 ** Clear leader key
 
 Let's use =C-f= (or =space=) as the leader key for our commands, but first we must clear its existing command. The =C-c= prefix is already populated with random commands from packages, so this makes it easier to access our own commands.
@@ -100,31 +108,33 @@ Always install all packages.
 #+begin_src emacs-lisp
   (use-package system-packages
     :demand t
-    :custom
-    (system-packages-package-manager 'yay)
     :config
+    (when (string-equal-ignore-case "arch" my-release)
+      (setq system-packages-package-manager 'yay))
+    (when (string-equal-ignore-case "Ubuntu" my-release)
+      (setq system-packages-package-manager 'apt))
     (add-to-list 'system-packages-supported-package-managers
                  '(yay .
-                          ((default-sudo . nil)
-                           (install . "yay -S")
-                           (search . "yay -Ss")
-                           (uninstall . "yay -Rs")
-                           (update . "yay -Syu")
-                           (clean-cache . "yay -Sc")
-                           (log . "cat /var/log/pacman.log")
-                           (change-log . "yay -Qc")
-                           (get-info . "yay -Qi")
-                           (get-info-remote . "yay -Si")
-                           (list-files-provided-by . "yay -Ql")
-                           (owning-file . "yay -Qo")
-                           (owning-file-remote . "yay -F")
-                           (verify-all-packages . "yay -Qkk")
-                           (verify-all-dependencies . "yay -Dk")
-                           (remove-orphaned . "yay -Rns $(yay -Qtdq)")
-                           (list-installed-packages . "yay -Qe")
-                           (list-installed-packages-all . "yay -Q")
-                           (list-dependencies-of . "yay -Qi")
-                           (noconfirm . "--noconfirm")))))
+                       ((default-sudo . nil)
+                        (install . "yay -S")
+                        (search . "yay -Ss")
+                        (uninstall . "yay -Rs")
+                        (update . "yay -Syu")
+                        (clean-cache . "yay -Sc")
+                        (log . "cat /var/log/pacman.log")
+                        (change-log . "yay -Qc")
+                        (get-info . "yay -Qi")
+                        (get-info-remote . "yay -Si")
+                        (list-files-provided-by . "yay -Ql")
+                        (owning-file . "yay -Qo")
+                        (owning-file-remote . "yay -F")
+                        (verify-all-packages . "yay -Qkk")
+                        (verify-all-dependencies . "yay -Dk")
+                        (remove-orphaned . "yay -Rns $(yay -Qtdq)")
+                        (list-installed-packages . "yay -Qe")
+                        (list-installed-packages-all . "yay -Q")
+                        (list-dependencies-of . "yay -Qi")
+                        (noconfirm . "--noconfirm")))))
 #+end_src
 
 The =use-package-ensure-system-package= provides the =:ensure-system-package= keyword for =use-package= recipes.
