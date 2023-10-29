@@ -149,7 +149,8 @@ The =use-package-ensure-system-package= provides the =:ensure-system-package= ke
 #+BEGIN_SRC emacs-lisp
   (add-hook 'elpaca-after-init-hook
             (lambda ()
-              (load "~/.emacs.d/init/init-local.el")
+              (when (file-directory-p "~/.emacs.d/init")
+                (load "~/.emacs.d/init/init-local.el"))
               (setq custom-file "~/.emacs.d/emacs-custom.el")
               (load custom-file)))
 #+END_SRC
@@ -979,7 +980,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-babel-clojure-backend 'cider)
     (org-babel-clojure-sync-nrepl-timeout nil)
     (org-clock-persist t)
-    (org-agenda-files '("~/Dropbox/org/" "~/org-local/"))
     (org-habit-preceding-days 7)
     (org-habit-following-days 14)
     (org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d@)" "CANCELLED(c@)")))
@@ -991,6 +991,11 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
            (org-mode . visual-line-mode)
            (org-babel-after-execute . org-redisplay-inline-images))
     :config
+    (defun my-add-agenda (directory)
+      (when (file-directory-p directory)
+        (setq org-agenda-files (add-to-list 'org-agenda-files directory))))
+    (my-add-agenda "~/Dropbox/org/")
+    (my-add-agenda "~/org-local/")
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
     (org-clock-persistence-insinuate))
