@@ -63,6 +63,8 @@ Create a flag to toggle whether we use =evil= or traditional =emacs= bindings.
   (defconst use-evil nil)
 #+end_src
 
+Check which Linux distribution are we using.
+
 #+begin_src emacs-lisp
   (defun my-lsb-release ()
     (interactive)
@@ -1693,6 +1695,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (eglot-extend-to-xref t)
     (eglot-confirm-server-initiated-edits nil)
     (completion-category-overrides '((eglot (styles orderless))))
+    (eglot-send-changes-idle-time 1.0)
     :config
     ;; Don't show hover documentation in echo area
     (defalias 'my-display-in-echo-area (my-remove-by-source 'eldoc-display-in-echo-area
