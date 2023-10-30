@@ -600,12 +600,18 @@ Detect the active monitor name and update the font size accordingly.
             (h (nth 1 .mm-size)))
         (message "%sx%s px, %s mm x %s mm" x y w h)
         (cond
-         ;; x270
+         ;; x270 @ 1080p
          ((and (eq x 1920) (eq y 1080)
                (eq w 280) (eq h 160)) 130)
+         ;; p14s @ 1080p
+         ((and (eq x 1920) (eq y 1080)
+               (eq w 310) (eq h 170)) 90)
          ;; WSL @ 4k
          ((and (eq x 3840) (eq y 2160)
-               (eq w 0) (eq h 0)) 140)))))
+               (eq w 0) (eq h 0)) 140)
+         ;; M28U @ 4k
+         ((and (eq x 3840) (eq y 2160)
+               (eq w 630) (eq h 360)) 90)))))
 
   (defun my-monitor-to-font-height ()
     "Map monitor name to font height."
