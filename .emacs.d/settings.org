@@ -2084,12 +2084,15 @@ Set =.html= indentation from 2 to 4.
     (cider-dynamic-indentation nil)
     ;; Give lower priority to cider xref backend over LSP
     (cider-xref-fn-depth 0)
+    (cider-use-xref t)
+    (cider-use-tooltips nil)
     :hook
     ((cider-mode . my-cider-loaded))
     :config
     (defun my-cider-loaded ()
       (interactive)
       (remove-hook 'completion-at-point-functions #'cider-complete-at-point)
+      (setq xref-backend-functions (delete 'cider--xref-backend xref-backend-functions))
       (when my-use-eglot
         (if (bound-and-true-p cider-mode)
             (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function)
