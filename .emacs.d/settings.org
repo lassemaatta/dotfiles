@@ -474,6 +474,7 @@ Cleanup trailing whitespace when saving a buffer.
 #+begin_src emacs-lisp
   (use-package eldoc
     :demand t
+    :elpaca nil
     :custom
     (eldoc-documentation-strategy 'eldoc-documentation-compose))
 #+end_src
@@ -1492,6 +1493,8 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
 #+begin_src emacs-lisp
   (use-package xref
     :demand t
+    :elpaca nil
+    :after general
     :general
     ("M-." 'xref-find-references)
     ("<C-.>" 'xref-find-definitions)
@@ -1695,6 +1698,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
 #+begin_src emacs-lisp
   (use-package eglot
     :if my-use-eglot
+    :elpaca nil
+    :after general
     :general
     (my-leader-def
       :keymaps 'eglot-mode-map
