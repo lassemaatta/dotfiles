@@ -1500,10 +1500,21 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
     (xref-prompt-for-identifier nil))
 #+end_src
 
-*** Error checking (=flycheck=)
+*** Error checking (=flycheck= or =flymake=)
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
+
+#+begin_src emacs-lisp
+  (use-package flymake
+    :if my-use-eglot
+    :elpaca nil
+    :general
+    (my-leader-def
+      :keymaps 'flymake-mode-map
+      "en" '(flymake-goto-next-error :which-key "Goto next")
+      "el" '(flymake-show-buffer-diagnostics :which-key "List errors")))
+#+end_src
 
 #+begin_src emacs-lisp
   (use-package flycheck
