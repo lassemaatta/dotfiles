@@ -1696,8 +1696,12 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
   (use-package eglot
     :if my-use-eglot
     :general
-    ("C-f l d" '(eldoc-box-help-at-point :which-key "Glance docs"))
-    ("C-f l a" '(eglot-code-actions :which-key "Code actions"))
+    (my-leader-def
+      :keymaps 'eglot-mode-map
+      "ld" '(eldoc-box-help-at-point :which-key "Glance docs")
+      "la" '(eglot-code-actions :which-key "Code actions")
+      "lr" '(eglot-rename :which-key "Rename symbol")
+      "lR" '(eglot-shutdown :which-key "Restart LSP"))
     :hook
     ((clojure-mode
       clojurescript-mode
