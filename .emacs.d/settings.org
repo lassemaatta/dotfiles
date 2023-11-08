@@ -1855,7 +1855,8 @@ depending on whether the current buffer is using =LSP=.
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-java
     :after (lsp-mode)
-    :hook ((java-mode . lsp))
+    :hook ((java-mode . lsp)
+           (java-ts-mode . lsp))
     :bind (:map java-mode-map
               ("<tab>" . indent-for-tab-command))
     :custom
