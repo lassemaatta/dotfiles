@@ -2042,6 +2042,7 @@ Set =.html= indentation from 2 to 4.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :general
+    ("C-." 'cider-find-dwim)
     (my-leader-def
       :keymaps 'clojure-mode-map
       :major-modes t
