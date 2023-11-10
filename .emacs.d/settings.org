@@ -644,8 +644,11 @@ Detect the active monitor name and update the font size accordingly.
       (message (format "Set font height: %s" font-height))
       (my-update-font-size font-height)))
 
+  (defun my-refresh-dpi-delayed ()
+    (run-at-time "0.2 sec" nil #'my-refresh-dpi))
+
   ;; Refresh DPI after creating a frame
-  (add-hook 'server-after-make-frame-hook 'my-refresh-dpi)
+  (add-hook 'server-after-make-frame-hook 'my-refresh-dpi-delayed)
 
   ;; Immediately refresh if not using emacsclient
   (unless (daemonp)
