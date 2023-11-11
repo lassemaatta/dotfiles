@@ -1163,6 +1163,9 @@ and run it with
     (mu4e-confirm-quit nil)
     (mu4e-context-policy 'pick-first)
     :config
+    (with-eval-after-load "mm-decode"
+      (add-to-list 'mm-discouraged-alternatives "text/html")
+      (add-to-list 'mm-discouraged-alternatives "text/richtext"))
     (setq mu4e-maildir-shortcuts
           '(("/gmail/Inbox"             . ?i)
             ("/gmail/[Gmail]/Sent Mail" . ?s)
