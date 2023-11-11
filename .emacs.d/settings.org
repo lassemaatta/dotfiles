@@ -1659,6 +1659,7 @@ Add icons to completion menu with =kind-icon=.
 #+begin_src emacs-lisp
   (use-package corfu-candidate-overlay
     :after corfu
+    :disabled t
     :config
     (corfu-candidate-overlay-mode +1))
 #+end_src
