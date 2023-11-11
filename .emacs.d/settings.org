@@ -516,6 +516,15 @@ Let's define some helper functions, which can be used to wrap the various =eldoc
 
 ** File system (=dired=)
 
+#+begin_src emacs-lisp
+  (use-package emacs
+    :elpaca nil
+    :general
+    (:keymaps 'dired-mode-map
+     "<C-up>" 'dired-up-directory))
+#+end_src
+
+
 Re-use the same buffer when navigating to subdirectories in =dired=.
 
 #+begin_src emacs-lisp
