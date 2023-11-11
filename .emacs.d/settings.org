@@ -57,6 +57,10 @@ Whether to use =eglot= (and =flymake=) or =lsp-mode= (and =lsp-ui=, =flycheck=).
   (defconst my-use-eglot t)
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (defconst my-prefer-lsp-completion-at-point t)
+#+end_src
+
 Create a flag to toggle whether we use =evil= or traditional =emacs= bindings.
 
 #+begin_src emacs-lisp
@@ -2135,16 +2139,33 @@ Set =.html= indentation from 2 to 4.
     (cider-use-xref t)
     (cider-use-tooltips nil)
     :hook
-    ((cider-mode . my-cider-loaded))
+    ((cider-mode . my-cider-refresh))
     :config
     (defun my-cider-loaded ()
-      (interactive)
-      (remove-hook 'completion-at-point-functions #'cider-complete-at-point)
+      (message "Cider loaded: post actions")
+      ;; Choose which completion-at-point provider we use
+      (if my-prefer-lsp-completion-at-point
+          (remove-hook 'completion-at-point-functions #'cider-complete-at-point)
+        (if my-use-eglot
+            (remove-hook 'completion-at-point-functions #'eglot-complete-at-point)
+          (remove-hook 'completion-at-point-functions #'lsp-completion-at-point)))
+      ;; Prefer LSP xref backend
       (setq xref-backend-functions (delete 'cider--xref-backend xref-backend-functions))
+      ;; Prefer cider signature documentation over LSP
       (when my-use-eglot
-        (if (bound-and-true-p cider-mode)
-            (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function)
-          (add-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function nil t))))
+        (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function)))
+    (defun my-cider-unloaded ()
+      (message "Cider unloaded: post actions")
+      (if my-use-eglot
+          (add-hook 'completion-at-point-functions #'eglot-complete-at-point)
+        (add-hook 'completion-at-point-functions #'lsp-completion-at-point))
+      (when my-use-eglot
+        (add-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function nil t)))
+    (defun my-cider-refresh ()
+      (interactive)
+      (if (bound-and-true-p cider-mode)
+          (my-cider-loaded)
+        (my-cider-unloaded)))
     (cider-repl-toggle-pretty-printing)
 
     (put-clojure-indent 'testit/fact 1)
