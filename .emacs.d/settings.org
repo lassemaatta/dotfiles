@@ -219,6 +219,10 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
                 (save-some-buffers t))
              :which-key "Save all")
       "fS" '(save-buffer :which-key "Save")
+      ;; Folding
+      "F"  '(:ignore t :which-key "Fold")
+      "FF" '(hs-toggle-hiding :which-key "Toggle")
+      "Fa" '(hs-show-all :which-key "Show all")
       ;; Help
       "h" '(:ignore t :which-key "Help")
       "hv" '(describe-variable :which-key "Describe variable")
