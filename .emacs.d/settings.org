@@ -1833,7 +1833,8 @@ depending on whether the current buffer is using =LSP=.
     :bind (("<f2>" . lsp-treemacs-symbols)
            ("<f3>" . lsp-treemacs-call-hierarchy))
     :custom
-    (lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name)))
+    (lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name))
+    (lsp-treemacs-errors-position-params '((side . right))))
 #+END_SRC
 
 =consult-lsp= provides nice utility functions such as =consult-lsp-diagnostics= or =consult-lsp-symbols=.
