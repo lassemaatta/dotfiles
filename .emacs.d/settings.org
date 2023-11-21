@@ -594,6 +594,7 @@ Detect the active monitor name and update the font size accordingly.
             (h (nth 1 .mm-size)))
         (message "%sx%s px, %s mm x %s mm" x y w h)
         (cond
+         ((and (eq w 344) (eq h 222)) 130)
          ;; x270 @ 1080p
          ((and (eq x 1920) (eq y 1080)
                (eq w 280) (eq h 160)) 130)
