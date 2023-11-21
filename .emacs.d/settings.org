@@ -1833,6 +1833,7 @@ depending on whether the current buffer is using =LSP=.
     :bind (("<f2>" . lsp-treemacs-symbols)
            ("<f3>" . lsp-treemacs-call-hierarchy))
     :custom
+    (lsp-treemacs-error-list-severity 1)
     (lsp-treemacs-symbols-sort-functions '(lsp-treemacs-sort-by-name))
     (lsp-treemacs-errors-position-params '((side . right))))
 #+END_SRC
