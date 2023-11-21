@@ -10,6 +10,7 @@
   - [[#clear-leader-key][Clear leader key]]
   - [[#disable-gc-while-loading][Disable GC while loading]]
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
+  - [[#environment][Environment]]
   - [[#load-optional-local-settings][Load optional local settings]]
   - [[#generate-toc][Generate TOC]]
 - [[#general-configuration-for-emacs][General configuration for =emacs=]]
@@ -112,43 +113,18 @@ Always install all packages.
         use-package-always-demand (daemonp))
 #+END_SRC
 
+** Environment
+
+Inherit the environment from the shell.
+
 #+begin_src emacs-lisp
-  (use-package system-packages
+  (use-package exec-path-from-shell
     :demand t
+    :ensure t
     :config
-    (when (string-equal-ignore-case "arch" my-release)
-      (setq system-packages-package-manager 'yay))
-    (when (string-equal-ignore-case "Ubuntu" my-release)
-      (setq system-packages-package-manager 'apt))
-    (add-to-list 'system-packages-supported-package-managers
-                 '(yay .
-                       ((default-sudo . nil)
-                        (install . "yay -S")
-                        (search . "yay -Ss")
-                        (uninstall . "yay -Rs")
-                        (update . "yay -Syu")
-                        (clean-cache . "yay -Sc")
-                        (log . "cat /var/log/pacman.log")
-                        (change-log . "yay -Qc")
-                        (get-info . "yay -Qi")
-                        (get-info-remote . "yay -Si")
-                        (list-files-provided-by . "yay -Ql")
-                        (owning-file . "yay -Qo")
-                        (owning-file-remote . "yay -F")
-                        (verify-all-packages . "yay -Qkk")
-                        (verify-all-dependencies . "yay -Dk")
-                        (remove-orphaned . "yay -Rns $(yay -Qtdq)")
-                        (list-installed-packages . "yay -Qe")
-                        (list-installed-packages-all . "yay -Q")
-                        (list-dependencies-of . "yay -Qi")
-                        (noconfirm . "--noconfirm")))))
-#+end_src
-
-The =use-package-ensure-system-package= provides the =:ensure-system-package= keyword for =use-package= recipes.
-
-#+begin_src emacs-lisp
-  (use-package use-package-ensure-system-package
-    :demand t)
+    (when (or (memq window-system '(mac ns x))
+              (daemonp))
+      (exec-path-from-shell-initialize)))
 #+end_src
 
 ** Load optional local settings
@@ -1154,6 +1130,8 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 :VISIBILITY: folded
 :END:
 
+We use =mbsync=, which is usually incorporated in the =isync= package, to fetch emails. Once fetched, we can use =mu= to index them for efficient searching. =mu= also provides =mu4e=; the emacs GUI for =mu=.
+
 Manually run =mbsync= with
 
 #+begin_src bash :tangle no
@@ -1170,13 +1148,6 @@ and run it with
 
 #+begin_src bash :tangle no
   mu index
-#+end_src
-
-#+begin_src emacs-lisp
-  (use-package emacs
-    :elpaca nil
-    :ensure-system-package ((mbsync . isync)
-                            mu))
 #+end_src
 
 #+begin_src emacs-lisp
