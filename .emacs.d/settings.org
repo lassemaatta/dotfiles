@@ -130,8 +130,10 @@ Inherit the environment from the shell.
   (use-package exec-path-from-shell
     :demand t
     :ensure t
+    :custom
+    (exec-path-from-shell-arguments nil)
     :config
-    (when (or (memq window-system '(mac ns x))
+    (when (or (my-is-mac-p)
               (daemonp))
       (exec-path-from-shell-initialize)))
 #+end_src
