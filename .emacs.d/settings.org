@@ -1408,6 +1408,7 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
 
 #+begin_src emacs-lisp
   (use-package forge
+    :disabled t
     :after magit
     :bind ((:map forge-pullreq-section-map
                  ([remap magit-visit-thing] . forge-visit-topic))))
