@@ -23,7 +23,8 @@
 (setq frame-resize-pixelwise t)
 
 ;; Make the initial emacs frame go fullscreen at startup.
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(width . 170))
+(add-to-list 'default-frame-alist '(height . 60))
 
 ;; Set a black background so we won't flash white during startup
 (set-face-attribute 'default nil :background "#000000" :foreground "#bbc2cf")
