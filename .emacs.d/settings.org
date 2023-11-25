@@ -1516,6 +1516,9 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
 
 ** Programming
 *** References
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package xref
@@ -2310,6 +2313,9 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 #+END_SRC
 
 ** Terminal
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package vterm
