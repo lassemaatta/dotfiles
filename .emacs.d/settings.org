@@ -1395,6 +1395,12 @@ Only show current perspective / project in =treemacs=.
         (show-message . t))))
     :commands (magit-status)
     :config
+    ;; Don't calculate tags in magit status window
+    (remove-hook 'magit-status-headers-hook #'magit-insert-tags-header)
+    (magit-add-section-hook 'magit-status-sections-hook
+                            'magit-insert-unpushed-to-upstream
+                            'magit-insert-unpushed-to-upstream-or-recent
+                            'replace)
     (when (my-is-mac-p)
       (setq magit-git-executable "/opt/local/bin/git")))
 #+END_SRC
