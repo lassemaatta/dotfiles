@@ -72,7 +72,7 @@ Check if running on Macos.
 
 #+begin_src emacs-lisp
   (defun my-is-mac-p ()
-    "Check if running on mac"
+    "Check if running on mac. Needs a frame to work properly!"
     (memq window-system '(mac ns)))
 #+end_src
 
@@ -131,7 +131,7 @@ Inherit the environment from the shell.
     :demand t
     :ensure t
     :custom
-    (exec-path-from-shell-arguments nil)
+    (exec-path-from-shell-arguments '("-l" "-i"))
     :config
     (when (or (my-is-mac-p)
               (daemonp))
@@ -168,8 +168,11 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 Make it so that emacs can distinguish between =M-8= and =[= when using ergodox.
 
 #+begin_src emacs-lisp
-  (when (my-is-mac-p)
-    (setq mac-right-option-modifier nil))
+  (defun my-fix-mac-option ()
+    (when (my-is-mac-p)
+      (setq mac-right-option-modifier nil)))
+
+  (add-hook 'server-after-make-frame-hook 'my-fix-mac-option)
 #+end_src
 
 #+begin_src emacs-lisp
@@ -588,7 +591,7 @@ Show the whole file path in the window title
 Detect the active monitor name and update the font size accordingly.
 
 #+begin_src emacs-lisp
-  (defvar font-family "Hack Nerd Font")
+  (defvar font-family "Hack Nerd Font Mono")
   (defvar font-family-variable "Source Sans Pro")
 
   (defun my-update-font-size (font-height)
@@ -628,6 +631,8 @@ Detect the active monitor name and update the font size accordingly.
          ;; P27h-20 @ 1440p
          ((and (eq x 2560) (eq y 1440)
                (eq w 600) (eq h 340)) 80)
+         ((and (eq x 2560) (eq y 1440)
+               (eq w 602) (eq h 338)) 150)
          ;; WSL @ 4k
          ((and (eq x 3840) (eq y 2160)
                (eq w 0) (eq h 0)) 140)
