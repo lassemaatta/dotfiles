@@ -858,7 +858,9 @@ Hide commands in =M-x= which do not apply to the current mode.
 #+BEGIN_SRC emacs-lisp
   (use-package cape
     :demand t
-    :after vertico)
+    :after vertico
+    :config
+    (add-to-list 'completion-at-point-functions #'cape-file))
 #+END_SRC
 
 The [[https://github.com/minad/marginalia][marginalia]] package provides description of entries (e.g. files, commands) in completion menus.
