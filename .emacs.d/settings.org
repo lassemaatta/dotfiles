@@ -818,6 +818,13 @@ Use =modus-vivendi= as the main theme.
                                      :background ,bg-main)))))))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (use-package spacious-padding
+    :demand t
+    :config
+    (spacious-padding-mode 1))
+#+end_src
+
 ** Utilities
 :PROPERTIES:
 :VISIBILITY: children
