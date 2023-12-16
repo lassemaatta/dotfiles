@@ -12,9 +12,10 @@
 (setq gc-cons-threshold (* 256 1024 1024)
       garbage-collection-messages t)
 
-;; Disable menubar and toolbar
+;; Disable menubar, toolbar, and scrollbar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; Don't resize the window when we alter the theme/fonts during startup.
 (setq frame-inhibit-implied-resize t)
