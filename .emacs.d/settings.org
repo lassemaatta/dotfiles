@@ -1579,7 +1579,7 @@ As an alternative to =LSP=, =ctags= can be used to statically analyze source cod
 
 The location of the "project root" for indexing can be set by creating a =.dir-locals.el= file where e.g.
 
-#+begin_src elisp
+#+begin_src elisp :tangle no
   ((nil . ((counsel-etags-project-root . "/Users/lassemaatta/personal/some-project/resources/private"))))
 #+end_src
 
