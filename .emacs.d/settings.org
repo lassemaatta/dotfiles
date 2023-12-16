@@ -594,12 +594,14 @@ Detect the active monitor name and update the font size accordingly.
   (defvar font-family "Hack Nerd Font Mono")
   (defvar font-family-variable "Source Sans Pro")
 
+  (set-face-attribute 'default nil :family font-family)
+  (set-face-attribute 'fixed-pitch nil :family font-family :height 1.0)
+  (set-face-attribute 'variable-pitch nil :family font-family-variable :height 1.2)
+  (set-face-attribute 'mode-line nil :family font-family :height 1.0)
+
   (defun my-update-font-size (font-height)
     "Update the font DPI to FONT-HEIGHT."
-    (set-face-attribute 'default nil :family font-family :height font-height)
-    (set-face-attribute 'fixed-pitch nil :family font-family :height font-height)
-    (set-face-attribute 'variable-pitch nil :family font-family-variable :height (round (* 1.3 font-height)))
-    (set-face-attribute 'mode-line nil :font font-family :height font-height))
+    (set-face-attribute 'default nil :height font-height))
 
   (defun my-monitor-name ()
     "Return the name of the current monitor as string."
@@ -1039,7 +1041,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml/plantuml.jar"))
     :mode ("\\.org\\'" . org-mode)
     :hook ((org-mode . org-indent-mode)
-           (org-mode . variable-pitch-mode)
            (org-mode . visual-line-mode)
            (org-babel-after-execute . org-redisplay-inline-images))
     :config
