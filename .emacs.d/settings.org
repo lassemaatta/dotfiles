@@ -774,7 +774,6 @@ Construct a simple mode line.
                 '("%e"
                   mode-line-front-space
                   mode-line-frame-identification
-                  (projectile-mode projectile--mode-line)
                   " "
                   mode-line-buffer-identification
                   (vc-mode vc-mode)
