@@ -1430,7 +1430,7 @@ Remap =magit-visit-thing= from =forge-visit-pullreq= to =forge-visit-topic= so t
 Use this [[https://github.com/magit/magit/issues/460][tip]] to allow =magit= to manage dotfiles in a bare repository.
 
 #+begin_src emacs-lisp
-  (defvar my-dotfiles-git-dir (expand-file-name "~/work/dotfiles.git")
+  (defcustom my-dotfiles-git-dir (expand-file-name "~/work/dotfiles.git")
     "Where the bare repository for dotfiles is located")
 
   (defun my-get-dotfile-dirs ()
@@ -1439,14 +1439,16 @@ Use this [[https://github.com/magit/magit/issues/460][tip]] to allow =magit= to 
     (let ((work-tree (expand-file-name "~/")))
       (if (file-directory-p my-dotfiles-git-dir)
           (let* ((git-dir (shell-command-to-string
-                           (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
+                           (format "git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
                                    my-dotfiles-git-dir work-tree)))
                  (dotfile-dirs
                   (-map (apply-partially 'concat work-tree)
                         (-uniq (-keep #'file-name-directory (split-string git-dir))))))
             (message (format "... Found: %S" dotfile-dirs))
             dotfile-dirs)
-        (message (format "Not found: %s" git-dir)))))
+        (progn
+          (message (format "Not found: %s" my-dotfiles-git-dir))
+          nil))))
 
   (defvar my-dotfile-dirs nil)
 
