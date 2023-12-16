@@ -1970,6 +1970,26 @@ depending on whether the current buffer is using =LSP=.
 :PROPERTIES:
 :VISIBILITY: children
 :END:
+**** Web mode
+
+#+begin_src emacs-lisp
+  (use-package web-mode
+    :after smartparens
+    :init
+    (defun my-web-mode-hook ()
+      (setq web-mode-enable-auto-pairing nil))
+    (defun sp-web-mode-is-code-context (id action context)
+      (and (eq action 'insert)
+           (not (or (get-text-property (point) 'part-side)
+                    (get-text-property (point) 'block-side)))))
+    :mode ("\\.html\\'" . web-mode)
+    :hook (web-mode . my-web-mode-hook)
+    :custom
+    (web-mode-markup-indent-offset 2)
+    :config
+    (sp-local-pair 'web-mode "<" nil :when '(sp-web-mode-is-code-context)))
+#+end_src
+
 **** HTML
 Set =.html= indentation from 2 to 4.
 
