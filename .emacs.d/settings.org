@@ -2096,18 +2096,21 @@ Set =.html= indentation from 2 to 4.
 
 **** Javascript
 
+#+begin_src emacs-lisp
+  (defun my-update-symref ()
+    (require 'semantic/symref/grep)
+    (add-to-list #'semantic-symref-filepattern-alist
+                 '(js-ts-mode "*.js")))
+#+end_src
+
 #+BEGIN_SRC emacs-lisp
   (use-package js
     :elpaca nil
     :mode ("\\.js\\'" . js-mode)
+    :hook (js-ts-mode . my-update-symref)
     :custom
     (js-indent-level 2))
 #+END_SRC
-
-#+begin_src emacs-lisp
-  (add-to-list #'semantic-symref-filepattern-alist
-               '(js-ts-mode "*.js"))
-#+end_src
 
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
