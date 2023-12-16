@@ -814,7 +814,7 @@ Use =modus-vivendi= as the main theme.
       (modus-themes-with-colors
         (custom-set-faces
          `(org-block-begin-line ((,c :inherit modus-themes-fixed-pitch
-                                     :foreground "gray35"
+                                     :foreground "gray65"
                                      :background ,bg-main)))))))
 #+END_SRC
 
