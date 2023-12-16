@@ -1575,6 +1575,23 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
     (xref-prompt-for-identifier nil))
 #+end_src
 
+As an alternative to =LSP=, =ctags= can be used to statically analyze source code and keep track of e.g. function definitions by creating a =TAGS= file. Here we use [[https://ctags.io/][Universal Ctags]] as the indexer and [[https://github.com/redguardtoo/counsel-etags][counsel-etags]] as the frontend.
+
+The location of the "project root" for indexing can be set by creating a =.dir-locals.el= file where e.g.
+
+#+begin_src elisp
+  ((nil . ((counsel-etags-project-root . "/Users/lassemaatta/personal/some-project/resources/private"))))
+#+end_src
+
+=counsel-etags-update-tags-force= can be used to refresh the =TAGS= manually.
+
+#+begin_src emacs-lisp
+  (use-package counsel-etags
+    :custom
+    (counsel-etags-ctagsg-program "uctags")
+    (counsel-etags-update-interval 60))
+#+end_src
+
 *** Error checking (=flycheck= or =flymake=)
 :PROPERTIES:
 :VISIBILITY: folded
@@ -2086,6 +2103,11 @@ Set =.html= indentation from 2 to 4.
     :custom
     (js-indent-level 2))
 #+END_SRC
+
+#+begin_src emacs-lisp
+  (add-to-list #'semantic-symref-filepattern-alist
+               '(js-ts-mode "*.js"))
+#+end_src
 
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
