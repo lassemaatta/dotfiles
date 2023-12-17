@@ -124,7 +124,7 @@ Always install all packages.
 
 ** Environment
 
-Inherit the environment from the shell.
+Inherit the environment from the shell. This helps with tools like =nvm= or =sdkman=, which manage build tool (=node=, =java=..) versions and add their paths to the shell environment.
 
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -190,6 +190,8 @@ Make it so that emacs can distinguish between =M-8= and =[= when using ergodox.
   (elpaca-wait)
 #+end_src
 
+Let's build a tree of commands under our leader key, a bit like how =spacemacs= works. Later packages will add their own keybinding within the tree.
+
 #+begin_src emacs-lisp
   (elpaca nil
     (my-leader-def
@@ -253,6 +255,8 @@ Make it so that emacs can distinguish between =M-8= and =[= when using ergodox.
       "x"  '(:ignore t :which-key "Execute LISP")))
 #+end_src
 
+Provide some evaluation shortcuts when working with =elisp= buffers.
+
 #+begin_src emacs-lisp
   (elpaca nil
     (my-leader-def
@@ -260,6 +264,8 @@ Make it so that emacs can distinguish between =M-8= and =[= when using ergodox.
       "xl" '(eval-last-sexp :which-key "Eval last")
       "xe" '(eval-defun :which-key "Eval defun")))
 #+end_src
+
+Optionally use =evil= mode for keybindings.
 
 #+begin_src emacs-lisp
   (use-package evil
@@ -332,6 +338,8 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
     (which-key-mode))
 #+END_SRC
 
+=hydra= can be used to build custom keybinding menus, a bit like =transient=.
+
 #+begin_src emacs-lisp
   (use-package hydra)
 #+end_src
@@ -365,6 +373,8 @@ Automatically refresh buffers if the file has changed on disk.
    ;; use versioned backups
    version-control t)
 #+END_SRC
+
+Save command history when we close the frame.
 
 #+begin_src emacs-lisp
   (add-hook 'delete-frame-functions 'recentf-save-list)
@@ -495,7 +505,7 @@ Cleanup trailing whitespace when saving a buffer.
       "hh" '(eldoc-box-help-at-point :which-key "Glance docs")))
 #+end_src
 
-Let's define some helper functions, which can be used to wrap the various =eldoc= display functions (like =eldoc-display-in-echo-area= or =eldoc-display-in-buffer=). These functions allow us to choose which documentation (e.g. function signatures, flymake errors, LSP documentation) appears in which output.
+Let's define some helper functions, which can be used to wrap the various =eldoc= display functions (like =eldoc-display-in-echo-area= or =eldoc-display-in-buffer=). These functions allow us to choose which documentation (e.g. function signatures, flymake errors, LSP documentation) appears in which output. Note that these only work with =emacs= 30.x as the =:origin= is a new feature.
 
 #+begin_src emacs-lisp
   (defun my-filter-by-source (display-fn &rest source-fns)
@@ -528,7 +538,6 @@ Let's define some helper functions, which can be used to wrap the various =eldoc
     (:keymaps 'dired-mode-map
      "<C-up>" 'dired-up-directory))
 #+end_src
-
 
 Re-use the same buffer when navigating to subdirectories in =dired=.
 
@@ -569,6 +578,8 @@ Highlight the current line.
 
 Use =ace-window= to quickly move between windows.
 
+TODO : We might want to move this under the leader key.
+
 #+begin_src emacs-lisp
   (use-package ace-window
     :bind (("C-p" . ace-window))
@@ -595,6 +606,8 @@ Detect the active monitor name and update the font size accordingly.
   (defvar font-family-variable "Source Sans Pro")
 
   (set-face-attribute 'default nil :family font-family)
+
+  ;; Using a floating point height implies relative scaling wrt. the 'default font height
   (set-face-attribute 'fixed-pitch nil :family font-family :height 1.0)
   (set-face-attribute 'variable-pitch nil :family font-family-variable :height 1.2)
   (set-face-attribute 'mode-line nil :family font-family :height 1.0)
@@ -697,6 +710,7 @@ Detect the active monitor name and update the font size accordingly.
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
+
 Show line numbers.
 
 #+BEGIN_SRC emacs-lisp
@@ -757,6 +771,8 @@ Provide icons for stuff like =treemacs=.
   (use-package nerd-icons
     :demand t)
 #+END_SRC
+
+Provide icons for =ibuffer=.
 
 #+begin_src emacs-lisp
   (use-package nerd-icons-ibuffer
