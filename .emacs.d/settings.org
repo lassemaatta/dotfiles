@@ -72,8 +72,8 @@ Check if running on Macos.
 
 #+begin_src emacs-lisp
   (defun my-is-mac-p ()
-    "Check if running on mac. Needs a frame to work properly!"
-    (memq window-system '(mac ns)))
+    "Check if running on macos."
+    (eq system-type 'darwin))
 #+end_src
 
 Check which Linux distribution are we using.
