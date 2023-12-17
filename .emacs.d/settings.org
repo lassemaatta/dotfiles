@@ -201,6 +201,7 @@ Let's build a tree of commands under our leader key, a bit like how =spacemacs= 
       "qr" '(restart-emacs :which-key "Restart emacs")
       ;; Buffers
       "b"  '(:ignore t :which-key "Buffers")
+      "bi" '(ibuffer :which-key "List")
       "bl" '(next-buffer :which-key "Next buffer")
       "bh" '(previous-buffer :which-key "Previous buffer")
       "bk" '(kill-buffer :which-key "Kill buffer")
