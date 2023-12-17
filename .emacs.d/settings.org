@@ -434,6 +434,13 @@ Set =scroll-margin= to =0= , otherwise the scrolling will jump around when click
         scroll-preserve-screen-position t)
 #+END_SRC
 
+Enable smooth scrolling when using macos.
+
+#+begin_src emacs-lisp
+  (when (my-is-mac-p)
+    (pixel-scroll-precision-mode +1))
+#+end_src
+
 ** Whitespace
 
 Highlight trailing whitespace (when not in read-only buffers) and don't use tabs for indenting.
