@@ -639,7 +639,7 @@ Detect the active monitor name and update the font size accordingly.
         (message "%sx%s px, %s mm x %s mm" x y w h)
         (cond
          ;; M1 main screen
-         ((and (eq w 344) (eq h 222)) 130)
+         ((and (eq w 344) (eq h 222)) 140)
          ;; M28U with apple
          ((and (eq x 2560) (eq y 1440)
                (eq w 631) (eq h 360))  130)
