@@ -1549,34 +1549,30 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
     :group 'my-customs)
 
   (use-package button-lock
-    :disabled t
-    :init
-    (defvar-local my-button nil)
+    :ensure t
+    :config
     (defun my-toggle-jira-buttons ()
       (interactive)
       (if (bound-and-true-p button-lock-mode)
           (progn
             (message "Disabling button-lock-mode")
-            (when my-button
-              (button-lock-unset-button my-button))
-            (button-lock-mode -1)
-            (setq-local my-button nil))
+            (button-lock-clear-all-buttons)
+            (button-lock-mode -1))
         (progn
-          (message "Enabling button-lock-mode")
+          (message (format "Enabling button-lock-mode: %s [%s]" (buffer-name) major-mode))
           (button-lock-mode +1)
-          (setq-local my-button
-                      (button-lock-set-button
-                       my-jira-pattern
-                       (lambda ()
-                         (interactive)
-                         (browse-url (concat my-jira-root
-                                             "/browse/"
-                                             (buffer-substring
-                                              (previous-single-property-change (point) 'mouse-face)
-                                              (next-single-property-change (point) 'mouse-face)))))
-                       :face (list 'org-link)
-                       :mouse-face 'custom-button-mouse
-                       :keyboard-binding "RET"))
+          (button-lock-set-button
+           my-jira-pattern
+           (lambda ()
+             (interactive)
+             (browse-url (concat my-jira-root
+                                 "/browse/"
+                                 (buffer-substring
+                                  (previous-single-property-change (point) 'mouse-face)
+                                  (next-single-property-change (point) 'mouse-face)))))
+           :face (list 'org-link)
+           :mouse-face 'custom-button-mouse
+           :keyboard-binding "RET")
           ;; Magit tends to forget the `magit-visit-thing' keybindings
           (when (eq major-mode 'magit-status-mode)
             (define-key magit-status-mode-map (read-kbd-macro "RET") 'magit-show-commit))
@@ -1584,10 +1580,8 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
             (define-key magit-log-mode-map (read-kbd-macro "RET") 'magit-show-commit))
           ;; Make sure the new link style is applied
           (run-at-time "0.1 sec" nil #'font-lock-update))))
-    :hook ((org-mode . my-toggle-jira-buttons)
-           ;(magit-log-mode . my-toggle-jira-buttons)
-           ;(magit-status-mode . my-toggle-jira-buttons)
-           ))
+    :hook ((clojure-mode
+            magit-revision-mode) . my-toggle-jira-buttons))
 #+end_src
 
 ** Programming
