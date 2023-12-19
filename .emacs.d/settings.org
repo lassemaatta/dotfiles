@@ -642,7 +642,7 @@ Detect the active monitor name and update the font size accordingly.
          ((and (eq w 344) (eq h 222)) 140)
          ;; M28U with apple
          ((and (eq x 2560) (eq y 1440)
-               (eq w 631) (eq h 360))  130)
+               (eq w 631) (eq h 360))  140)
          ((and (eq x 3008) (eq y 1692)
                (eq w 628) (eq h 359))  150)
          ;; x270 @ 1080p
