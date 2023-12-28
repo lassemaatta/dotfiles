@@ -611,7 +611,7 @@ Detect the active monitor name and update the font size accordingly.
 
 #+begin_src emacs-lisp
   (defvar font-family "Hack Nerd Font Mono")
-  (defvar font-family-variable "Source Sans Pro")
+  (defvar font-family-variable "Georgia")
 
   (set-face-attribute 'default nil :family font-family)
 
