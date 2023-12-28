@@ -1585,6 +1585,26 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
             magit-revision-mode) . my-toggle-jira-buttons))
 #+end_src
 
+*** Confluence
+
+The =confluence-reader= package is not yet in MELPA, so download it from =sourcehut=.
+
+Customize =confluence-host= to match the desired target host (e.g. "mycompany.atlassian.net").
+
+#+begin_src emacs-lisp
+  (use-package confluence-reader
+    :elpaca (:host sourcehut :repo "sebasmonia/confluence-reader.el")
+    :commands (confluence-search confluence-page-by-id confluence-page-from-url)
+    :config
+    ;; Show search window in the bottom
+    (add-to-list
+     'display-buffer-alist
+     '("\\*Confluence search\\*" display-buffer-in-direction
+       (direction . bottom)
+       (window . root)
+       (window-height . 0.3))))
+#+end_src
+
 ** Programming
 *** References
 :PROPERTIES:
