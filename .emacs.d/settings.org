@@ -396,6 +396,12 @@ Automatically refresh buffers if the file has changed on disk.
   (global-auto-revert-mode t)
 #+end_src
 
+Introduce a Clojure -style =comment= macro.
+
+#+begin_src emacs-lisp
+  (defmacro comment (&rest sexp) nil)
+#+end_src
+
 ** Backups
 
 #+BEGIN_SRC emacs-lisp
