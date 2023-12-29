@@ -12,6 +12,7 @@
   - [[#bootstrap-use-package][Bootstrap =use-package=]]
   - [[#environment][Environment]]
   - [[#load-optional-local-settings][Load optional local settings]]
+  - [[#startup-launchd][Startup (launchd)]]
   - [[#generate-toc][Generate TOC]]
 - [[#general-configuration-for-emacs][General configuration for =emacs=]]
   - [[#keybindings][Keybindings]]
@@ -148,6 +149,42 @@ Inherit the environment from the shell. This helps with tools like =nvm= or =sdk
               (setq custom-file "~/.emacs.d/emacs-custom.el")
               (load custom-file)))
 #+END_SRC
+
+** Startup (launchd)
+
+For =launchd= under macos, the following can be placed under =~/Library/LaunchAgents/gnu.emacs.daemon.plist=.
+
+#+begin_src xml :tangle no
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+  <plist version="1.0">
+    <dict>
+      <key>Label</key>
+      <string>gnu.emacs.daemon</string>
+      <key>ProgramArguments</key>
+      <array>
+        <string>/usr/local/bin/emacs</string>
+        <string>--fg-daemon</string>
+      </array>
+      <key>RunAtLoad</key>
+      <true/>
+      <key>KeepAlive</key>
+      <true/>
+      <key>StandardErrorPath</key>
+      <string>/tmp/emacs.job.err</string>
+      <key>StandardOutPath</key>
+      <string>/tmp/emacs.job.out</string>
+      <key>ServiceDescription</key>
+      <string>Gnu Emacs Daemon</string>
+    </dict>
+  </plist>
+#+end_src
+
+Macos font smoothing can be configured (or disabled) with
+
+#+begin_src bash :tangle no
+  defaults write org.gnu.Emacs AppleFontSmoothing -int 0
+#+end_src
 
 ** Generate TOC
 
