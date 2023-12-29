@@ -660,7 +660,7 @@ Detect the active monitor name and update the font size accordingly.
 
   ;; Using a floating point height implies relative scaling wrt. the 'default font height
   (set-face-attribute 'fixed-pitch nil :family font-family :height 1.0)
-  (set-face-attribute 'variable-pitch nil :family font-family-variable :height 1.2)
+  (set-face-attribute 'variable-pitch nil :family font-family-variable :height 1.0)
   (set-face-attribute 'mode-line nil :family font-family :height 1.0)
 
   (defun my-update-font-size (font-height)
