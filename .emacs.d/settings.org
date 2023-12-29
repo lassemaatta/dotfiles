@@ -1261,7 +1261,10 @@ and run it with
 #+begin_src emacs-lisp
   (use-package mu4e
     :elpaca nil
+    ;; On Linux
     :load-path "/usr/share/emacs/site-lisp/mu4e"
+    ;; On macos / macports
+    :load-path "/opt/local/share/emacs/site-lisp/mu4e"
     :after org
     :commands (mu4e)
     :custom
