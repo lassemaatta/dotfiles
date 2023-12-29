@@ -1290,6 +1290,9 @@ and run it with
 Note that we exclude some build directories so that changes in files don't propagate to =treemacs=.
 
 #+BEGIN_SRC emacs-lisp
+  ;; treemacs seems to depend on pfuture but not always install it..
+  (use-package pfuture)
+
   (use-package treemacs
     :bind (("<f1>" . treemacs)
            ("<f5>" . treemacs-find-file))
