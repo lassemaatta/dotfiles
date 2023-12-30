@@ -34,6 +34,7 @@
   - [[#project-and-file-management][Project and File Management]]
   - [[#programming][Programming]]
   - [[#terminal][Terminal]]
+  - [[#recreational][Recreational]]
 - [[#postamble][Postamble]]
 
 * Preamble
@@ -2527,6 +2528,44 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
     :config
     (defun my-on-vterm ()
       (setq-local global-hl-line-mode nil)))
+#+end_src
+
+** Recreational
+*** Feeds
+
+[[https://github.com/skeeto/elfeed][elfeed]] is a web feed reader for =emacs=. This [[https://karthinks.com/software/lazy-elfeed/][article]] contains a couple of tips for =elfeed=, adapted below.
+
+#+begin_src emacs-lisp
+  (use-package elfeed
+    :init
+    (defun my-elfeed-show-eww-open (&optional use-generic-p)
+      (interactive "P")
+      (let ((browse-url-browser-function #'eww-browse-url))
+        (elfeed-show-visit use-generic-p)))
+    (defun my-elfeed-search-eww-open (&optional use-generic-p)
+      (interactive "P")
+      (let ((browse-url-browser-function #'eww-browse-url))
+        (elfeed-search-browse-url use-generic-p)))
+    :commands elfeed
+    :bind (:map elfeed-show-mode-map
+                ("B" . my-elfeed-show-eww-open)
+                :map elfeed-search-mode-map
+                ("B" . my-elfeed-search-eww-open))
+    :custom
+    (elfeed-search-filter "@1-week-ago ")
+    (elfeed-search-title-max-width 300)
+    (elfeed-search-trailing-width 50)
+    (elfeed-feeds
+     '(("https://planet.emacslife.com/atom.xml" emacs)
+       ("http://reddit.com/r/emacs/.rss" emacs)
+       ("https://hnrss.org/frontpage" news)
+       ("https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss" news))))
+#+end_src
+
+**** Hacker news
+
+#+begin_src emacs-lisp
+  (use-package hnreader)
 #+end_src
 
 * Postamble
