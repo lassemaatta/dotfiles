@@ -2552,14 +2552,19 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
                 :map elfeed-search-mode-map
                 ("B" . my-elfeed-search-eww-open))
     :custom
-    (elfeed-search-filter "@1-week-ago ")
+    (elfeed-search-filter "@4-week-ago ")
     (elfeed-search-title-max-width 300)
     (elfeed-search-trailing-width 50)
     (elfeed-feeds
      '(("https://planet.emacslife.com/atom.xml" emacs)
-       ("http://reddit.com/r/emacs/.rss" emacs)
+       ("https://planet.clojure.in/atom.xml" clojure)
+       ("http://reddit.com/r/emacs/.rss" emacs reddit)
+       ("http://reddit.com/r/clojure/.rss" clojure reddit)
+       ("http://reddit.com/r/clojurescript/.rss" clojure reddit)
+       ("https://clojure.org/feed.xml" clojure)
        ("https://hnrss.org/frontpage" news)
-       ("https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss" news))))
+       ("https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss" news)
+       ("https://www.hs.fi/rss/teasers/etusivu.xml" news))))
 #+end_src
 
 **** Hacker news
