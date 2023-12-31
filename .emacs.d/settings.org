@@ -31,6 +31,7 @@
   - [[#theming-modus-themes][Theming (=modus-themes=)]]
   - [[#utilities][Utilities]]
   - [[#email][Email]]
+  - [[#browser-eww][Browser (=eww=)]]
   - [[#project-and-file-management][Project and File Management]]
   - [[#programming][Programming]]
   - [[#terminal][Terminal]]
@@ -381,6 +382,13 @@ Use [[https://github.com/justbur/emacs-which-key][which-key]] to show suggestion
 
 #+begin_src emacs-lisp
   (use-package hydra)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package major-mode-hydra
+    :bind ("M-SPC" . major-mode-hydra)
+    :custom
+    (major-mode-hydra-invisible-quit-key "q"))
 #+end_src
 
 ** Quality-of-Life
@@ -1297,6 +1305,21 @@ and run it with
                     (mu4e-sent-folder  . "/gmail/[Gmail]/Sent Mail")
                     (mu4e-refile-folder  . "/gmail/[Gmail]/All Mail")
                     (mu4e-trash-folder  . "/gmail/[Gmail]/Bin"))))))
+#+end_src
+
+** Browser (=eww=)
+
+#+begin_src emacs-lisp
+  (use-package emacs
+    :elpaca nil
+    :after major-mode-hydra
+    :config
+    (major-mode-hydra-define eww-mode nil
+      ("Navigate"
+       (("n" shr-next-link "Next link" :exit nil)
+        ("p" shr-previous-link "Previous link" :exit nil))
+       "Tools"
+       (("&" eww-browse-with-external-browser "Open browser")))))
 #+end_src
 
 ** Project and File Management
