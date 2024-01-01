@@ -2560,20 +2560,13 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 
 #+begin_src emacs-lisp
   (use-package elfeed
-    :init
-    (defun my-elfeed-show-eww-open (&optional use-generic-p)
-      (interactive "P")
-      (let ((browse-url-browser-function #'eww-browse-url))
-        (elfeed-show-visit use-generic-p)))
-    (defun my-elfeed-search-eww-open (&optional use-generic-p)
-      (interactive "P")
-      (let ((browse-url-browser-function #'eww-browse-url))
-        (elfeed-search-browse-url use-generic-p)))
-    :commands elfeed
+    :commands (elfeed)
     :bind (:map elfeed-show-mode-map
                 ("B" . my-elfeed-show-eww-open)
+                ("?" . major-mode-hydra)
                 :map elfeed-search-mode-map
-                ("B" . my-elfeed-search-eww-open))
+                ("B" . my-elfeed-search-eww-open)
+                ("?" . major-mode-hydra))
     :custom
     (elfeed-search-filter "@4-week-ago ")
     (elfeed-search-title-max-width 300)
@@ -2587,7 +2580,59 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
        ("https://clojure.org/feed.xml" clojure)
        ("https://hnrss.org/frontpage" news)
        ("https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss" news)
-       ("https://www.hs.fi/rss/teasers/etusivu.xml" news))))
+       ("https://www.hs.fi/rss/teasers/etusivu.xml" news)))
+    :config
+    (setq my-elfeed-tags '())
+    (defun my-elfeed-toggle-tag (tag)
+      "Add or remove TAG from my-elfeed-tags. Returns true if added."
+      (setq my-elfeed-tags
+            (if (-contains? my-elfeed-tags tag)
+                (-remove-item tag my-elfeed-tags)
+              (cons tag my-elfeed-tags)))
+      (setq elfeed-search-filter
+            (-reduce-from (lambda (acc tag) (concat acc "+" tag " ")) "@4-week-ago " my-elfeed-tags))
+      (elfeed-search-update :force)
+      (-contains? my-elfeed-tags tag))
+    (defmacro my-def-elfeed-tag-toggle (tag)
+      "Registers a variable and command for my-elfeed-tag-TAG."
+      (let ((var-name (intern (concat "my-elfeed-tag-" tag))))
+        `(defun ,var-name ()
+           (interactive)
+           (setq ,var-name (my-elfeed-toggle-tag ,tag)))))
+    (my-def-elfeed-tag-toggle "emacs")
+    (my-def-elfeed-tag-toggle "clojure")
+    (my-def-elfeed-tag-toggle "news")
+    (my-def-elfeed-tag-toggle "reddit")
+    (defun my-elfeed-show-eww-open (&optional use-generic-p)
+      (interactive "P")
+      (let ((browse-url-browser-function #'eww-browse-url))
+        (elfeed-show-visit use-generic-p)))
+    (defun my-elfeed-search-eww-open (&optional use-generic-p)
+      (interactive "P")
+      (let ((browse-url-browser-function #'eww-browse-url))
+        (elfeed-search-browse-url use-generic-p)))
+    (major-mode-hydra-define elfeed-search-mode
+      (:color pink)
+      ("Feeds"
+       (("s" elfeed-search-live-filter "Search filter")
+        ("c" elfeed-search-clear-filter "Clear filter")
+        ("G" elfeed-search-fetch "Update feeds"))
+       "Tags"
+       (("te" my-elfeed-tag-emacs "Emacs" :toggle t :color red)
+        ("tc" my-elfeed-tag-clojure "Clojure" :toggle t :color red)
+        ("tn" my-elfeed-tag-news "News" :toggle t :color red)
+        ("tr" my-elfeed-tag-reddit "Reddit" :toggle t :color red))
+       "Mark"
+       (("r" elfeed-search-untag-all-unread "as read")
+        ("u" elfeed-search-tag-all-unread "as unread"))
+       "Open"
+       (("B" my-elfeed-search-eww-open "Open in EWW"))))
+    (major-mode-hydra-define elfeed-show-mode nil
+      ("Open"
+       (("B" my-elfeed-show-eww-open "Open in EWW"))
+       "Links"
+       (("C-i" shr-next-link "Next link" :color red)
+        ("C-M-i" shr-previous-link "Previous link" :color red)))))
 #+end_src
 
 **** Hacker news
