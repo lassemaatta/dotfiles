@@ -19,7 +19,7 @@
   - [[#quality-of-life][Quality-of-Life]]
   - [[#backups][Backups]]
   - [[#performance][Performance]]
-  - [[#scrolling][Scrolling]]
+  - [[#mouse--touchpad][Mouse / Touchpad]]
   - [[#whitespace][Whitespace]]
   - [[#help][Help]]
   - [[#file-system-dired][File system (=dired=)]]
@@ -474,7 +474,20 @@ There's a default wait time of =0.1= seconds between emacs and =GTK=.
   (setq pgtk-wait-for-event-timeout 0.01)
 #+end_src
 
-** Scrolling
+** Mouse / Touchpad
+
+Check if we're running a graphical session and if so:
+- Show a context menu when right clicking
+
+#+begin_src emacs-lisp
+  (defun my-when-graphical ()
+    (when (display-graphic-p)
+      (context-menu-mode)))
+
+  (add-hook 'server-after-make-frame-hook 'my-when-graphical)
+#+end_src
+
+*** Scrolling
 
 Set =scroll-margin= to =0= , otherwise the scrolling will jump around when clicking on entries in =treemacs=.
 
