@@ -283,9 +283,14 @@ Let's build a tree of commands under our leader key, a bit like how =spacemacs= 
       "s"  '(:ignore t :which-key "Search")
       ;; Testing
       "t"  '(:ignore t :which-key "Testing")
+      ;; Windows and text/fonts
       "w"  '(:ignore t :which-key "Windows")
       "ww" '(delete-window :which-key "Delete this")
       "wo" '(delete-other-windows :which-key "Delete others")
+      "wr" `(,(lambda ()
+                (interactive)
+                (text-scale-set 0))
+             :which-key "Reset text-scale")
       "w S-<right>" '(split-window-right :which-key "Add right")
       "w <right>" '(windmove-right :which-key "Move right")
       "w <up>" '(windmove-up :which-key "Move up")
@@ -508,11 +513,33 @@ Set =scroll-margin= to =0= , otherwise the scrolling will jump around when click
         scroll-preserve-screen-position t)
 #+END_SRC
 
-Enable smooth scrolling when using macos.
+Enable smooth scrolling when using macos. However, this cases [[https://def.lakaban.net/2023-03-05-high-quality-scrolling-emacs/][issues]] with text-scaling, where the scale increases dramatically if you press =C= and the touchpad.
 
 #+begin_src emacs-lisp
   (when (my-is-mac-p)
-    (pixel-scroll-precision-mode +1))
+    (pixel-scroll-precision-mode +1)
+
+    (defun my-filter-mwheel-always-coalesce (orig &rest args)
+      "A filter function suitable for :around advices that ensures only
+     coalesced scroll events reach the advised function."
+      (if mwheel-coalesce-scroll-events
+          (apply orig args)
+        (setq mwheel-coalesce-scroll-events t)))
+
+    (defun my-filter-mwheel-never-coalesce (orig &rest args)
+      "A filter function suitable for :around advices that ensures only
+     non-coalesced scroll events reach the advised function."
+      (if mwheel-coalesce-scroll-events
+          (setq mwheel-coalesce-scroll-events nil)
+        (apply orig args)))
+
+    ;; Don't coalesce for high precision scrolling
+    (advice-add 'pixel-scroll-precision :around #'my-filter-mwheel-never-coalesce)
+
+    ;; Coalesce for default scrolling (which is still used for horizontal scrolling)
+    ;; and text scaling (bound to ctrl + mouse wheel by default).
+    (advice-add 'mwheel-scroll          :around #'my-filter-mwheel-always-coalesce)
+    (advice-add 'mouse-wheel-text-scale :around #'my-filter-mwheel-always-coalesce))
 #+end_src
 
 ** Whitespace
