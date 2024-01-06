@@ -23,11 +23,16 @@
 ;; Don't try to round the frame size based on the font size.
 (setq frame-resize-pixelwise t)
 
-;; Make the initial emacs frame go fullscreen at startup.
-(add-to-list 'default-frame-alist '(width . 170))
-(add-to-list 'default-frame-alist '(height . 60))
+(setq default-frame-alist
+      '(;; A semi-large frame
+        (width . 170)
+        (height . 60)
+        ;; Set a black background so we won't flash white during startup
+        (background-color . "#000000")
+        ;; Make the title bar transparent (on macos)
+        (ns-appearance . dark)
+        (ns-transparent-titlebar . t)))
 
-;; Set a black background so we won't flash white during startup
 (set-face-attribute 'default nil :background "#000000" :foreground "#bbc2cf")
 
 ;; Don't report when native compilation produces warnings or errors
