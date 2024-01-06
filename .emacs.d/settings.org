@@ -117,9 +117,7 @@ The =early-init.el= disables garbage collection at startup. Here we re-enable it
 Always install all packages.
 
 #+BEGIN_SRC emacs-lisp
-  (require 'use-package-ensure)
-  (setq use-package-always-ensure t
-        use-package-verbose t
+  (setq use-package-verbose t
         use-package-compute-statistics t
         use-package-always-defer (not (daemonp))
         use-package-always-demand (daemonp))
@@ -132,7 +130,6 @@ Inherit the environment from the shell. This helps with tools like =nvm= or =sdk
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
     :demand t
-    :ensure t
     :custom
     (exec-path-from-shell-arguments '("-l" "-i"))
     :config
@@ -1675,7 +1672,6 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
     :group 'my-customs)
 
   (use-package button-lock
-    :ensure t
     :config
     (defun my-toggle-jira-buttons ()
       (interactive)
