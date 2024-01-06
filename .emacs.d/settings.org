@@ -549,6 +549,12 @@ Cleanup trailing whitespace when saving a buffer.
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 
+Some archaic writing styles expect two spaces between sentences.
+
+#+begin_src emacs-lisp
+  (setq sentence-end-double-space nil)
+#+end_src
+
 ** Help
 
 [[https://github.com/Wilfred/helpful][helpful]] provides some additional information in help buffers, such as keymaps or call locations.
