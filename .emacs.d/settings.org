@@ -402,7 +402,16 @@ Don't  require the user to type =yes= or =no= as a simple =y= or =n= is sufficie
 Automatically refresh buffers if the file has changed on disk.
 
 #+begin_src emacs-lisp
-  (global-auto-revert-mode t)
+  (use-package emacs
+    :elpaca nil
+    :custom
+    ;; Don't poll if file system already notifies us
+    (auto-revert-avoid-polling t)
+    (auto-revert-interval 5)
+    ;; Check if VC state changes (e.g. branch) even though the file stays the same
+    (auto-revert-check-vc-info t)
+    :config
+    (global-auto-revert-mode t))
 #+end_src
 
 Introduce a Clojure -style =comment= macro.
