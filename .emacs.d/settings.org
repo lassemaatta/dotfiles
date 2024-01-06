@@ -1989,6 +1989,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (completion-category-overrides '((eglot (styles orderless))))
     (eglot-send-changes-idle-time 1.0)
     :config
+    ;; Don't log every event for better performance
+    (fset #'jsonrpc--log-event #'ignore)
     ;; Don't show hover documentation in echo area
     (defalias 'my-display-in-echo-area (my-remove-by-source 'eldoc-display-in-echo-area
                                                             'eglot-hover-eldoc-function))
