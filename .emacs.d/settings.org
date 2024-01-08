@@ -1488,6 +1488,15 @@ Note that we exclude some build directories so that changes in files don't propa
                 ("C-c p" . projectile-command-map)))
 #+END_SRC
 
+Enable processing of ANSI color codes when running e.g. tests with =projectile-test-project=.
+
+#+begin_src emacs-lisp
+  (use-package ansi-color
+    :elpaca nil
+    :demand t
+    :hook (compilation-filter . ansi-color-compilation-filter))
+#+end_src
+
 Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 
 #+BEGIN_SRC emacs-lisp
@@ -2154,20 +2163,6 @@ depending on whether the current buffer is using =LSP=.
         (lsp-format-buffer)))
     (add-hook 'before-save-hook 'my-format-on-save))
 #+END_SRC
-
-=lsp-java= has [[https://github.com/emacs-lsp/dap-mode/issues/533][issues]] with displaying ANSI colors when running e.g. =dap-java-run-test-class=.
-
-#+begin_src emacs-lisp
-  (defun ansi-colorize-buffer ()
-    (let ((buffer-read-only nil))
-      (ansi-color-apply-on-region (point-min) (point-max))))
-
-  (use-package ansi-color
-    :elpaca nil
-    :after (lsp-java)
-    :config
-    (add-hook 'compilation-filter-hook 'ansi-colorize-buffer))
-#+end_src
 
 #+begin_src emacs-lisp
   (use-package java-snippets
