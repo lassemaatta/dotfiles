@@ -2012,6 +2012,9 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (add-to-list 'completion-category-overrides '((eglot (styles orderless))
                                                   (eglot-capf (styles orderless))))
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+    (fset 'my-eglot-completion-at-point (cape-capf-super
+                                         #'eglot-completion-at-point
+                                         #'cape-file))
     ;; Don't log every event for better performance
     (fset #'jsonrpc--log-event #'ignore)
     ;; Don't show hover documentation in echo area
@@ -2021,6 +2024,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (defalias 'my-display-in-buffer (my-filter-by-source 'eldoc-display-in-buffer
                                                          'eglot-hover-eldoc-function))
     (defun my-eglot-loaded ()
+      (remove-hook 'completion-at-point-functions #'eglot-completion-at-point t)
+      (add-hook 'completion-at-point-functions #'my-eglot-completion-at-point nil t)
       (setq eldoc-display-functions (list 'my-display-in-echo-area
                                           'my-display-in-buffer))))
 #+end_src
@@ -2429,20 +2434,20 @@ Set =.html= indentation from 2 to 4.
       (message "Cider loaded: post actions")
       ;; Choose which completion-at-point provider we use
       (if my-prefer-lsp-completion-at-point
-          (remove-hook 'completion-at-point-functions #'cider-complete-at-point)
+          (remove-hook 'completion-at-point-functions #'cider-complete-at-point t)
         (if my-use-eglot
-            (remove-hook 'completion-at-point-functions #'eglot-complete-at-point)
-          (remove-hook 'completion-at-point-functions #'lsp-completion-at-point)))
+            (remove-hook 'completion-at-point-functions #'my-eglot-completion-at-point t)
+          (remove-hook 'completion-at-point-functions #'lsp-completion-at-point t)))
       ;; Prefer LSP xref backend
       (setq xref-backend-functions (delete 'cider--xref-backend xref-backend-functions))
       ;; Prefer cider signature documentation over LSP
       (when my-use-eglot
-        (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function)))
+        (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)))
     (defun my-cider-unloaded ()
       (message "Cider unloaded: post actions")
       (if my-use-eglot
-          (add-hook 'completion-at-point-functions #'eglot-complete-at-point)
-        (add-hook 'completion-at-point-functions #'lsp-completion-at-point))
+          (add-hook 'completion-at-point-functions #'my-eglot-completion-at-point nil t)
+        (add-hook 'completion-at-point-functions #'lsp-completion-at-point nil t))
       (when my-use-eglot
         (add-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function nil t)))
     (defun my-cider-refresh ()
