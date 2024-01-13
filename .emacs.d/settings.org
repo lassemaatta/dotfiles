@@ -1014,7 +1014,7 @@ The =vertico-directory= extension enhances the directory navigation when complet
     :demand t
     :after vertico
     :config
-    (add-to-list 'completion-at-point-functions #'cape-file))
+    (add-hook 'completion-at-point-functions #'cape-file))
 #+END_SRC
 
 The [[https://github.com/minad/marginalia][marginalia]] package provides description of entries (e.g. files, commands) in completion menus.
