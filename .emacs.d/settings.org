@@ -1728,8 +1728,7 @@ Detect strings that look like Jira ticket identifiers and turn them into links.
             (define-key magit-log-mode-map (read-kbd-macro "RET") 'magit-show-commit))
           ;; Make sure the new link style is applied
           (run-at-time "0.1 sec" nil #'font-lock-update))))
-    :hook ((clojure-mode
-            magit-revision-mode) . my-toggle-jira-buttons))
+    :hook ((magit-revision-mode) . my-toggle-jira-buttons))
 #+end_src
 
 *** Confluence
