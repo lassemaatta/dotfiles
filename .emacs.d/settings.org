@@ -1003,7 +1003,8 @@ The =vertico-directory= extension enhances the directory navigation when complet
     :custom
     (completion-styles '(basic orderless partial-completion))
     (completion-category-defaults nil)
-    (completion-category-overrides '((file (styles basic partial-completion)))))
+    :config
+    (add-to-list 'completion-category-overrides '((file (styles basic partial-completion)))))
 #+END_SRC
 
 [[https://github.com/minad/cape][cape]] provides extensions and utilities to =completion-at-point-functions=.
@@ -1986,7 +1987,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
   (use-package eglot
     :if my-use-eglot
     :elpaca nil
-    :after general
+    :after (general cape)
     :general
     (my-leader-def
       :keymaps 'eglot-mode-map
@@ -2007,9 +2008,11 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (eglot-autoshutdown t)
     (eglot-extend-to-xref t)
     (eglot-confirm-server-initiated-edits nil)
-    (completion-category-overrides '((eglot (styles orderless))))
     (eglot-send-changes-idle-time 1.0)
     :config
+    (add-to-list 'completion-category-overrides '((eglot (styles orderless))
+                                                  (eglot-capf (styles orderless))))
+    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
     ;; Don't log every event for better performance
     (fset #'jsonrpc--log-event #'ignore)
     ;; Don't show hover documentation in echo area
