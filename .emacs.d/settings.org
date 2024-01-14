@@ -1053,7 +1053,7 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
 #+BEGIN_SRC emacs-lisp
   (use-package consult
     :demand t
-    :after (projectile xref)
+    :after (projectile)
     :general
     (my-leader-def
       "bb" '(consult-buffer :which-key "Switch buffer")
@@ -1067,9 +1067,10 @@ The [[https://github.com/minad/consult][consult]] package provides a bunch of ut
     (consult-narrow-key "<")
     (consult-project-function (lambda (_)
                                 (projectile-project-root)))
-    (xref-show-xrefs-function #'consult-xref)
-    (xref-show-definitions-function #'consult-xref)
     :config
+    (with-eval-after-load 'xref
+      (setq xref-show-xrefs-function #'consult-xref)
+      (setq xref-show-definitions-function #'consult-xref))
     (require 'consult-imenu)
     (add-to-list 'consult-imenu-config
                  '(clojure-mode :toplevel "Functions"
