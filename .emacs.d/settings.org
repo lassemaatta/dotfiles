@@ -1516,7 +1516,8 @@ Integration with [[https://github.com/Alexander-Miller/treemacs][treemacs]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package treemacs-projectile
-    :after (treemacs projectile))
+    :after (treemacs projectile)
+    :demand t)
 #+END_SRC
 
 Use [[https://github.com/nex3/perspective-el][perspective]] to create perspectives for each open project.
@@ -2187,7 +2188,8 @@ depending on whether the current buffer is using =LSP=.
 
 #+begin_src emacs-lisp
   (use-package java-snippets
-    :after (yasnippet lsp-java))
+    :after (yasnippet lsp-java)
+    :demand t)
 #+end_src
 
 *** Language Modes
