@@ -1758,7 +1758,6 @@ Customize =confluence-host= to match the desired target host (e.g. "mycompany.at
 
 #+begin_src emacs-lisp
   (use-package xref
-    :demand t
     :elpaca nil
     :after general
     :general
