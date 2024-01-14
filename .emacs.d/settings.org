@@ -1794,6 +1794,7 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
 #+begin_src emacs-lisp
   (use-package counsel-etags
     :after xref
+    :demand t
     :custom
     (counsel-etags-ctags-program "uctags")
     (counsel-etags-update-interval 60))
