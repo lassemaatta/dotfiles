@@ -133,9 +133,8 @@ Inherit the environment from the shell. This helps with tools like =nvm= or =sdk
     :custom
     (exec-path-from-shell-arguments '("-l" "-i"))
     :config
-    (when (and (display-graphic-p)
-               (or (my-is-mac-p)
-                   (daemonp)))
+    (when (or (display-graphic-p)
+              (daemonp))
       (exec-path-from-shell-initialize)))
 #+end_src
 
