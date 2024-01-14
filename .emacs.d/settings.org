@@ -1504,7 +1504,7 @@ Note that we exclude some build directories so that changes in files don't propa
       "ti" '(projectile-toggle-between-implementation-and-test :which-key "Toggle impl/test"))
     :custom
     (projectile-completion-system 'default)
-    (projectile-project-search-path '("~/work/"))
+    (projectile-project-search-path '("~/work/" "~/personal/"))
     (projectile-switch-project-action #'projectile-find-file)
     (projectile-enable-caching t)
     :init
