@@ -1161,7 +1161,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package org
-    :demand t
     :elpaca nil
     :general
     (my-leader-def
@@ -1223,7 +1222,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package ob-http
-    :after org)
+    :after org
+    :demand t)
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1247,7 +1247,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package ox-gfm
-    :after org)
+    :after org
+    :demand t)
 #+end_src
 
 As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to undo that when the point enters a styled word. The =org-appear-autolinks= does the same to links.
@@ -2536,7 +2537,6 @@ Somewhat related, =expand-region= provides two nice tools to either expand or co
 
 #+begin_src emacs-lisp
   (use-package expand-region
-    :after org
     :bind (("C-S-<up>" . er/expand-region)
            ("C-S-<down>" . er/contract-region)))
 #+end_src
