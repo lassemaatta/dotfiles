@@ -2034,7 +2034,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
 
 #+begin_src emacs-lisp
   (use-package jarchive
-    :if my-use-eglot
+    :after eglot
     :demand t
     ;; Temporarily fetch latest from git due to bug(s).
     :elpaca (:host sourcehut :repo "dannyfreeman/jarchive/")
