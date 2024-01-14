@@ -1955,7 +1955,7 @@ Also, move =yas-expand= from =<tab>= to =C-S-<tab>= so that it doesn't accidenta
 
 #+begin_src emacs-lisp
   (use-package yasnippet
-    :hook ((prog-mode . yas-minor-mode))
+    :hook (((clojure-mode java-mode) . yas-minor-mode))
     :bind (:map yas-minor-mode-map
                 ("<tab>" . nil)
                 ("TAB" . nil)
