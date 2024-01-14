@@ -2507,8 +2507,6 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
 
 #+begin_src emacs-lisp
   (use-package smartparens
-    :init
-    (require 'smartparens-config)
     :hook ((emacs-lisp-mode
             clojure-mode
             cider-repl-mode
@@ -2522,6 +2520,7 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
            ("M-9" . sp-forward-barf-sexp)
            ("M-0" . sp-forward-slurp-sexp))
     :config
+    (require 'smartparens-config)
     (show-smartparens-global-mode -1))
 #+end_src
 
