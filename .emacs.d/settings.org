@@ -1088,7 +1088,6 @@ The [[https://github.com/oantolin/embark][embark]] package provides a way to run
 
 #+BEGIN_SRC emacs-lisp
   (use-package embark
-    :demand t
     :after (org vertico)
     :bind (("C-ä" . embark-act)))
 #+END_SRC
