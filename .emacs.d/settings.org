@@ -313,7 +313,6 @@ Optionally use =evil= mode for keybindings.
 #+begin_src emacs-lisp
   (use-package evil
     :demand t
-    :after undo-tree
     :if use-evil
     :init
     (defun my-reset-cursor ()
@@ -329,12 +328,13 @@ Optionally use =evil= mode for keybindings.
     (evil-normal-state-cursor '("green" box))
     (evil-want-keybinding nil)
     (evil-want-C-u-scroll t)
-    (evil-undo-system 'undo-tree)
     (evil-mode-line-format '(before . mode-line-front-space))
     :bind
     (:map evil-normal-state-map
           ("<tab>" . evil-indent))
     :config
+    (eval-after-load 'undo-tree
+      (setq evil-undo-system 'undo-tree))
     (modus-themes-with-colors
       (setq evil-normal-state-tag   (propertize " COMMAND " 'face `((:background ,bg-green-intense :foreground ,fg-main)))
             evil-emacs-state-tag    (propertize "  EMACS  " 'face `((:background ,bg-yellow-subtle :foreground ,fg-dim)))
