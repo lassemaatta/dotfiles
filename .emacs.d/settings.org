@@ -1413,6 +1413,8 @@ and run it with
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :demand t
+    :if (or (display-graphic-p)
+            (daemonp))
     :after (projectile org)
     :custom
     (dashboard-center-content t)
