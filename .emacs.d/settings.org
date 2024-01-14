@@ -1507,7 +1507,6 @@ Enable processing of ANSI color codes when running e.g. tests with =projectile-t
 #+begin_src emacs-lisp
   (use-package ansi-color
     :elpaca nil
-    :demand t
     :hook (compilation-filter . ansi-color-compilation-filter))
 #+end_src
 
