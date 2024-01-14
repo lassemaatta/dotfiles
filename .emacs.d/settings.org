@@ -1110,7 +1110,7 @@ The [[https://github.com/oantolin/embark][embark]] package provides a way to run
 
 #+BEGIN_SRC emacs-lisp
   (use-package embark
-    :after (org vertico)
+    :after (vertico)
     :bind (("C-ä" . embark-act)))
 #+END_SRC
 
@@ -1216,7 +1216,17 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (my-add-agenda "~/org-local/")
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-    (org-clock-persistence-insinuate))
+    (org-clock-persistence-insinuate)
+    (add-hook 'elpaca-after-init-hook
+              (lambda ()
+                (org-babel-do-load-languages
+                 'org-babel-load-languages
+                 '((clojure . t)
+                   (emacs-lisp . t)
+                   (http . t)
+                   (dot . t)
+                   (shell . t)
+                   (plantuml . t))))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1233,19 +1243,6 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
   (use-package ob-http
     :after org
     :demand t)
-#+end_src
-
-#+begin_src emacs-lisp
-  (add-hook 'elpaca-after-init-hook
-            (lambda ()
-              (org-babel-do-load-languages
-               'org-babel-load-languages
-               '((clojure . t)
-                 (emacs-lisp . t)
-                 (http . t)
-                 (dot . t)
-                 (shell . t)
-                 (plantuml . t)))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1497,7 +1494,7 @@ Note that we exclude some build directories so that changes in files don't propa
 
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :after (vertico org)
+    :after (vertico)
     :general
     (my-leader-def
       :keymaps 'projectile-mode-map
