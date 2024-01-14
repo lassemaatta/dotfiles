@@ -312,8 +312,8 @@ Optionally use =evil= mode for keybindings.
 #+begin_src emacs-lisp
   (use-package evil
     :demand t
-    :disabled (not use-evil)
     :after undo-tree
+    :if use-evil
     :init
     (defun my-reset-cursor ()
       (interactive)
@@ -348,7 +348,7 @@ Optionally use =evil= mode for keybindings.
 #+begin_src emacs-lisp
   (use-package evil-collection
     :demand t
-    :disabled (not use-evil)
+    :if use-evil
     :after evil
     :config
     (evil-collection-init '(dashboard cider)))
@@ -357,7 +357,7 @@ Optionally use =evil= mode for keybindings.
 #+begin_src emacs-lisp
   (use-package evil-goggles
     :demand t
-    :disabled (not use-evil)
+    :if use-evil
     :after evil
     :config
     (evil-goggles-mode)
@@ -2511,7 +2511,7 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
 
 #+begin_src elisp
   (use-package evil-cleverparens
-    :disabled (not use-evil)
+    :if use-evil
     :hook ((emacs-lisp-mode
             clojure-mode
             cider-repl-mode) . evil-cleverparens-mode))
