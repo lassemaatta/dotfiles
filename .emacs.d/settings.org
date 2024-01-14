@@ -962,7 +962,9 @@ Use =modus-vivendi= as the main theme.
     :if (or (display-graphic-p)
             (daemonp))
     :config
-    (spacious-padding-mode 1))
+    (defun my-spacing ()
+      (spacious-padding-mode 1))
+    (add-hook 'emacs-startup-hook 'my-spacing))
 #+end_src
 
 ** Utilities
