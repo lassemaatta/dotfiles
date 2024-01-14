@@ -807,6 +807,15 @@ Detect the active monitor name and update the font size accordingly.
     (my-refresh-dpi))
 #+end_src
 
+Don't use variable pitch fonts in =shr= / =eww=.
+
+#+begin_src emacs-lisp
+  (use-package emacs
+    :elpaca nil
+    :custom
+    (shr-use-fonts nil))
+#+end_src
+
 ** Spell-checking
 
 [[https://github.com/minad/jinx][jinx]] is a new spell-checker which uses various spell-checking engines through [[https://abiword.github.io/enchant/][enchant]].
