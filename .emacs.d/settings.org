@@ -794,7 +794,8 @@ Detect the active monitor name and update the font size accordingly.
   (add-hook 'server-after-make-frame-hook 'my-refresh-dpi-delayed)
 
   ;; Immediately refresh if not using emacsclient
-  (unless (daemonp)
+  (when (and (not (daemonp))
+             (display-graphic-p))
     (my-refresh-dpi))
 #+end_src
 
