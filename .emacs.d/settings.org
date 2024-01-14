@@ -960,6 +960,8 @@ Use =modus-vivendi= as the main theme.
 #+begin_src emacs-lisp
   (use-package spacious-padding
     :demand t
+    :if (or (display-graphic-p)
+            (daemonp))
     :config
     (spacious-padding-mode 1))
 #+end_src
