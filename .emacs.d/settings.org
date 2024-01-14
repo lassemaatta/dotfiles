@@ -423,6 +423,15 @@ Introduce a Clojure -style =comment= macro.
   (defmacro comment (&rest sexp) nil)
 #+end_src
 
+Start the =*scratch*= in fundamental mode so we don't automatically load all elisp related packages.
+
+#+begin_src emacs-lisp
+  (use-package emacs
+    :elpaca nil
+    :custom
+    (initial-major-mode 'fundamental-mode))
+#+end_src
+
 ** Backups
 
 #+BEGIN_SRC emacs-lisp
