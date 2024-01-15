@@ -1704,11 +1704,14 @@ Use this [[https://github.com/magit/magit/issues/460][tip]] to allow =magit= to 
 
 #+BEGIN_SRC emacs-lisp
   (use-package diff-hl
+    :demand t
     :init
+    ;; Stub to avoid error
     (defun smartrep-define-key (a b c)
       nil)
-    :hook ((prog-mode . global-diff-hl-mode)
-           (dired-mode . diff-hl-dired-mode)
+    :config
+    (global-diff-hl-mode 1)
+    :hook ((dired-mode . diff-hl-dired-mode)
            (magit-pre-refresh . diff-hl-magit-pre-refresh)
            (magit-post-refresh . diff-hl-magit-post-refresh)))
 #+END_SRC
