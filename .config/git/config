@@ -19,3 +19,6 @@
 	autoStash = true
 [diff]
 	algorithm = histogram
+; For work projects
+[includeIf "gitdir:~/work/"]
+	path = ~/work/git-config.inc
