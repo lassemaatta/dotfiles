@@ -6,6 +6,7 @@
 	fontdiff = -family \"Hack Nerd Font Mono\" -size 12 -weight normal -slant roman -underline 0 -overstrike 0
 	diffcontext = 10
 	diffopts = --histogram
+	spellingdictionary = en_US
 [core]
 	editor = emacs -nw
 [diff "clojure"]
