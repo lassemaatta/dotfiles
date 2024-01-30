@@ -112,6 +112,17 @@ The =early-init.el= disables garbage collection at startup. Here we re-enable it
               (setq gc-cons-threshold (* 128 1024 1024))))
 #+END_SRC
 
+Tip from HN: Run garbage collection when focus moves away from emacs.
+
+#+begin_src emacs-lisp
+  (add-function :after
+                after-focus-change-function
+                (lambda ()
+                  (unless (frame-focus-state)
+                    (garbage-collect))))
+#+end_src
+
+
 ** Bootstrap =use-package=
 
 Always install all packages.
