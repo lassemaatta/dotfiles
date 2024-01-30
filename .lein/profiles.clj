@@ -1,7 +1,9 @@
 {:user           {:plugins      [[cider/cider-nrepl "LATEST"]]
                   :dependencies [[nrepl/nrepl "LATEST"]]
+                  :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core"]}
                   :test-refresh {:quiet        true
                                  :changes-only true}}
+ :root-antq      {:dependencies [[com.github.liquidz/antq "RELEASE"]]}
 
  :root-reveal    {:dependencies [[vlaaad/reveal "1.3.274"]]
                   :repl-options {:nrepl-middleware [vlaaad.reveal.nrepl/middleware]}
