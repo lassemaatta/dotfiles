@@ -17,3 +17,5 @@
 	conflictstyle = diff3
 [rebase]
 	autoStash = true
+[diff]
+	algorithm = histogram
