@@ -1341,6 +1341,28 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
     (global-undo-tree-mode))
 #+END_SRC
 
+*** Gumshoe
+
+[[https://github.com/Overdr0ne/gumshoe][gumshoe]] keeps track of the point position over time and allows us to navigate back / forward in history where we last were.
+
+#+begin_src emacs-lisp
+  (use-package gumshoe
+    :demand t
+    :init
+    (global-gumshoe-mode +1)
+    :custom
+    (gumshoe-slot-schema '(buffer position line))
+    (gumshoe-prefer-same-window t)
+    (gumshoe-peruse-separator " ")
+    :general
+    (:keymaps 'global-gumshoe-backtracking-mode-map
+     "<left>" '(global-gumshoe-backtracking-mode-back :which-key "Back")
+     "<right>" '(global-gumshoe-backtracking-mode-forward :which-key "Forward"))
+    (my-leader-def
+      "C-<left>" '(gumshoe-peruse-globally :which-key "Show history")
+      "<left>" '(gumshoe-backtrack :which-key "Back")))
+#+end_src
+
 ** Email
 :PROPERTIES:
 :VISIBILITY: folded
