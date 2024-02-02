@@ -1192,7 +1192,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
       "mc" '(:ignore t :which-key "orc-clock")
       "mci" 'org-clock-in
       "mco" 'org-clock-out
-      "mcd" 'org-clock-display)
+      "mcd" 'org-clock-display
+      "mcg" 'org-clock-goto)
     (my-leader-def
       :keymaps 'org-src-mode-map
       :predicate 'org-src-mode
