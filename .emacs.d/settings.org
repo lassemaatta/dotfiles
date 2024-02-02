@@ -1354,6 +1354,7 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
     (gumshoe-slot-schema '(buffer position line))
     (gumshoe-prefer-same-window t)
     (gumshoe-peruse-separator " ")
+    (gumshoe-show-footprints-p nil)
     :general
     (:keymaps 'global-gumshoe-backtracking-mode-map
      "<left>" '(global-gumshoe-backtracking-mode-back :which-key "Back")
