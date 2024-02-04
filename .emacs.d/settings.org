@@ -744,6 +744,10 @@ Detect the active monitor name and update the font size accordingly.
   (set-face-attribute 'variable-pitch nil :family font-family-variable :height 1.0)
   (set-face-attribute 'mode-line nil :family font-family :height 1.0)
 
+  ;; Not sure if this actually does anything
+  (when (my-is-mac-p)
+    (setq ns-use-thin-smoothing t))
+
   (defun my-update-font-size (font-height)
     "Update the font DPI to FONT-HEIGHT."
     (set-face-attribute 'default nil :height font-height))
