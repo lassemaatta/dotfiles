@@ -1,5 +1,4 @@
 {:user           {:plugins      [[cider/cider-nrepl "LATEST"]]
-                  :dependencies [[nrepl/nrepl "LATEST"]]
                   :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core"]}
                   :test-refresh {:quiet        true
                                  :changes-only true}}
