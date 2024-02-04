@@ -10,7 +10,7 @@
 
 ;; Set a high GC limit during startup
 (setq gc-cons-threshold (* 256 1024 1024)
-      garbage-collection-messages t)
+      garbage-collection-messages nil)
 
 ;; Disable menubar, toolbar, and scrollbar
 (menu-bar-mode -1)
