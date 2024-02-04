@@ -783,7 +783,7 @@ Detect the active monitor name and update the font size accordingly.
          ((and (eq x 2560) (eq y 1440)
                (eq w 600) (eq h 340)) 80)
          ((and (eq x 2560) (eq y 1440)
-               (eq w 602) (eq h 338)) 150)
+               (eq w 602) (eq h 338)) 190)
          ;; WSL @ 4k
          ((and (eq x 3840) (eq y 2160)
                (eq w 0) (eq h 0)) 140)
