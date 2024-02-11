@@ -130,6 +130,7 @@ Always install all packages.
 #+BEGIN_SRC emacs-lisp
   (setq use-package-verbose t
         use-package-compute-statistics t
+        use-package-always-ensure t
         use-package-always-defer (not (daemonp))
         use-package-always-demand (daemonp))
 #+END_SRC
@@ -416,7 +417,7 @@ Automatically refresh buffers if the file has changed on disk.
 
 #+begin_src emacs-lisp
   (use-package emacs
-    :elpaca nil
+    :ensure nil
     :custom
     ;; Don't poll if file system already notifies us
     (auto-revert-avoid-polling t)
@@ -437,7 +438,7 @@ Start the =*scratch*= in fundamental mode so we don't automatically load all eli
 
 #+begin_src emacs-lisp
   (use-package emacs
-    :elpaca nil
+    :ensure nil
     :custom
     (initial-major-mode 'fundamental-mode))
 #+end_src
@@ -621,7 +622,7 @@ Some archaic writing styles expect two spaces between sentences.
 #+begin_src emacs-lisp
   (use-package eldoc
     :demand t
-    :elpaca nil
+    :ensure nil
     :custom
     (eldoc-documentation-strategy 'eldoc-documentation-compose))
 #+end_src
@@ -665,7 +666,7 @@ Let's define some helper functions, which can be used to wrap the various =eldoc
 
 #+begin_src emacs-lisp
   (use-package emacs
-    :elpaca nil
+    :ensure nil
     :general
     (:keymaps 'dired-mode-map
      "<C-up>" 'dired-up-directory))
@@ -826,7 +827,7 @@ Don't use variable pitch fonts in =shr= / =eww=.
 
 #+begin_src emacs-lisp
   (use-package emacs
-    :elpaca nil
+    :ensure nil
     :custom
     (shr-use-fonts nil))
 #+end_src
@@ -874,7 +875,7 @@ Enable /HideShow/ mode: allows collapsing s-exprs (=<backtab>=  is =S-<tab>=).
 
 #+begin_src emacs-lisp
   (use-package hideshow
-    :elpaca nil
+    :ensure nil
     :hook ((clojure-mode . hs-minor-mode)
            (emacs-lisp-mode . hs-minor-mode))
     :bind (("<backtab>" . hs-toggle-hiding)))
@@ -1008,7 +1009,7 @@ Hide commands in =M-x= which do not apply to the current mode.
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
     :demand t
-    :elpaca (:files (:defaults "extensions/*"))
+    :ensure (:files (:defaults "extensions/*"))
     :init
     (vertico-mode)
     :custom
@@ -1020,7 +1021,7 @@ The =vertico-directory= extension enhances the directory navigation when complet
 #+begin_src emacs-lisp
   (use-package vertico-directory
     :after vertico
-    :elpaca nil
+    :ensure nil
     ;; More convenient directory navigation commands
     :bind (:map vertico-map
                 ("RET" . vertico-directory-enter)
@@ -1139,7 +1140,7 @@ Use =savehist= to save minibuffer command history between sessions.
 
 #+BEGIN_SRC emacs-lisp
   (use-package savehist
-    :elpaca nil
+    :ensure nil
     :init
     (savehist-mode))
 #+END_SRC
@@ -1185,7 +1186,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 
 #+begin_src emacs-lisp
   (use-package org
-    :elpaca nil
+    :ensure nil
     :general
     (my-leader-def
       :keymaps 'org-mode-map
@@ -1396,7 +1397,7 @@ and run it with
 
 #+begin_src emacs-lisp
   (use-package mu4e
-    :elpaca nil
+    :ensure nil
     ;; On Linux
     :load-path "/usr/share/emacs/site-lisp/mu4e"
     ;; On macos / macports
@@ -1438,7 +1439,7 @@ and run it with
 
 #+begin_src emacs-lisp
   (use-package emacs
-    :elpaca nil
+    :ensure nil
     :after major-mode-hydra
     :config
     (major-mode-hydra-define eww-mode nil
@@ -1519,7 +1520,7 @@ Note that we exclude some build directories so that changes in files don't propa
 
 #+begin_src emacs-lisp
   (use-package treemacs-mu4e
-    :elpaca (:host github :repo "Alexander-Miller/treemacs" :files ("src/extra/treemacs-mu4e.el"))
+    :ensure (:host github :repo "Alexander-Miller/treemacs" :files ("src/extra/treemacs-mu4e.el"))
     :after (treemacs mu4e)
     :general
     (my-leader-def
@@ -1553,7 +1554,7 @@ Enable processing of ANSI color codes when running e.g. tests with =projectile-t
 
 #+begin_src emacs-lisp
   (use-package ansi-color
-    :elpaca nil
+    :ensure nil
     :hook (compilation-filter . ansi-color-compilation-filter))
 #+end_src
 
@@ -1802,7 +1803,7 @@ Customize =confluence-host= to match the desired target host (e.g. "mycompany.at
 
 #+begin_src emacs-lisp
   (use-package confluence-reader
-    :elpaca (:host sourcehut :repo "sebasmonia/confluence-reader.el")
+    :ensure (:host sourcehut :repo "sebasmonia/confluence-reader.el")
     :commands (confluence-search confluence-page-by-id confluence-page-from-url)
     :config
     ;; Show search window in the bottom
@@ -1822,7 +1823,7 @@ Customize =confluence-host= to match the desired target host (e.g. "mycompany.at
 
 #+begin_src emacs-lisp
   (use-package xref
-    :elpaca nil
+    :ensure nil
     :after general
     :general
     ("M-." 'xref-find-references)
@@ -1859,7 +1860,7 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
 #+begin_src emacs-lisp
   (use-package flymake
     :if my-use-eglot
-    :elpaca nil
+    :ensure nil
     :general
     (my-leader-def
       :keymaps 'flymake-mode-map
@@ -2048,7 +2049,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
 #+begin_src emacs-lisp
   (use-package eglot
     :if my-use-eglot
-    :elpaca nil
+    :ensure nil
     :after (general cape)
     :general
     (my-leader-def
@@ -2100,7 +2101,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     :after eglot
     :demand t
     ;; Temporarily fetch latest from git due to bug(s).
-    :elpaca (:host sourcehut :repo "dannyfreeman/jarchive/")
+    :ensure (:host sourcehut :repo "dannyfreeman/jarchive/")
     :config
     (jarchive-setup))
 #+end_src
@@ -2362,7 +2363,7 @@ Set =.html= indentation from 2 to 4.
 
 #+BEGIN_SRC emacs-lisp
   (use-package js
-    :elpaca nil
+    :ensure nil
     :mode ("\\.js\\'" . js-mode)
     :hook (js-ts-mode . my-update-symref)
     :custom
@@ -2665,7 +2666,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 
 #+begin_src emacs-lisp
   (use-package vterm
-    :elpaca (vterm :post-build
+    :ensure (vterm :post-build
                    (progn
                      (setq vterm-always-compile-module t)
                      (require 'vterm)
