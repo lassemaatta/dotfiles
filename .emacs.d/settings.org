@@ -1221,6 +1221,8 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d@)" "CANCELLED(c@)")))
     (org-todo-keyword-faces '(("CANCELLED" . (face-attribute 'modus-themes-fg-yellow :foreground))))
     (org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml/plantuml.jar"))
+    ;; Show clocked in time for today in mode line (not total hours)
+    (org-clock-mode-line-total 'today)
     :mode ("\\.org\\'" . org-mode)
     :hook ((org-mode . org-indent-mode)
            (org-mode . visual-line-mode)
