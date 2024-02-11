@@ -2555,7 +2555,8 @@ Set =.html= indentation from 2 to 4.
     (put-clojure-indent 'PUT 2)
     (put-clojure-indent 'context 2)
     (put-clojure-indent 'util/pcond-> 1)
-    (put-clojure-indent 'util/pcond->> 1))
+    (put-clojure-indent 'util/pcond->> 1)
+    (put-clojure-indent 'mongocheck 1))
 #+END_SRC
 
 **** =smartparens=
