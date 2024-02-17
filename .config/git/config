@@ -29,3 +29,9 @@
 	defaultBranch = master
 [rerere]
 	enabled = true
+[transfer]
+	fsckobjects = true
+[fetch]
+	fsckobjects = true
+[receive]
+	fsckobjects = true
