@@ -1539,6 +1539,8 @@ Note that we exclude some build directories so that changes in files don't propa
     (my-leader-def
       :keymaps 'projectile-mode-map
       "ti" '(projectile-toggle-between-implementation-and-test :which-key "Toggle impl/test"))
+    (:keymaps 'projectile-mode-map
+      "C-c p" 'projectile-command-map)
     :custom
     (projectile-mode-line-prefix "")
     (projectile-completion-system 'default)
@@ -1546,9 +1548,7 @@ Note that we exclude some build directories so that changes in files don't propa
     (projectile-switch-project-action #'projectile-find-file)
     (projectile-enable-caching t)
     :init
-    (projectile-mode +1)
-    :bind (:map projectile-mode-map
-                ("C-c p" . projectile-command-map)))
+    (projectile-mode +1))
 #+END_SRC
 
 Enable processing of ANSI color codes when running e.g. tests with =projectile-test-project=.
