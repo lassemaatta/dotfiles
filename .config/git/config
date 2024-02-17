@@ -18,6 +18,7 @@
 [rebase]
 	autoStash = true
 	autosquash = true
+	updaterefs = true
 [diff]
 	algorithm = histogram
 ; For work projects
