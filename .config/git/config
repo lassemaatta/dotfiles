@@ -17,6 +17,7 @@
 	conflictstyle = diff3
 [rebase]
 	autoStash = true
+	autosquash = true
 [diff]
 	algorithm = histogram
 ; For work projects
