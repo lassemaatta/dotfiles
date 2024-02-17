@@ -25,3 +25,5 @@
 	path = ~/work/git-config.inc
 [pull]
 	rebase = true
+[init]
+	defaultBranch = master
