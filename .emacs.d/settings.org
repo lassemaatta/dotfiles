@@ -1548,7 +1548,15 @@ Note that we exclude some build directories so that changes in files don't propa
     (projectile-switch-project-action #'projectile-find-file)
     (projectile-enable-caching t)
     :init
-    (projectile-mode +1))
+    (projectile-mode +1)
+    :config
+    (defun my-projectile-reset-cache (&rest _args)
+      (message "Resetting projectile cache")
+      (projectile-invalidate-cache nil))
+    (eval-after-load 'magit
+      (progn
+        (advice-add 'magit-checkout :after #'my-projectile-reset-cache)
+        (advice-add 'magit-branch-and-checkout :after #'my-projectile-reset-cache))))
 #+END_SRC
 
 Enable processing of ANSI color codes when running e.g. tests with =projectile-test-project=.
