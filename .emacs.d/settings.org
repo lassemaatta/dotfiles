@@ -1436,6 +1436,9 @@ and run it with
 #+end_src
 
 ** Browser (=eww=)
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package emacs
@@ -2702,6 +2705,10 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 #+end_src
 
 ** Recreational
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
+
 *** Feeds
 
 [[https://github.com/skeeto/elfeed][elfeed]] is a web feed reader for =emacs=. This [[https://karthinks.com/software/lazy-elfeed/][article]] contains a couple of tips for =elfeed=, adapted below.
