@@ -22,3 +22,5 @@
 ; For work projects
 [includeIf "gitdir:~/work/"]
 	path = ~/work/git-config.inc
+[pull]
+	rebase = true
