@@ -929,8 +929,6 @@ Provide icons for =ibuffer=.
 Construct a simple mode line.
 
 #+BEGIN_SRC emacs-lisp
-  (setq-default projectile-mode-line-prefix "")
-
   (setq-default mode-line-format
                 '("%e"
                   mode-line-front-space
@@ -1542,6 +1540,7 @@ Note that we exclude some build directories so that changes in files don't propa
       :keymaps 'projectile-mode-map
       "ti" '(projectile-toggle-between-implementation-and-test :which-key "Toggle impl/test"))
     :custom
+    (projectile-mode-line-prefix "")
     (projectile-completion-system 'default)
     (projectile-project-search-path '("~/work/" "~/personal/"))
     (projectile-switch-project-action #'projectile-find-file)
