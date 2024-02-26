@@ -2154,6 +2154,9 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     ;(lsp-clojure-custom-server-command '("bash" "-c" "/home/lassemaatta/Lataukset/clojure-lsp"))
     :init
     (defun my/lsp-mode-setup-completion ()
+      ;; Make sure LSP completion comes last and thus doesn't consume all completions
+      (delete #'lsp-completion-at-point completion-at-point-functions)
+      (add-to-list 'completion-at-point-functions #'lsp-completion-at-point t)
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
             '(orderless)))
     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
