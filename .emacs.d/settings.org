@@ -1866,6 +1866,14 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
     (counsel-etags-update-interval 60))
 #+end_src
 
+*** Nested editing
+
+#+begin_src emacs-lisp
+  (use-package separedit
+    :custom
+    (separedit-preserve-string-indentation t))
+#+end_src
+
 *** Error checking (=flycheck= or =flymake=)
 :PROPERTIES:
 :VISIBILITY: folded
