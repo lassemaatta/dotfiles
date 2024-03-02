@@ -1074,6 +1074,8 @@ Provide icons for completion menus (e.g. when selecting which file to open etc.)
 
 The [[https://github.com/minad/consult][consult]] package provides a bunch of utility functions related to completions (e.g. switch buffer, search within buffer..).
 
+The =consult-narrow-key= (=<=) can be pressed to display the narrowing categories (e.g. =f= for =files=).
+
 #+BEGIN_SRC emacs-lisp
   (use-package consult
     :demand t
