@@ -1,5 +1,5 @@
 {:user           {:plugins      [[cider/cider-nrepl "LATEST"]]
-                  :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core"]}
+                  :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core" "--skip=pom"]}
                   :test-refresh {:quiet        true
                                  :changes-only true}}
  :root-antq      {:dependencies [[com.github.liquidz/antq "RELEASE"]]}
