@@ -2301,6 +2301,15 @@ Set =.html= indentation from 2 to 4.
   (use-package docker-compose-mode)
 #+END_SRC
 
+**** Jenkins
+
+Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
+
+#+begin_src emacs-lisp
+  (use-package jenkinsfile-mode
+    :mode ("/Jenkinsfile.*" . jenkinsfile-mode))
+#+end_src
+
 **** Graphviz and =dot=
 
 #+BEGIN_SRC emacs-lisp
