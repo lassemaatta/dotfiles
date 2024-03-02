@@ -2668,7 +2668,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
     (shell-command-on-region
      (region-beginning)
      (region-end)
-     "/home/lassemaatta/bin/jet --pretty --from transit --edn-reader-opts '{:default tagged-literal}'"
+     "jet --pretty --from transit --edn-reader-opts '{:default tagged-literal}'"
      (current-buffer)
      t
      "*jet error buffer*"
@@ -2680,7 +2680,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
     (shell-command-on-region
      (region-beginning)
      (region-end)
-     "/home/lassemaatta/bin/jet --pretty --from edn --edn-reader-opts '{:default tagged-literal}'"
+     "jet --pretty --from edn --edn-reader-opts '{:default tagged-literal}'"
      (current-buffer)
      t
      "*jet error buffer*"
