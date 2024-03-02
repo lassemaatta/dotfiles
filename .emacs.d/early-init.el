@@ -40,6 +40,9 @@
 
 (setq package-enable-at-startup nil)
 
+;; Use plists instead of hash-table in lsp-mode
+(setenv "LSP_USE_PLISTS" "true")
+
 (provide 'early-init)
 
 ;;; early-init.el ends here
