@@ -2299,6 +2299,12 @@ Set =.html= indentation from 2 to 4.
               (set (make-local-variable 'sgml-basic-offset) 4)))
 #+END_SRC
 
+**** Log files
+
+#+begin_src emacs-lisp
+  (use-package logview)
+#+end_src
+
 **** Docker and =docker-compose=
 
 #+BEGIN_SRC emacs-lisp
@@ -2459,7 +2465,8 @@ Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
       :keymaps 'clojure-mode-map
       :major-modes t
       "m"  '(:ignore t :which-key "Clojure")
-      "mc" '(cider-connect :which-key "Cider connect"))
+      "mc" '(cider-connect :which-key "Cider connect")
+      "ml" '(cider-log-show :which-key "Cider logging"))
     (my-leader-def
       :predicate '(cider-connected-p)
       :keymaps 'clojure-mode-map
