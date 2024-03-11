@@ -14,6 +14,7 @@
   - [[#load-optional-local-settings][Load optional local settings]]
   - [[#startup-launchd][Startup (launchd)]]
   - [[#generate-toc][Generate TOC]]
+  - [[#shell-commands][Shell commands]]
 - [[#general-configuration-for-emacs][General configuration for =emacs=]]
   - [[#keybindings][Keybindings]]
   - [[#quality-of-life][Quality-of-Life]]
@@ -122,7 +123,6 @@ Tip from HN: Run garbage collection when focus moves away from emacs.
                     (garbage-collect))))
 #+end_src
 
-
 ** Bootstrap =use-package=
 
 Always install all packages.
@@ -206,6 +206,45 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
     :after org
     :hook ((org-mode) . toc-org-mode))
 #+END_SRC
+
+** Shell commands
+
+The =async-shell-command= allows running arbitrary shell commands. However, the output buffer is writable by default. Let's create a minor mode and some helper functions so that the output buffer
+- is automatically selected,
+- is made read-only, and
+- can be closed with `q`.
+
+#+begin_src emacs-lisp
+  (setq lexical-binding t)
+
+  (define-minor-mode my-shell-local-mode
+    "Minor mode for closing read-only shell buffers with q."
+    :init-value nil
+    :keymap (let ((map (make-sparse-keymap)))
+              (define-key map (kbd "q") 'quit-window)
+              map))
+
+  (defun my-process-done (buf-name)
+    "Return a sentinel function operating on BUF-NAME."
+    (lambda (process signal)
+      (when (memq (process-status process) '(exit signal))
+        (shell-command-sentinel process signal)
+        (let* ((buf (get-buffer buf-name))
+               (window (get-buffer-window buf)))
+          (select-window window)
+          (read-only-mode 1)
+          (my-shell-local-mode 1)))))
+
+  (defun my-run-shell-cmd (cmd output-buffer-name error-buffer-name)
+    "Wrapper for async-shell-command"
+    (interactive)
+    (let* ((buf (get-buffer-create output-buffer-name))
+           (proc (progn (async-shell-command cmd buf error-buffer-name)
+                        (get-buffer-process buf))))
+      (if (process-live-p proc)
+          (set-process-sentinel proc (my-process-done output-buffer-name))
+        (message "No process running :("))))
+#+end_src
 
 * General configuration for =emacs=
 :PROPERTIES:
@@ -2456,6 +2495,20 @@ Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
 
 #+BEGIN_SRC emacs-lisp
   (use-package clojure-mode
+    :init
+    (defun my-lein-deps ()
+      (interactive)
+      (my-run-shell-cmd "lein deps :tree" "*lein-deps*" "*lein-deps-err*"))
+    (defun my-lein-outdated ()
+      (interactive)
+      (my-run-shell-cmd "lein outdated" "*lein-outdated*" "*lein-outdated-err*"))
+    :general
+    (my-leader-def
+      :keymaps 'clojure-mode-map
+      :major-modes t
+      "m"  '(:ignore t :which-key "Clojure")
+      "md" '(my-lein-deps :which-key "lein dependencies")
+      "mo" '(my-lein-outdated :which-key "lein outdated"))
     :custom
     (clojure-indent-style 'align-arguments)
     (clojure-align-forms-automatically t)
