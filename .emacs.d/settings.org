@@ -212,7 +212,7 @@ Use [[https://github.com/snosov1/toc-org][toc-org]] to generate a Table of Conte
 The =async-shell-command= allows running arbitrary shell commands. However, the output buffer is writable by default. Let's create a minor mode and some helper functions so that the output buffer
 - is automatically selected,
 - is made read-only, and
-- can be closed with `q`.
+- can be closed with =q=.
 
 #+begin_src emacs-lisp
   (setq lexical-binding t)
