@@ -2,7 +2,8 @@
                   :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core" "--skip=pom"]}
                   :test-refresh {:quiet        true
                                  :changes-only true}}
- :root-antq      {:dependencies [[com.github.liquidz/antq "RELEASE"]]}
+ :root-antq      {:dependencies [[com.github.liquidz/antq "RELEASE"]
+                                 [org.slf4j/slf4j-nop "RELEASE"]]}
 
  :root-reveal    {:dependencies [[vlaaad/reveal "LATEST"]]
                   :repl-options {:nrepl-middleware [vlaaad.reveal.nrepl/middleware]}
