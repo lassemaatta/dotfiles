@@ -1,4 +1,5 @@
 #+TITLE: Emacs Configuration
+#+PROPERTY: header-args:emacs-lisp :lexical t
 #+STARTUP: showall
 * Table of Contents                                            :TOC:noexport:
 :PROPERTIES:
@@ -215,8 +216,6 @@ The =async-shell-command= allows running arbitrary shell commands. However, the 
 - can be closed with =q=.
 
 #+begin_src emacs-lisp
-  (setq lexical-binding t)
-
   (define-minor-mode my-shell-local-mode
     "Minor mode for closing read-only shell buffers with q."
     :init-value nil
@@ -1252,6 +1251,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+    (org-babel-default-header-args:emacs-lisp ((:lexical . t)))
     (org-babel-clojure-backend 'cider)
     (org-babel-clojure-sync-nrepl-timeout nil)
     (org-clock-persist t)
