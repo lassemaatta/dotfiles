@@ -2151,8 +2151,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     ((clojure-mode
       clojurescript-mode
       clojurec-mode
-      js-mode
-      typescript-mode) . eglot-ensure)
+      js-ts-mode
+      typescript-ts-mode) . eglot-ensure)
     (eglot-managed-mode . my-eglot-loaded)
     :custom
     (eglot-connect-timeout 300)
@@ -2240,8 +2240,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            (clojure-mode . lsp)
            (clojurescript-mode . lsp)
            (clojurec-mode . lsp)
-           (js-mode . lsp)
-           (typescript-mode . lsp)
+           (js-ts-mode . lsp)
+           (typescript-ts-mode . lsp)
            ;; if you want which-key integration
            (lsp-mode . lsp-enable-which-key-integration)
            (lsp-completion-mode . my/lsp-mode-setup-completion)
@@ -2471,21 +2471,17 @@ Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
 #+BEGIN_SRC emacs-lisp
   (use-package js
     :ensure nil
-    :mode ("\\.js\\'" . js-mode)
+    :mode ("\\.js\\'" . js-ts-mode)
     :hook (js-ts-mode . my-update-symref)
     :custom
     (js-indent-level 2))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
-  (use-package js2-mode
-    :init
-    (add-hook
-     'js-mode-hook
-     (lambda ()
-       (unless (eq major-mode 'json-mode)
-         (js2-minor-mode)))))
-#+END_SRC
+#+begin_src emacs-lisp
+  (use-package emacs
+    :ensure nil
+    :mode ("\\.ts\\'" . typescript-ts-mode))
+#+end_src
 
 **** SSH config files
 
