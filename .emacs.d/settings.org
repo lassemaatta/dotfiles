@@ -313,6 +313,10 @@ Let's build a tree of commands under our leader key, a bit like how =spacemacs= 
       "F"  '(:ignore t :which-key "Fold")
       "FF" '(hs-toggle-hiding :which-key "Toggle")
       "Fa" '(hs-show-all :which-key "Show all")
+      ;; Git / version control
+      "g"  '(:ignore t :which-key "Git / VC")
+      "gb" '(magit-blame-addition :which-key "Blame")
+      "gn" '(smerge-vc-next-conflict :which-key "Next conflict")
       ;; Help
       "h" '(:ignore t :which-key "Help")
       "hv" '(describe-variable :which-key "Describe variable")
