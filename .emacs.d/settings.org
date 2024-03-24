@@ -1919,6 +1919,9 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
 #+end_src
 
 *** Nested editing
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package separedit
