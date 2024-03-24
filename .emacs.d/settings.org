@@ -1934,6 +1934,8 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
 :VISIBILITY: folded
 :END:
 
+As =eglot= is built-in into =emacs=, it only supports the also built-in =flymake=.
+
 #+begin_src emacs-lisp
   (use-package flymake
     :if my-use-eglot
@@ -1945,13 +1947,23 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
       "el" '(flymake-show-buffer-diagnostics :which-key "List errors")))
 #+end_src
 
+However, we can use =flycheck-eglot= to bridge =flymake= diagnostics from =eglot= to =flycheck=.
+
+#+begin_src emacs-lisp
+  (use-package flycheck-eglot
+    :if my-use-eglot
+    :after (flycheck eglot)
+    :config
+    (global-flycheck-eglot-mode 1))
+#+end_src
+
 #+begin_src emacs-lisp
   (use-package flycheck
-    :if (not my-use-eglot)
     :general
     (my-leader-def
       :keymaps 'flycheck-mode-map
       "en" '(flycheck-next-error :which-key "Goto next")
+      "ep" '(flycheck-previous-error :which-key "Goto previous")
       "el" '(flycheck-list-errors :which-key "List errors"))
     :hook ((prog-mode . flycheck-mode))
     :custom
