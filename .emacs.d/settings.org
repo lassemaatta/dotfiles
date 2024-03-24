@@ -2369,7 +2369,16 @@ Set =.html= indentation from 2 to 4.
 **** Log files
 
 #+begin_src emacs-lisp
-  (use-package logview)
+  (use-package logview
+    :bind (:map logview-mode-map
+                ("?" . major-mode-hydra))
+    :config
+    (major-mode-hydra-define logview-mode nil
+      ("Filter level"
+       (("l 1" logview-show-only-errors "Errors" :exit nil)
+        ("l 2" logview-show-errors-and-warnings "+ Warnings" :exit nil))
+       "Other"
+       (("q" bury-buffer "Quit")))))
 #+end_src
 
 **** Docker and =docker-compose=
