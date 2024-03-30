@@ -2573,7 +2573,8 @@ Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
       :keymaps 'cider-repl-mode-map
       :major-modes t
       "m"  '(:ignore t :which-key "Clojure (REPl)")
-      "mr" '(cider-switch-to-last-clojure-buffer :which-key "Switch back"))
+      "mr" '(cider-switch-to-last-clojure-buffer :which-key "Switch back")
+      "ml" '(cider-log-show :which-key "Cider logging"))
     (my-leader-def
       :predicate '(cider-connected-p)
       :keymaps 'clojure-mode-map
