@@ -919,7 +919,8 @@ Enable /HideShow/ mode: allows collapsing s-exprs (=<backtab>=  is =S-<tab>=).
   (use-package hideshow
     :ensure nil
     :hook ((clojure-mode . hs-minor-mode)
-           (emacs-lisp-mode . hs-minor-mode))
+           (emacs-lisp-mode . hs-minor-mode)
+           (lisp-mode . hs-minor-mode))
     :bind (("<backtab>" . hs-toggle-hiding)))
 #+END_src
 
@@ -1611,6 +1612,11 @@ Note that we exclude some build directories so that changes in files don't propa
     :init
     (projectile-mode +1)
     :config
+    (defun my-projectile-common-lisp-project-p (&optional DIR)
+      (or (projectile-verify-file-wildcard "?*.asd")
+          (projectile-verify-file-wildcard "?*.asdf")))
+    (projectile-register-project-type 'common-lisp #'my-projectile-common-lisp-project-p
+                                      :project-file '("?*.asd" "?*.asdf"))
     (defun my-projectile-reset-cache (&rest _args)
       (message "Resetting projectile cache")
       (projectile-invalidate-cache nil))
@@ -2517,6 +2523,83 @@ Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
     (setq native-comp-jit-compilation-deny-list '("markdown-mode\\.el$")))
 #+end_src
 
+*** Lisp
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+**** =smartparens=
+Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens= loads on startup.
+
+#+begin_src emacs-lisp
+  (use-package smartparens
+    :hook ((emacs-lisp-mode
+            clojure-mode
+            cider-repl-mode
+            lisp-mode
+            sly-mrepl-mode
+            java-mode) . turn-on-smartparens-strict-mode)
+    :bind (("C-<left>" . sp-backward-symbol)
+           ("C-<right>" . sp-forward-symbol)
+           ("M-C-<left>" . sp-backward-sexp)
+           ("M-C-<right>" . sp-forward-sexp)
+           ("M-7" . sp-backward-slurp-sexp)
+           ("M-8" . sp-backward-barf-sexp)
+           ("M-9" . sp-forward-barf-sexp)
+           ("M-0" . sp-forward-slurp-sexp))
+    :config
+    (require 'smartparens-config)
+    (show-smartparens-global-mode -1))
+#+end_src
+
+#+begin_src elisp
+  (use-package evil-cleverparens
+    :if use-evil
+    :hook ((emacs-lisp-mode
+            clojure-mode
+            cider-repl-mode) . evil-cleverparens-mode))
+#+end_src
+
+Somewhat related, =expand-region= provides two nice tools to either expand or contract the selected region semantically (ie. it understands S-expressions, strings, ..).
+
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :bind (("C-S-<up>" . er/expand-region)
+           ("C-S-<down>" . er/contract-region)))
+#+end_src
+
+**** =highlight-parentheses=
+
+Let's use =highlight-parentheses= to always highlight the nearest parentheses. This makes it easier to see where =barf= and =slurp= will apply.
+
+Note that this only highlights =()[]{}= pairs, but not =""''= etc.
+
+#+begin_src emacs-lisp
+  ;; Register a custom post-handler so that the highlighted parentheses are updated
+  (defun refresh-highlight (id action context)
+    (when (member action '(barf-forward
+                           barf-backward
+                           slurp-forward
+                           slurp-backward))
+      ;; clear the last point location so that highlight-parentheses will
+      ;; re-run the highlight analysis even when the point doesn't move
+      (setq highlight-parentheses--last-point 0)))
+
+  (use-package highlight-parentheses
+    :after smartparens
+    :custom
+    (highlight-parentheses-colors '("spring green"))
+    :hook
+    ((emacs-lisp-mode
+      clojure-mode
+      lisp-mode
+      sly-mrepl-mode) . highlight-parentheses-mode)
+    :config
+    (sp-local-pair 'lisp-mode "(" nil :post-handlers '(:add refresh-highlight))
+    (sp-local-pair 'emacs-lisp-mode "(" nil :post-handlers '(:add refresh-highlight))
+    (sp-local-pair 'clojure-mode "(" nil :post-handlers '(:add refresh-highlight))
+    (sp-local-pair 'clojure-mode "[" nil :post-handlers '(:add refresh-highlight)))
+#+end_src
+
 *** Clojure
 :PROPERTIES:
 :VISIBILITY: children
@@ -2690,74 +2773,6 @@ Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
     (put-clojure-indent 'mongocheck 1))
 #+END_SRC
 
-**** =smartparens=
-
-Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens= loads on startup.
-
-#+begin_src emacs-lisp
-  (use-package smartparens
-    :hook ((emacs-lisp-mode
-            clojure-mode
-            cider-repl-mode
-            java-mode) . turn-on-smartparens-strict-mode)
-    :bind (("C-<left>" . sp-backward-symbol)
-           ("C-<right>" . sp-forward-symbol)
-           ("M-C-<left>" . sp-backward-sexp)
-           ("M-C-<right>" . sp-forward-sexp)
-           ("M-7" . sp-backward-slurp-sexp)
-           ("M-8" . sp-backward-barf-sexp)
-           ("M-9" . sp-forward-barf-sexp)
-           ("M-0" . sp-forward-slurp-sexp))
-    :config
-    (require 'smartparens-config)
-    (show-smartparens-global-mode -1))
-#+end_src
-
-#+begin_src elisp
-  (use-package evil-cleverparens
-    :if use-evil
-    :hook ((emacs-lisp-mode
-            clojure-mode
-            cider-repl-mode) . evil-cleverparens-mode))
-#+end_src
-
-Somewhat related, =expand-region= provides two nice tools to either expand or contract the selected region semantically (ie. it understands S-expressions, strings, ..).
-
-#+begin_src emacs-lisp
-  (use-package expand-region
-    :bind (("C-S-<up>" . er/expand-region)
-           ("C-S-<down>" . er/contract-region)))
-#+end_src
-
-**** =highlight-parentheses=
-
-Let's use =highlight-parentheses= to always highlight the nearest parentheses. This makes it easier to see where =barf= and =slurp= will apply.
-
-Note that this only highlights =()[]{}= pairs, but not =""''= etc.
-
-#+begin_src emacs-lisp
-  ;; Register a custom post-handler so that the highlighted parentheses are updated
-  (defun refresh-highlight (id action context)
-    (when (member action '(barf-forward
-                           barf-backward
-                           slurp-forward
-                           slurp-backward))
-      ;; clear the last point location so that highlight-parentheses will
-      ;; re-run the highlight analysis even when the point doesn't move
-      (setq highlight-parentheses--last-point 0)))
-
-  (use-package highlight-parentheses
-    :after smartparens
-    :custom
-    (highlight-parentheses-colors '("spring green"))
-    :hook
-    ((emacs-lisp-mode clojure-mode) . highlight-parentheses-mode)
-    :config
-    (sp-local-pair 'emacs-lisp-mode "(" nil :post-handlers '(:add refresh-highlight))
-    (sp-local-pair 'clojure-mode "(" nil :post-handlers '(:add refresh-highlight))
-    (sp-local-pair 'clojure-mode "[" nil :post-handlers '(:add refresh-highlight)))
-#+end_src
-
 **** Utilities
 
 #+BEGIN_SRC emacs-lisp
@@ -2792,6 +2807,14 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       (nxml-mode)
       (indent-region begin end)))
 #+END_SRC
+
+*** Common Lisp
+
+#+begin_src emacs-lisp
+  (use-package sly
+    :custom
+    (inferior-lisp-program "sbcl"))
+#+end_src
 
 ** Terminal
 :PROPERTIES:
