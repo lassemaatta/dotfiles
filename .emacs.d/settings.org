@@ -2607,6 +2607,7 @@ Open anything starting with =Jenkinsfile= in =jenkinsfile-mode=.
     (cider-print-quota 512)
     (cider-repl-pop-to-buffer-on-connect nil)
     (cider-repl-use-clojure-font-lock t)
+    (cider-reuse-dead-repls 'auto)
     (cider-save-file-on-load t)
     (cider-font-lock-dynamically '(macro core function var))
     (cider-eldoc-display-for-symbol-at-point nil)
