@@ -642,6 +642,13 @@ Some archaic writing styles expect two spaces between sentences.
   (setq sentence-end-double-space nil)
 #+end_src
 
+Use =shrink-whitespace= to remove whitespace around the point.
+
+#+begin_src emacs-lisp
+  (use-package shrink-whitespace
+    :bind (("C-S-k" . shrink-whitespace)))
+#+end_src
+
 ** Help
 
 [[https://github.com/Wilfred/helpful][helpful]] provides some additional information in help buffers, such as keymaps or call locations.
