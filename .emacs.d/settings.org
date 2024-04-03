@@ -261,6 +261,15 @@ Make it so that emacs can distinguish between =M-8= and =[= when using ergodox.
   (add-hook 'server-after-make-frame-hook 'my-fix-mac-option)
 #+end_src
 
+Enable =repeat-mode= by default
+
+#+begin_src emacs-lisp
+  (use-package emacs
+    :ensure nil
+    :config
+    (repeat-mode +1))
+#+end_src
+
 #+begin_src emacs-lisp
   (use-package general
     :demand t
