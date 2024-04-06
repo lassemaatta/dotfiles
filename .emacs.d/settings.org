@@ -2825,6 +2825,9 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 #+END_SRC
 
 *** Common Lisp
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package sly
