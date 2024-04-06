@@ -12,6 +12,9 @@
 (setq gc-cons-threshold (* 256 1024 1024)
       garbage-collection-messages nil)
 
+;; When choosing between `.el[cn]', use latest
+(setq load-prefer-newer t)
+
 ;; Disable menubar, toolbar, and scrollbar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
