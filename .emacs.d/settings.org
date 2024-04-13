@@ -2662,6 +2662,8 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       :predicate '(cider-connected-p)
       :keymaps 'clojure-mode-map
       :major-modes t
+      "hc" '(cider-clojuredocs :which-key "Clojuredocs")
+      "hC" '(cider-clojuredocs-web :which-key "Clojuredocs (browse)")
       "mn" '(cider-browse-ns :which-key "Browse namespaces")
       "mr" '(cider-switch-to-repl-buffer :which-key "Switch to REPL")
       "mR" '(my-cider-user-reset :which-key "Reset (system)")
