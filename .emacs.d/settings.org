@@ -1483,6 +1483,7 @@ and run it with
 
 #+begin_src emacs-lisp
   (use-package mu4e
+    :disabled t
     :ensure nil
     ;; On Linux
     :load-path "/usr/share/emacs/site-lisp/mu4e"
@@ -2077,7 +2078,8 @@ When looking at completion candidates with =corfu=, we can use =corfu-popupinfo=
 
 #+begin_src emacs-lisp
   (use-package corfu
-    :init
+    :demand t
+    :config
     (global-corfu-mode)
     (corfu-popupinfo-mode)
     (corfu-history-mode -1)
@@ -2559,6 +2561,7 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
 
 #+begin_src emacs-lisp
   (use-package smartparens
+    :ensure (:host github :repo "Fuco1/smartparens" :ref "1ffd35c")
     :hook ((emacs-lisp-mode
             clojure-mode
             cider-repl-mode
