@@ -272,6 +272,7 @@ Enable =repeat-mode= by default
 
 #+begin_src emacs-lisp
   (use-package general
+    :ensure (:wait t)
     :demand t
     :config
     (if use-evil
@@ -280,15 +281,12 @@ Enable =repeat-mode= by default
           :states '(normal visual))
       (general-create-definer my-leader-def
         :prefix my-leader)))
-
-  ;; Flush the queue so that latter 'use-package' calls can use ':general'.
-  (elpaca-wait)
 #+end_src
 
 Let's build a tree of commands under our leader key, a bit like how =spacemacs= works. Later packages will add their own keybinding within the tree.
 
 #+begin_src emacs-lisp
-  (elpaca nil
+  (defun my-init-keys ()
     (my-leader-def
       ""   '(nil :which-key "leader key")
       "q"  '(:ignore t :which-key "Quit")
@@ -358,16 +356,20 @@ Let's build a tree of commands under our leader key, a bit like how =spacemacs= 
       "w <down>" '(windmove-down :which-key "Move down")
       ;; Lisp
       "x"  '(:ignore t :which-key "Execute LISP")))
+
+  (add-hook 'elpaca-after-init-hook #'my-init-keys)
 #+end_src
 
 Provide some evaluation shortcuts when working with =elisp= buffers.
 
 #+begin_src emacs-lisp
-  (elpaca nil
+  (defun my-init-keys-lisp ()
     (my-leader-def
       :keymaps '(emacs-lisp-mode-map org-mode-map)
       "xl" '(eval-last-sexp :which-key "Eval last")
       "xe" '(eval-defun :which-key "Eval defun")))
+
+  (add-hook 'elpaca-after-init-hook #'my-init-keys-lisp)
 #+end_src
 
 Optionally use =evil= mode for keybindings.
