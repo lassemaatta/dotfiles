@@ -2566,7 +2566,6 @@ Note that the =*scratch*= buffer uses =emacs-lisp-mode=, therefore =smartparens=
 
 #+begin_src emacs-lisp
   (use-package smartparens
-    :ensure (:host github :repo "Fuco1/smartparens" :ref "237a0e2" :pin t)
     :hook ((emacs-lisp-mode
             clojure-mode
             cider-repl-mode
