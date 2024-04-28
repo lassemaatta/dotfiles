@@ -1290,8 +1290,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     ;; Show clocked in time for today in mode line (not total hours)
     (org-clock-mode-line-total 'today)
     :mode ("\\.org\\'" . org-mode)
-    :hook ((org-mode . org-indent-mode)
-           (org-mode . visual-line-mode)
+    :hook ((org-mode . visual-line-mode)
            (org-babel-after-execute . org-redisplay-inline-images))
     :config
     (defun my-add-agenda (directory)
@@ -1315,11 +1314,9 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package org-superstar
+  (use-package org-modern
     :after org
-    :custom
-    (org-superstar-remove-leading-stars t)
-    :hook ((org-mode . org-superstar-mode)))
+    :hook ((org-mode . org-modern-mode)))
 #+end_src
 
 =ob-http= allows making HTTP requests in org mode source blocks with ~begin_src http~.
@@ -1357,7 +1354,6 @@ As =org-hide-emphasis-markers= hides the styling, we can use =org-appear= to und
 
 #+begin_src emacs-lisp
   (use-package visual-fill-column
-    :hook ((org-mode . visual-fill-column-mode))
     :custom
     (visual-fill-column-width 140)
     (visual-fill-column-center-text t))
