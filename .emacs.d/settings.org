@@ -464,6 +464,12 @@ Don't  require the user to type =yes= or =no= as a simple =y= or =n= is sufficie
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
+Don't show a GUI dialog when requiring confirmation.
+
+#+begin_src emacs-lisp
+  (setq use-dialog-box nil)
+#+end_src
+
 Automatically refresh buffers if the file has changed on disk.
 
 #+begin_src emacs-lisp
