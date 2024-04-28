@@ -1976,6 +1976,7 @@ As =eglot= is built-in into =emacs=, it only supports the also built-in =flymake
   (use-package flymake
     :if my-use-eglot
     :ensure nil
+    :after (eglot general)
     :general
     (my-leader-def
       :keymaps 'flymake-mode-map
