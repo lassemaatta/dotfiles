@@ -914,7 +914,7 @@ Don't use variable pitch fonts in =shr= / =eww=.
 
 #+begin_src emacs-lisp
   (use-package jinx
-    :hook ((prog-mode . jinx-mode))
+    :hook ((prog-mode text-mode) . jinx-mode)
     :general
     (my-leader-def
       :keymaps 'jinx-mode-map
