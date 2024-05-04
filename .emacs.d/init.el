@@ -33,7 +33,7 @@
 
 (let ((elapsed (float-time (time-subtract (current-time)
                                           emacs-start-time))))
-  (message "Loaded packages in %.3fs" elapsed))
+  (message "Loaded elpaca-bootstrap in %.3fs" elapsed))
 
 ;; Tangle the settings, but only if there is a hash mismatch
 
