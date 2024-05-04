@@ -651,6 +651,18 @@ Cleanup trailing whitespace when saving a buffer.
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 
+Highlight any glyph-less characters (zero-width spaces etc.) in red.
+
+#+begin_src emacs-lisp
+  (use-package emacs
+    :ensure nil
+    :demand t
+    :hook ((text-mode
+            prog-mode) . glyphless-display-mode)
+    :config
+    (set-face-background 'glyphless-char "red"))
+#+end_src
+
 Some archaic writing styles expect two spaces between sentences.
 
 #+begin_src emacs-lisp
