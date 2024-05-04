@@ -1,4 +1,5 @@
-{:user           {:plugins      [[cider/cider-nrepl "LATEST"]]
+{:user           {:plugins      [[cider/cider-nrepl "LATEST"]
+                                 [lein-collisions "LATEST"]]
                   :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core" "--skip=pom" "--no-changes"]}
                   :test-refresh {:quiet        true
                                  :changes-only true}}
