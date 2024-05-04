@@ -1426,6 +1426,7 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+begin_src emacs-lisp
   (use-package gumshoe
+    :disabled
     :demand t
     :init
     (global-gumshoe-mode +1)
