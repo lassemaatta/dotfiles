@@ -14,7 +14,7 @@
 
 ;; When choosing between `.el[cn]', use latest
 (require 'jka-compr) ; workaround for recursive load
-(setq load-prefer-newer t)
+(setq load-prefer-newer nil)
 
 ;; Disable menubar, toolbar, and scrollbar
 (menu-bar-mode -1)
