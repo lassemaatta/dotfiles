@@ -1316,7 +1316,9 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 #+begin_src emacs-lisp
   (use-package org-modern
     :after org
-    :hook ((org-mode . org-modern-mode)))
+    :hook ((org-mode . org-modern-mode))
+    :config
+    (set-face-attribute 'org-modern-symbol nil :family "Iosevka"))
 #+end_src
 
 =ob-http= allows making HTTP requests in org mode source blocks with ~begin_src http~.
