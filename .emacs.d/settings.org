@@ -1471,7 +1471,7 @@ Use =avy= to quickly jump to a location. You can also use the sequence =C-j <sea
     :config
     (bind-key* "C-j" 'avy-goto-char-timer)
     :custom
-    (avy-timeout-seconds 0.5))
+    (avy-timeout-seconds 0.2))
 #+end_src
 
 ** Email
