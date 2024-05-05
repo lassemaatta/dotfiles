@@ -1264,6 +1264,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 #+begin_src emacs-lisp
   (use-package org
     :ensure nil
+    :defer 1
     :general
     (my-leader-def
       :keymaps 'org-mode-map
@@ -1322,7 +1323,9 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
                    (http . t)
                    (dot . t)
                    (shell . t)
-                   (plantuml . t))))))
+                   (plantuml . t)))))
+    ;; Eagerly load modules, before opening a org buffer
+    (org-load-modules-maybe))
 #+end_src
 
 #+begin_src emacs-lisp
