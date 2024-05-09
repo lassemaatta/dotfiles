@@ -1342,7 +1342,10 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
   (use-package org-modern
     :after org
     :hook ((org-mode . org-modern-mode))
+    :custom
+    (org-modern-label-border 1) ; smaller border around labels
     :config
+    ;; Iosevka has more symbols (ie. arrows) for section headers
     (set-face-attribute 'org-modern-symbol nil :family "Iosevka"))
 #+end_src
 
