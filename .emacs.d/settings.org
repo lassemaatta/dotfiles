@@ -771,6 +771,16 @@ Use =C-s= to filter entries in a =dired= buffer.
            ("C-s" . dired-narrow)))
 #+end_src
 
+Use =?= to open a nice =transient= menu in =dired=.
+
+#+begin_src emacs-lisp
+  (use-package casual-dired
+    :after dired
+    :general
+    (:keymaps 'dired-mode-map
+              "?" 'casual-dired-tmenu))
+#+end_src
+
 ** UI
 
 Hide the default splash screen.
