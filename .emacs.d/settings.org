@@ -3009,7 +3009,8 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
 **** Hacker news
 
 #+begin_src emacs-lisp
-  (use-package hnreader)
+  (use-package hnreader
+    :disabled)
 #+end_src
 
 * Postamble
