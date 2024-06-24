@@ -144,6 +144,11 @@ Inherit the environment from the shell. This helps with tools like =nvm= or =sdk
   (use-package exec-path-from-shell
     :demand t
     :custom
+    (exec-path-from-shell-variables '("PATH"
+                                      "MANPATH"
+                                      "JAVA_HOME"
+                                      "TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE"
+                                      "DOCKER_HOST"))
     (exec-path-from-shell-arguments '("-l" "-i"))
     :config
     (when (or (display-graphic-p)
