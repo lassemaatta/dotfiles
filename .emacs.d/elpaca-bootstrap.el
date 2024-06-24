@@ -43,7 +43,4 @@
   ;; Enable :elpaca use-package keyword.
   (elpaca-use-package-mode))
 
-;; Block until current queue processed.
-(elpaca-wait)
-
 (provide 'elpaca-bootstrap)
