@@ -1064,6 +1064,7 @@ Use =modus-vivendi= as the main theme.
     :init
     (defun my-tune-colors ()
       (interactive)
+      (set-face-background 'highlight "#004065")
       (modus-themes-with-colors
         (custom-set-faces
          `(org-block-begin-line ((,c :inherit modus-themes-fixed-pitch
