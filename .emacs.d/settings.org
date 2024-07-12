@@ -2803,15 +2803,17 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       ;; Prefer LSP xref backend
       (setq xref-backend-functions (delete 'cider--xref-backend xref-backend-functions))
       ;; Prefer cider signature documentation over LSP
-      (when my-use-eglot
-        (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)))
+      (if my-use-eglot
+        (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)
+       (remove-hook 'eldoc-documentation-functions #'lsp-eldoc-function t)))
     (defun my-cider-unloaded ()
       (message "Cider unloaded: post actions")
       (if my-use-eglot
           (add-hook 'completion-at-point-functions #'my-eglot-completion-at-point nil t)
         (add-hook 'completion-at-point-functions #'lsp-completion-at-point nil t))
-      (when my-use-eglot
-        (add-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function nil t)))
+      (if my-use-eglot
+          (add-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function nil t)
+        (add-hook 'eldoc-documentation-functions #'lsp-eldoc-function nil t)))
     (defun my-cider-refresh ()
       (interactive)
       (if (bound-and-true-p cider-mode)
