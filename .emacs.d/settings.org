@@ -1757,6 +1757,17 @@ Only show current perspective / project in =treemacs=.
     (treemacs-set-scope-type 'Perspectives))
 #+end_src
 
+The [[https://sr.ht/~woozong/perspective-tabs/][perspective-tabs]] package allows us to display open perspectives in =emacs= tabs.
+
+#+begin_src emacs-lisp
+  (use-package perspective-tabs
+    :ensure (:host sourcehut :repo "woozong/perspective-tabs")
+    :after (perspective)
+    :demand t
+    :init
+    (perspective-tabs-mode +1))
+#+end_src
+
 *** Git (=magit=, =forge=)
 
 [[https://magit.vc/][magit]] provides a really nice =git= UI.
