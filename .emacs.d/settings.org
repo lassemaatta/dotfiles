@@ -2740,6 +2740,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       "mn" '(cider-browse-ns :which-key "Browse namespaces")
       "mr" '(cider-switch-to-repl-buffer :which-key "Switch to REPL")
       "mR" '(my-cider-user-reset :which-key "Reset (system)")
+      "ml" '(my-cider-reveal-clear :which-key "Clear reveal window")
       "tt" '(cider-test-run-test :which-key "Run test")
       "tn" '(cider-test-run-ns-tests :which-key "Run namespace tests")
       "tp" '(cider-test-run-project-tests :which-key "Run project tests")
@@ -2757,9 +2758,14 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       "xl" '(cider-eval-last-sexp :which-key "Eval last")
       "xe" '(cider-eval-defun-at-point :which-key "Eval defun"))
     :init
+    (defun my-cider-eval (cmd)
+      (cider-interactive-eval cmd nil nil (cider--nrepl-pr-request-map)))
     (defun my-cider-user-reset ()
       (interactive)
-      (cider-interactive-eval "(ns user) (user/reset)" nil nil (cider--nrepl-pr-request-map)))
+      (my-cider-eval "(ns user) (user/reset)"))
+    (defun my-cider-reveal-clear ()
+      (interactive)
+      (my-cider-eval "(tap> {:vlaaad.reveal/command '(clear-output)})"))
     (defun my-cider-test-infer-test-ns (ns)
       "Given a namespace NS, find the corresponding test namespace (which may be NS itself)."
       (when ns
