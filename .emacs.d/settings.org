@@ -2093,6 +2093,15 @@ However, we can use =flycheck-eglot= to bridge =flymake= diagnostics from =eglot
                   (my-close-error-list)))))
 #+end_src
 
+Use [[https://github.com/flycheck/flycheck-pos-tip][flycheck-pos-tip]] so that errors on point show up in a tooltip instead of echo area. Otherwise the error will hide the function signature.
+
+#+begin_src emacs-lisp
+  (use-package flycheck-pos-tip
+    :after (flycheck)
+    :init
+    (flycheck-pos-tip-mode))
+#+end_src
+
 [[https://github.com/minad/consult-flycheck][consult-flycheck]] provides a nice `consult-flycheck` command for navigating =flycheck= errors.
 
 #+begin_src emacs-lisp
