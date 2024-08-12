@@ -14,6 +14,8 @@
                                  [com.clojure-goes-fast/clj-async-profiler "1.0.3"]]
                   :jvm-opts     ["-Djdk.attach.allowAttachSelf"]}
 
+ :root-reload    {:dependencies [[io.github.tonsky/clj-reload "0.7.0"]]}
+
  :root-local-dev {:jvm-opts ["-XX:-OmitStackTraceInFastThrow"
                              "-Dclojure.main.report=stderr"]}
 
