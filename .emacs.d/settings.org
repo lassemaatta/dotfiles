@@ -582,6 +582,14 @@ Check if we're running a graphical session and if so:
   (add-hook 'server-after-make-frame-hook 'my-when-graphical)
 #+end_src
 
+Don't accidentally adjust font size when scrolling with touchpad.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<pinch>") 'ignore)
+  (global-set-key (kbd "<C-wheel-up>") 'ignore)
+  (global-set-key (kbd "<C-wheel-down>") 'ignore)
+#+end_src
+
 *** Scrolling
 
 Set =scroll-margin= to =0= , otherwise the scrolling will jump around when clicking on entries in =treemacs=.
