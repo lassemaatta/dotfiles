@@ -2748,7 +2748,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       "mn" '(cider-browse-ns :which-key "Browse namespaces")
       "mr" '(cider-switch-to-repl-buffer :which-key "Switch to REPL")
       "mR" '(my-cider-user-reset :which-key "Reset (system)")
-      "ml" '(my-cider-reveal-clear :which-key "Clear reveal window")
+      "mL" '(my-cider-reveal-clear :which-key "Clear reveal window")
       "tt" '(cider-test-run-test :which-key "Run test")
       "tn" '(cider-test-run-ns-tests :which-key "Run namespace tests")
       "tp" '(cider-test-run-project-tests :which-key "Run project tests")
