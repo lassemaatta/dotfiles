@@ -2364,6 +2364,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-ui
     :after (lsp-mode)
+    ;; https://github.com/emacs-lsp/lsp-ui/issues/681
+    :hook (lsp-after-initialize . (lambda () (local-set-key (kbd "<tab-bar> <mouse-movement>") #'ignore)))
     :general
     (my-leader-def
       :keymaps 'lsp-mode-map
