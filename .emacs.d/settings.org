@@ -1195,6 +1195,7 @@ The =consult-narrow-key= (=<=) can be pressed to display the narrowing categorie
            ("C-x b" . consult-buffer)
            ("C-M-y" . consult-yank-from-kill-ring))
     :custom
+    (consult-preview-key (list :debounce 0.5 'any))
     (consult-narrow-key "<")
     (consult-project-function (lambda (_)
                                 (projectile-project-root)))
