@@ -2814,6 +2814,8 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
     (cider-xref-fn-depth 0)
     (cider-use-xref t)
     (cider-use-tooltips nil)
+    ;; Workaround for https://github.com/clojure-emacs/cider/issues/2866
+    (cider-font-lock-dynamically '(macro core))
     :hook
     ((cider-mode . my-cider-refresh))
     :config
