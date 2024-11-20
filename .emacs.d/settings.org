@@ -1436,10 +1436,6 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 #+begin_src emacs-lisp
   (use-package emacsql
     :demand t)
-
-  (use-package emacsql-sqlite
-    :demand t
-    :after emacsql)
 #+end_src
 
 #+BEGIN_SRC emacs-lisp
