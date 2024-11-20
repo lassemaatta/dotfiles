@@ -785,10 +785,10 @@ Use =C-s= to filter entries in a =dired= buffer.
            ("C-s" . dired-narrow)))
 #+end_src
 
-Use =?= to open a nice =transient= menu in =dired=.
+The =casual= package includes a bunch of nice =transient= keymaps (=agenda=, =bookmarks=, =calc=, =dired=, ...). For dired, use =?= to open a =transient= menu in =dired=.
 
 #+begin_src emacs-lisp
-  (use-package casual-dired
+  (use-package casual
     :after dired
     :general
     (:keymaps 'dired-mode-map
