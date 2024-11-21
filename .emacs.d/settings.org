@@ -1440,7 +1440,7 @@ Use [[https://www.orgroam.com/][org-roam]] for note keeping and time tracking.
 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
-    :after (org emacsql-sqlite)
+    :after (org emacsql)
     :general
     (my-leader-def
       "nf" '(org-roam-node-find :which-key "Find note")
