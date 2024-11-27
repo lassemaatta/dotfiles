@@ -2061,7 +2061,9 @@ However, we can use =flycheck-eglot= to bridge =flymake= diagnostics from =eglot
       "en" '(flycheck-next-error :which-key "Goto next")
       "ep" '(flycheck-previous-error :which-key "Goto previous")
       "el" '(flycheck-list-errors :which-key "List errors"))
-    :hook ((prog-mode . flycheck-mode))
+    :hook (((clojure-mode
+             clojurec-mode
+             clojurescript-mode) . flycheck-mode))
     :custom
     (flycheck-display-errors-delay 1.0)
     (flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch new-line mode-enabled))
