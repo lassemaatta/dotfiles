@@ -2926,6 +2926,22 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       (indent-region begin end)))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (defun my-timestamp-to-string ()
+    "Interpret number at point as a Unix timestamp (s or ms) and pretty-print it in Finnish timezone"
+    (interactive)
+    (when-let ((s (current-word)))
+      (let* ((d (string-to-number s))
+             ;; Assume that very large timestamps are in milliseconds
+             (d (if (> d 2000000000)
+                    (/ d 1000)
+                  d))
+             (sec (seconds-to-time d))
+             (tz "Europe/Helsinki")
+             (time (format-time-string "%-d.%-m.%Y %H:%M:%S %A" sec tz)))
+        (message "%s" time))))
+#+end_src
+
 *** Common Lisp
 :PROPERTIES:
 :VISIBILITY: folded
