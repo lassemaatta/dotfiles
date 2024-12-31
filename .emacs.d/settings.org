@@ -1789,6 +1789,8 @@ The [[https://sr.ht/~woozong/perspective-tabs/][perspective-tabs]] package allow
   (use-package magit
     :after transient
     :custom
+    (magit-section-initial-visibility-alist '((stashes . hide)
+                                              (untracked . hide)))
     (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
     (magit-bury-buffer-function #'magit-restore-window-configuration)
     (magit-diff-refine-hunk 'all)
