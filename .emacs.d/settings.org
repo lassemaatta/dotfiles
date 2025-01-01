@@ -2015,6 +2015,25 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
     (counsel-etags-update-interval 60))
 #+end_src
 
+*** Documentation
+
+#+begin_src emacs-lisp
+  (use-package devdocs
+    :config
+    (defun my--render-clojure-var-type (dom)
+      "Fix how clojure var names and types were rendered in shr.
+  In other words, display \"assoc [function]\" instead of \"assocfunction\"."
+      (if-let ((attrs (nth 1 dom))
+               (dom-id (alist-get 'id attrs))
+               ((string= "var-type" dom-id)))
+          (progn
+            (shr-insert " [")
+            (shr-tag-span dom)
+            (shr-insert "]"))
+        (shr-tag-span dom)))
+    (push '(span . my--render-clojure-var-type) (alist-get 'clojure devdocs--rendering-functions)))
+#+end_src
+
 *** Nested editing
 :PROPERTIES:
 :VISIBILITY: folded
