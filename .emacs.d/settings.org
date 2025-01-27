@@ -2357,6 +2357,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (lsp-imenu-index-function #'lsp-imenu-create-categorized-index)
     ;; For logging IO between client and server
     (lsp-log-io nil)
+    (lsp-xml-jar-download-url "https://www.eclipse.org/downloads/download.php?file=/lemminx/releases/0.29.0/org.eclipse.lemminx-uber.jar&mirror_id=1045")
     ;(lsp-clojure-custom-server-command '("bash" "-c" "/home/lassemaatta/Lataukset/clojure-lsp"))
     :init
     (defun my/lsp-mode-setup-completion ()
@@ -2372,6 +2373,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            (js-ts-mode . lsp)
            (typescript-ts-mode . lsp)
            (web-mode . lsp)
+           (nxml-mode . lsp)
            ;; if you want which-key integration
            (lsp-mode . lsp-enable-which-key-integration)
            (lsp-completion-mode . my/lsp-mode-setup-completion)
