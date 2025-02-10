@@ -484,7 +484,7 @@ Automatically refresh buffers if the file has changed on disk.
     :custom
     ;; Don't poll if file system already notifies us
     (auto-revert-avoid-polling t)
-    (auto-revert-interval 5)
+    (auto-revert-interval 1)
     ;; Check if VC state changes (e.g. branch) even though the file stays the same
     (auto-revert-check-vc-info t)
     :config
