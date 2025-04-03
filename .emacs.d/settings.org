@@ -2501,6 +2501,16 @@ Set =.html= indentation from 2 to 4.
               (set (make-local-variable 'sgml-basic-offset) 4)))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (use-package lsp-tailwindcss
+    :after lsp-mode
+    :init
+    (setq lsp-tailwindcss-add-on-mode t)
+    :custom
+    (lsp-tailwindcss-major-modes '(web-mode clojurescript-mode))
+    (lsp-tailwindcss-experimental-class-regex [":class\\s+\"([^\"]*)\""]))
+#+end_src
+
 **** Log files
 
 #+begin_src emacs-lisp
