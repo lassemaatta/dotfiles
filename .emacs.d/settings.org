@@ -2307,7 +2307,8 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
                                                          'eglot-hover-eldoc-function))
     (defun my-eglot-loaded ()
       (remove-hook 'completion-at-point-functions #'eglot-completion-at-point t)
-      (add-hook 'completion-at-point-functions #'my-eglot-completion-at-point nil t)
+      (when my-prefer-lsp-completion-at-point
+        (add-hook 'completion-at-point-functions #'my-eglot-completion-at-point nil t))
       (setq eldoc-display-functions (list 'my-display-in-echo-area
                                           'my-display-in-buffer))))
 #+end_src
