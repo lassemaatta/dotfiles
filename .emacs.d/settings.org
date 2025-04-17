@@ -2809,7 +2809,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
       "xe" '(cider-eval-defun-at-point :which-key "Eval defun"))
     :init
     (defun my-cider-eval (cmd)
-      (cider-interactive-eval cmd nil nil (cider--nrepl-pr-request-map)))
+      (cider-interactive-eval cmd nil nil (cider--nrepl-pr-request-plist)))
     (defun my-cider-user-reset ()
       (interactive)
       (my-cider-eval "(ns user) (user/reset)"))
