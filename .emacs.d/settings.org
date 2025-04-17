@@ -869,6 +869,8 @@ Detect the active monitor name and update the font size accordingly.
         (cond
          ;; M1 main screen
          ((and (eq w 344) (eq h 222)) 140)
+         ;; Thinkpad p14s
+         ((and (eq w 312) (eq h 195)) 110)
          ;; M28U with apple
          ((and (eq x 2560) (eq y 1440)
                (eq w 631) (eq h 360))  140)
