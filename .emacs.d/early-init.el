@@ -16,10 +16,10 @@
 (require 'jka-compr) ; workaround for recursive load
 (setq load-prefer-newer nil)
 
-;; Disable menubar, toolbar, and scrollbar
+;; Disable menubar, toolbar, but not scrollbar
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
+(scroll-bar-mode 1)
 
 ;; Don't resize the window when we alter the theme/fonts during startup.
 (setq frame-inhibit-implied-resize t)
