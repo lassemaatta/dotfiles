@@ -940,6 +940,7 @@ Don't use variable pitch fonts in =shr= / =eww=.
 
 #+begin_src emacs-lisp
   (use-package jinx
+    :ensure (:host github :repo "minad/jinx" :ref "9c71f2c896c3d004019aa45cff3a54e09f2d5aee")
     :hook ((prog-mode text-mode) . jinx-mode)
     :general
     (my-leader-def
