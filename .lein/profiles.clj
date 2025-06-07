@@ -1,8 +1,12 @@
-{:user           {:plugins      [[cider/cider-nrepl "LATEST"]
-                                 [lein-collisions "LATEST"]]
+{:user           {:plugins      [[cider/cider-nrepl "0.52.0"]
+                                 [lein-collisions "LATEST"]
+                                 [lein-cloverage "1.2.4"]]
                   :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core" "--skip=pom" "--no-changes"]}
                   :test-refresh {:quiet        true
-                                 :changes-only true}}
+                                 :changes-only true}
+                  :cloverage    {:lcov?  true
+                                 :html?  false
+                                 :output "."}}
  :root-antq      {:dependencies [[com.github.liquidz/antq "RELEASE"]
                                  [org.slf4j/slf4j-nop "RELEASE"]]}
 

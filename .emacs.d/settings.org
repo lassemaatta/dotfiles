@@ -2152,6 +2152,30 @@ Use =hl-todo= to highlight any =TODO= comments in code.
                              ("FIXME" . "#FF0000"))))
 #+end_src
 
+*** Code coverage
+
+#+begin_src emacs-lisp
+  (use-package cov
+    :demand t
+    :after (projectile)
+    :init
+    (defun my-find-lcov (file-dir file-name)
+      (let ((root (projectile-project-root)))
+        (concat root "lcov.info")))
+    :config
+    (add-to-list 'cov-lcov-patterns #'my-find-lcov)
+    (modus-themes-with-colors
+      (custom-set-faces
+       `(cov-none-face ((,c :foreground ,red-intense
+                            :background ,bg-main)))
+       `(cov-light-face ((,c :foreground ,yellow
+                             :background ,bg-main)))
+       `(cov-med-face ((,c :foreground ,green
+                           :background ,bg-main)))
+       `(cov-heavy-face ((,c :foreground ,green-intense
+                             :background ,bg-main))))))
+#+end_src
+
 *** Completion (=corfu=)
 :PROPERTIES:
 :VISIBILITY: folded
