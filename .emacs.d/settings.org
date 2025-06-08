@@ -1296,7 +1296,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
 #+begin_src emacs-lisp
   (use-package org
     :ensure nil
-    :defer 1
+    :demand t
     :general
     (my-leader-def
       :keymaps 'org-mode-map
