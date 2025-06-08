@@ -15,7 +15,7 @@
                   :jvm-opts     ["-Dvlaaad.reveal.prefs={:font-size,16}"]}
 
  :root-benchmark {:dependencies [[criterium "0.4.6"]
-                                 [com.clojure-goes-fast/clj-async-profiler "1.6.0"]]
+                                 [com.clojure-goes-fast/clj-async-profiler "1.6.2"]]
                   :jvm-opts     ["-Djdk.attach.allowAttachSelf"]}
 
  :root-reload    {:dependencies [[io.github.tonsky/clj-reload "0.7.0"]]}
