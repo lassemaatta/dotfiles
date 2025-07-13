@@ -2390,9 +2390,6 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     ;(lsp-clojure-custom-server-command '("bash" "-c" "/home/lassemaatta/Lataukset/clojure-lsp"))
     :init
     (defun my/lsp-mode-setup-completion ()
-      ;; Make sure LSP completion comes last and thus doesn't consume all completions
-      (delete #'lsp-completion-at-point completion-at-point-functions)
-      (add-to-list 'completion-at-point-functions #'lsp-completion-at-point t)
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
             '(orderless)))
     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
@@ -2405,6 +2402,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
            (nxml-mode . lsp)
            ;; if you want which-key integration
            (lsp-mode . lsp-enable-which-key-integration)
+           (lsp-completion-mode . my-refresh-clojure-setup)
            (lsp-completion-mode . my/lsp-mode-setup-completion)
            (lsp-after-apply-edits . (lambda (op)
                                       (save-some-buffers t))))
@@ -2860,6 +2858,10 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
              ((member integration-test-ns namespaces) integration-test-ns)
              ((member i-ntegration-test-ns namespaces) i-ntegration-test-ns)
              (t unit-test-ns))))))
+    :hook
+    (clojurescript-mode . my-refresh-clojure-setup)
+    (clojure-mode . my-refresh-clojure-setup)
+    (cider-mode . my-refresh-clojure-setup)
     :custom
     (nrepl-log-messages t)
     (cider-repl-buffer-size-limit nil)
@@ -2886,36 +2888,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
     (cider-use-tooltips nil)
     ;; Workaround for https://github.com/clojure-emacs/cider/issues/2866
     (cider-font-lock-dynamically '(macro core))
-    :hook
-    ((cider-mode . my-cider-refresh))
     :config
-    (defun my-cider-loaded ()
-      (message "Cider loaded: post actions")
-      ;; Choose which completion-at-point provider we use
-      (if my-prefer-lsp-completion-at-point
-          (remove-hook 'completion-at-point-functions #'cider-complete-at-point t)
-        (if my-use-eglot
-            (remove-hook 'completion-at-point-functions #'my-eglot-completion-at-point t)
-          (remove-hook 'completion-at-point-functions #'lsp-completion-at-point t)))
-      ;; Prefer LSP xref backend
-      (setq xref-backend-functions (delete 'cider--xref-backend xref-backend-functions))
-      ;; Prefer cider signature documentation over LSP
-      (if my-use-eglot
-        (remove-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)
-       (remove-hook 'eldoc-documentation-functions #'lsp-eldoc-function t)))
-    (defun my-cider-unloaded ()
-      (message "Cider unloaded: post actions")
-      (if my-use-eglot
-          (add-hook 'completion-at-point-functions #'my-eglot-completion-at-point nil t)
-        (add-hook 'completion-at-point-functions #'lsp-completion-at-point nil t))
-      (if my-use-eglot
-          (add-hook 'eldoc-documentation-functions #'eglot-signature-eldoc-function nil t)
-        (add-hook 'eldoc-documentation-functions #'lsp-eldoc-function nil t)))
-    (defun my-cider-refresh ()
-      (interactive)
-      (if (bound-and-true-p cider-mode)
-          (my-cider-loaded)
-        (my-cider-unloaded)))
     (cider-repl-toggle-pretty-printing)
 
     (put-clojure-indent 'testit/fact 1)
@@ -2952,6 +2925,85 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
     (put-clojure-indent 'util/pcond->> 1)
     (put-clojure-indent 'mongocheck 1))
 #+END_SRC
+
+**** Completion (et al.) setup
+
+Functions for managing =eldoc=, completions, and =xref= in Clojure(Script) buffers.
+
+#+begin_src emacs-lisp
+  (defun my-disable-cider-completion ()
+    (when (bound-and-true-p cider-mode)
+      (message "Disabling cider completion")
+      (remove-hook 'completion-at-point-functions #'cider-complete-at-point)))
+
+  (defun my-disable-cider-eldoc ()
+    (when (bound-and-true-p cider-mode)
+      (message "Disabling cider eldoc")
+      (delete #'cider-eldoc eldoc-documentation-functions)))
+
+  (defun my-enable-lsp-completion ()
+    (when (bound-and-true-p lsp-completion-mode)
+      (message "Enabling LSP completion")
+      ;; First delete so that hooks are added last
+      (remove-hook 'completion-at-point-functions #'lsp-completion-at-point)
+      (remove-hook 'completion-at-point-functions #'my-eglot-completion-at-point)
+      (if my-use-eglot
+          (add-to-list 'completion-at-point-functions #'my-eglot-completion-at-point t)
+        (add-to-list 'completion-at-point-functions #'lsp-completion-at-point t))))
+
+  (defun my-disable-lsp-completion ()
+    (message "Disabling LSP completion")
+    (if my-use-eglot
+        (remove-hook 'completion-at-point-functions #'my-eglot-completion-at-point )
+      (remove-hook 'completion-at-point-functions #'lsp-completion-at-point )))
+
+  (defun my-disable-lsp-eldoc ()
+    (when (bound-and-true-p lsp-mode)
+      (message "Disabling LSP eldoc")
+      (if my-use-eglot
+          (delete #'eglot-signature-eldoc-function eldoc-documentation-functions)
+        (delete #'lsp-eldoc-function eldoc-documentation-functions))))
+
+  (defun my-enable-lsp-eldoc ()
+    (when (bound-and-true-p lsp-mode)
+      (message "Enabling LSP eldoc")
+      (if my-use-eglot
+          (add-to-list 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)
+        (add-to-list 'eldoc-documentation-functions #'lsp-eldoc-function t))))
+
+  (defun my-refresh-cljs-setup ()
+    (message "Refreshing CLJS setup")
+    ;; Never use cider completion, use LSP/eglot
+    (my-disable-cider-completion)
+    ;; Never use cider for eglot, use LSP/eglot
+    (my-disable-cider-eldoc))
+
+  (defun my-refresh-clj-setup ()
+    (message "Refreshing CLJ setup")
+
+    (if my-prefer-lsp-completion-at-point
+        (progn
+          ;; Make sure LSP completion is enabled if cider is shut down
+          (my-disable-cider-completion)
+          (my-enable-lsp-completion))
+      (my-disable-lsp-completion))
+
+    ;; Prefer cider eldoc over LSP/eglot while cider is runnign
+    (if (bound-and-true-p cider-mode)
+        (my-disable-lsp-eldoc)
+      (my-enable-lsp-eldoc)))
+
+  (defun my-refresh-clojure-setup ()
+    (interactive)
+
+    ;; Prefer LSP xref backend
+    (when (bound-and-true-p cider-mode)
+      (setq xref-backend-functions (remove 'cider--xref-backend xref-backend-functions)))
+
+    (if (eq major-mode 'clojurescript-mode)
+        (my-refresh-cljs-setup)
+      (my-refresh-clj-setup)))
+#+end_src
 
 **** Utilities
 
