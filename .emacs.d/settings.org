@@ -981,7 +981,8 @@ Enable /HideShow/ mode: allows collapsing s-exprs (=<backtab>=  is =S-<tab>=).
     :ensure nil
     :hook ((clojure-mode . hs-minor-mode)
            (emacs-lisp-mode . hs-minor-mode)
-           (lisp-mode . hs-minor-mode))
+           (lisp-mode . hs-minor-mode)
+           (javascript-mode . hs-minor-mode))
     :bind (("<backtab>" . hs-toggle-hiding)))
 #+END_src
 
