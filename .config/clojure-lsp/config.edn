@@ -1,0 +1,2 @@
+{:notify-references-on-file-change false
+ :dependency-scheme                "jar"}
