@@ -1001,14 +1001,6 @@ Indent current function
 
 Emacs uses coarse regexp based parsers for syntax highlighting. Since emacs 29+, the internal =treesit= package provides language-specific parsers, which are both faster and provide more accurate results.
 
-However, not all languages are yet supported and =treesit= does not automatically use the =-ts=  modes. =treesit-auto= will both a) download the necessary grammars and b) active the proper =-ts= mode when available.
-
-#+begin_src emacs-lisp
-  (use-package treesit-auto
-    :config
-    (global-treesit-auto-mode))
-#+end_src
-
 * Packages
 ** Theming (=modus-themes=)
 :PROPERTIES:
