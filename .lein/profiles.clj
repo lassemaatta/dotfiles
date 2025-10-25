@@ -10,7 +10,7 @@
  :root-antq      {:dependencies [[com.github.liquidz/antq "RELEASE"]
                                  [org.slf4j/slf4j-nop "RELEASE"]]}
 
- :root-reveal    {:dependencies [[vlaaad/reveal "LATEST"]]
+ :root-reveal    {:dependencies [[vlaaad/reveal "1.3.296"]]
                   :repl-options {:nrepl-middleware [vlaaad.reveal.nrepl/middleware]}
                   :jvm-opts     ["-Dvlaaad.reveal.prefs={:font-size,16}"]}
 
