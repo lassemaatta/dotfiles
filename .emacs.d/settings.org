@@ -698,6 +698,7 @@ Use =shrink-whitespace= to remove whitespace around the point.
 
 #+begin_src emacs-lisp
   (use-package helpful
+    :disabled t
     :general
     (my-leader-def
       :keymaps 'emacs-lisp-mode-map
