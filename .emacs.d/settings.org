@@ -519,7 +519,9 @@ Start the =*scratch*= in fundamental mode so we don't automatically load all eli
    kept-new-versions 6
    kept-old-versions 2
    ;; use versioned backups
-   version-control t)
+   version-control t
+   ;; put lock files elsewhere
+   lock-file-name-transforms'(("\\`/.*/\\([^/]+\\)\\'" "~/.emacs.d/aux/\\1" t)))
 #+END_SRC
 
 Save command history when we close the frame.
