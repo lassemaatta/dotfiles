@@ -2115,18 +2115,19 @@ However, we can use =flycheck-eglot= to bridge =flymake= diagnostics from =eglot
       "After the buffer changes, close the error window if it's empty"
       (when (not flycheck-current-errors)
         (my-close-error-list)))
-    (add-hook 'flycheck-after-syntax-check-hook
-              (lambda  ()
-                (add-to-list 'window-buffer-change-functions #'my-window-change-fn)
-                (if flycheck-current-errors
-                    (flycheck-list-errors)
-                  (my-close-error-list)))))
+    (defun my-after-flycheck-change-fn ()
+      (add-to-list 'window-buffer-change-functions #'my-window-change-fn)
+      (if flycheck-current-errors
+          (flycheck-list-errors)
+        (my-close-error-list)))
+    (add-hook 'flycheck-after-syntax-check-hook #'my-after-flycheck-change-fn))
 #+end_src
 
 Use [[https://github.com/flycheck/flycheck-pos-tip][flycheck-pos-tip]] so that errors on point show up in a tooltip instead of echo area. Otherwise the error will hide the function signature.
 
 #+begin_src emacs-lisp
   (use-package flycheck-pos-tip
+    :disabled t
     :after (flycheck)
     :init
     (flycheck-pos-tip-mode))
