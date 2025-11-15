@@ -2141,6 +2141,25 @@ Use [[https://github.com/flycheck/flycheck-pos-tip][flycheck-pos-tip]] so that e
     :bind (("C-d" . consult-flycheck)))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package flyover
+    :hook (flycheck-mode . flyover-mode)
+    :custom
+    ;; Make error text more visible
+    (flyover-text-tint 'lighter)
+    (flyover-text-tint-percent 90)
+    ;; Show checker name
+    (flyover-hide-checker-name nil)
+    ;; Allow a bit more longer error length
+    (flyover-max-line-length 120)
+    ;; Refresh a bit faster
+    (flyover-debounce-interval 0.1)
+    ;; Show at the end of the line
+    (flyover-show-at-eol t)
+    ;; Don't draw any arrows etc.
+    (flyover-show-virtual-line nil))
+#+end_src
+
 Use =hl-todo= to highlight any =TODO= comments in code.
 
 #+begin_src emacs-lisp
