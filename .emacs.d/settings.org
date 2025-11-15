@@ -2489,6 +2489,24 @@ depending on whether the current buffer is using =LSP=.
     :demand t)
 #+end_src
 
+*** AI slop
+
+#+begin_src emacs-lisp
+  (use-package gptel
+    :custom
+    (gptel-default-mode #'org-mode)
+    :config
+    (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+    (gptel-highlight-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package mcp
+    :after gptel
+    :config
+    (require 'gptel-integrations))
+#+end_src
+
 *** Language Modes
 :PROPERTIES:
 :VISIBILITY: children
