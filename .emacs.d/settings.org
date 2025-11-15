@@ -2015,6 +2015,9 @@ The location of the "project root" for indexing can be set by creating a =.dir-l
 #+end_src
 
 *** Documentation
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package devdocs
@@ -2149,6 +2152,9 @@ Use =hl-todo= to highlight any =TODO= comments in code.
 #+end_src
 
 *** Code coverage
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package cov
@@ -2490,6 +2496,9 @@ depending on whether the current buffer is using =LSP=.
 #+end_src
 
 *** AI slop
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_src emacs-lisp
   (use-package gptel
