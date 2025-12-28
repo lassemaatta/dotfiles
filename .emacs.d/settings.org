@@ -2164,6 +2164,7 @@ Use [[https://github.com/flycheck/flycheck-pos-tip][flycheck-pos-tip]] so that e
 
 #+begin_src emacs-lisp
   (use-package flyover
+    :disabled t
     :hook (flycheck-mode . flyover-mode)
     :custom
     ;; Make error text more visible
