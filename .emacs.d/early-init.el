@@ -12,6 +12,9 @@
 (setq gc-cons-threshold (* 256 1024 1024)
       garbage-collection-messages nil)
 
+;; Don't warn if a file is missing the lexical binding cookie
+(setq warning-suppress-log-types '((files missing-lexbind-cookie)))
+
 ;; When choosing between `.el[cn]', use latest
 (require 'jka-compr) ; workaround for recursive load
 (setq load-prefer-newer nil)
