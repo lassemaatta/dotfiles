@@ -717,7 +717,7 @@ Use =shrink-whitespace= to remove whitespace around the point.
     :demand t
     :ensure nil
     :custom
-    (eldoc-documentation-strategy 'eldoc-documentation-compose))
+    (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 #+end_src
 
 [[https://github.com/casouri/eldoc-box][eldoc-box]] can display =eldoc= documentation in a nice popup child-frame.
@@ -2088,6 +2088,8 @@ However, we can use =flycheck-eglot= to bridge =flymake= diagnostics from =eglot
              clojurec-mode
              clojurescript-mode) . flycheck-mode))
     :custom
+    (flycheck-display-errors-function nil)
+    (flycheck-help-echo-function)
     (flycheck-display-errors-delay 1.0)
     (flycheck-check-syntax-automatically '(save idle-change idle-buffer-switch new-line mode-enabled))
     :config
@@ -2106,6 +2108,25 @@ However, we can use =flycheck-eglot= to bridge =flymake= diagnostics from =eglot
                    (side            . bottom)
                    (reusable-frames . visible)
                    (window-height   . 6)))
+    (defun my-flycheck-eldoc (callback &rest _ignored)
+      "Print flycheck messages at point by calling CALLBACK."
+      (when-let ((flycheck-errors (and flycheck-mode (flycheck-overlay-errors-at (point)))))
+        (mapc
+         (lambda (err)
+           (funcall callback
+                    (format "%s: %s"
+                            (let ((level (flycheck-error-level err)))
+                              (pcase level
+                                ('info (propertize "I" 'face 'flycheck-error-list-info))
+                                ('error (propertize "E" 'face 'flycheck-error-list-error))
+                                ('warning (propertize "W" 'face 'flycheck-error-list-warning))
+                                (_ level)))
+                            (flycheck-error-message err))
+                    :thing (or (flycheck-error-id err)
+                               (flycheck-error-group err))
+                    :face 'font-lock-doc-face))
+         flycheck-errors)))
+    (add-to-list 'eldoc-documentation-functions #'my-flycheck-eldoc t)
     ;; Open (and close) the error list automatically
     (defun my-close-error-list ()
       "Closes the flycheck error list"
@@ -3011,7 +3032,8 @@ Functions for managing =eldoc=, completions, and =xref= in Clojure(Script) buffe
       (message "Enabling LSP eldoc")
       (if my-use-eglot
           (add-to-list 'eldoc-documentation-functions #'eglot-signature-eldoc-function t)
-        (add-to-list 'eldoc-documentation-functions #'lsp-eldoc-function t))))
+        (add-to-list 'eldoc-documentation-functions #'lsp-eldoc-function t))
+      (add-to-list 'eldoc-documentation-functions #'my-flycheck-eldoc t)))
 
   (defun my-refresh-cljs-setup ()
     (message "Refreshing CLJS setup")
