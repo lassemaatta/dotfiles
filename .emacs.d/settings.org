@@ -1738,7 +1738,7 @@ Use [[https://github.com/nex3/perspective-el][perspective]] to create perspectiv
     (persp-state-default-file (concat user-emacs-directory "persp.state"))
     :config
     ;; Use perspective as a buffer source for consult when switching buffers
-    (consult-customize consult--source-buffer :hidden t :default nil)
+    (consult-customize consult-source-buffer :hidden t :default nil)
     (add-to-list 'consult-buffer-sources persp-consult-source)
     (persp-mode +1))
 #+end_src
