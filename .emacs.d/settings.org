@@ -2963,6 +2963,7 @@ Note that this only highlights =()[]{}= pairs, but not =""''= etc.
     (put-clojure-indent 'facts 1)
     (put-clojure-indent 'facts* 1)
     (put-clojure-indent 'fact 1)
+    (put-clojure-indent 'fact* 1)
     (put-clojure-indent 'rf/reg-event-fx 1)
     (put-clojure-indent 'chain/reg-chain 1)
     (put-clojure-indent 'rf/reg-sub 1)
