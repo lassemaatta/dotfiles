@@ -1330,6 +1330,7 @@ Let's use =display-buffer-alist= to select the =*rg*= buffer automatically ([[ht
     (org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml/plantuml.jar"))
     ;; Show clocked in time for today in mode line (not total hours)
     (org-clock-mode-line-total 'today)
+    (org-duration-format (quote (("h" . t) (special . 2))))
     :mode ("\\.org\\'" . org-mode)
     :hook ((org-mode . visual-line-mode)
            (org-babel-after-execute . org-redisplay-inline-images))
