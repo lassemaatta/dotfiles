@@ -903,7 +903,7 @@ Detect the active monitor name and update the font size accordingly.
         (pcase (my-monitor-name)
           ("M28U/22060B001950" 90)
           ("eDP-1-unknown" 130)
-          ((pred (string-prefix-p "P27h-20/V906XFMC")) 110)
+          ((pred (string-prefix-p "P27h-20")) 110)
           (name (progn
                   (message "Unknown monitor '%s'" name)
                   100)))))
