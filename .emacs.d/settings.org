@@ -2560,6 +2560,14 @@ depending on whether the current buffer is using =LSP=.
     (require 'gptel-integrations))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package eca)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package ellama)
+#+end_src
+
 *** Language Modes
 :PROPERTIES:
 :VISIBILITY: children
