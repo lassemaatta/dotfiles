@@ -60,7 +60,7 @@
 Whether to use =eglot= (and =flymake=) or =lsp-mode= (and =lsp-ui=, =flycheck=).
 
 #+BEGIN_SRC emacs-lisp
-  (defconst my-use-eglot t)
+  (defconst my-use-eglot nil)
 #+END_SRC
 
 #+begin_src emacs-lisp
