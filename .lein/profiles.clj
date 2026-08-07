@@ -1,6 +1,7 @@
-{:user           {:plugins      [[cider/cider-nrepl "LATEST"]
-                                 [lein-collisions "LATEST"]
-                                 [lein-cloverage "1.2.4"]]
+{:user           {:plugins      [[cider/cider-nrepl "0.62.1"]
+                                 [lein-collisions "0.1.4"]
+                                 [lein-cloverage "1.2.4"]
+                                 [lein-eftest "0.6.0"]]
                   :aliases      {"outdated" ["with-profile" "root-antq" "run" "-m" "antq.core" "--skip=pom" "--no-changes"]}
                   :test-refresh {:quiet        true
                                  :changes-only true}
@@ -18,7 +19,7 @@
                                  [com.clojure-goes-fast/clj-async-profiler "1.6.2"]]
                   :jvm-opts     ["-Djdk.attach.allowAttachSelf"]}
 
- :root-reload    {:dependencies [[io.github.tonsky/clj-reload "0.7.0"]]}
+ :root-reload    {:dependencies [[io.github.tonsky/clj-reload "1.0.0"]]}
 
  :root-local-dev {:jvm-opts ["-XX:-OmitStackTraceInFastThrow"
                              "-Dclojure.main.report=stderr"]}
