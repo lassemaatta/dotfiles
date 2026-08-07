@@ -2413,6 +2413,7 @@ See the [[https://github.com/minad/corfu/wiki#advanced-example-configuration-wit
     (defalias 'my-display-in-buffer (my-filter-by-source 'eldoc-display-in-buffer
                                                          'eglot-hover-eldoc-function))
     (defun my-eglot-loaded ()
+      (eglot-semantic-tokens-mode -1)
       (remove-hook 'completion-at-point-functions #'eglot-completion-at-point t)
       (when my-prefer-lsp-completion-at-point
         (add-hook 'completion-at-point-functions #'my-eglot-completion-at-point nil t))
