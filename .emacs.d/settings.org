@@ -1037,6 +1037,27 @@ Provide icons for =ibuffer=.
     :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 #+end_src
 
+Display CIDER tests results in the mode line.
+
+#+BEGIN_SRC emacs-lisp
+  (defun my/cider-test-mode-line ()
+    "Return a compact mode-line string for the last CIDER test run."
+    (if (or (not (bound-and-true-p cider-mode))
+            (not (bound-and-true-p cider-test-last-summary)))
+        ""
+      (let* ((fail (or (nrepl-dict-get cider-test-last-summary "fail") 0))
+             (err  (or (nrepl-dict-get cider-test-last-summary "error") 0))
+             (pass (or (nrepl-dict-get cider-test-last-summary "pass") 0))
+             (bad  (+ fail err)))
+        (propertize
+         (if (> bad 0)
+             (format " ❌ %d" bad)
+           (format " ✅ %d" pass))
+         'face (if (> bad 0) 'error 'success)
+         'help-echo (format "CIDER tests: %d pass, %d fail, %d error"
+                            pass fail err)))))
+#+END_SRC
+
 Construct a simple mode line.
 
 #+BEGIN_SRC emacs-lisp
@@ -1057,6 +1078,8 @@ Construct a simple mode line.
                   mode-line-process
                   " "
                   (cider-mode cider-mode-line)
+                  " "
+                  (:eval (my/cider-test-mode-line))
                   " "
                   mode-line-end-spaces))
 #+END_SRC
