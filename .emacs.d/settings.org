@@ -833,6 +833,18 @@ Show the whole file path in the window title
           ,(format " - GNU Emacs %s" emacs-version)))
 #+end_src
 
+Replace =display-buffer-pop-up-frame= with =display-buffer-pop-up-window=. Fixes issue where =eca= chat window takes a significant portion of the frame, which then causes commands like =consult-ripgrep= to create new popup frames to show results. These frames don't seem to work very well. Instead, the =pop-up-window= variant seems to work nicely.
+
+#+begin_src emacs-lisp
+  (setq display-buffer-fallback-action
+        '((display-buffer--maybe-same-window
+           display-buffer-reuse-window
+           display-buffer--maybe-pop-up-frame-or-window
+           display-buffer-in-previous-window
+           display-buffer-use-some-window
+           display-buffer-pop-up-window)))
+#+end_src
+
 ** Fonts
 
 Detect the active monitor name and update the font size accordingly.
