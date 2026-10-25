@@ -2658,7 +2658,8 @@ Set =.html= indentation from 2 to 4.
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package docker-compose-mode)
+  (use-package docker-compose-mode
+     :ensure (:host github :repo "meqif/docker-compose-mode"))
 #+END_SRC
 
 #+begin_src emacs-lisp
